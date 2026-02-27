@@ -78,14 +78,26 @@ Version: #1.0.0
 # 8: 2026-02-27T19:12:48+05:30
 Version: #1.0.0
 - Added dedicated production container build file Dockerfile.prod for Ubuntu/server deployment.
-- Added dedicated production compose file docker-compose.prod.yml with static ports (7040, 7041, 7042, 7043, 7045, 7046, 7047) and estart: unless-stopped.
+- Added dedicated production compose file docker-compose.prod.yml with static ports (7040, 7041, 7042, 7043, 7045, 7046, 7047) and 
+estart: unless-stopped.
 - Added deployment documentation Assist/Server-installation.md with step-by-step Ubuntu setup: Docker install, repository setup, production appsettings usage, external MariaDB setup on codexion-network, deploy, verification, and update flow.
 - Validated production compose configuration using docker compose -f docker-compose.prod.yml config.
 
 
 ---
-#14: 2026-02-27T15:40:39
+# 14: 2026-02-27T15:40:39
 Version: #1.0.0
 - Standardized configuration management to a single appsettings.json using Environment and AppEnv blocks for Local and Production.
 - Removed environment-specific configuration files and updated runtime binding to resolve settings from AppEnv:{Environment}.
 - Updated test configuration loading to use unified environment-resolved settings and validated tenant behavior with local MariaDB credentials.
+
+---
+#15: 2026-02-27T22:42:10+05:30
+Version: #1.0.0
+- Implemented domain-based tenant resolution from request host with normalization, secure host validation, inactive/unknown tenant handling, and strict per-request tenant context isolation.
+- Added tenant domain lookup abstractions and infrastructure implementation, persisted tenant domain in master tenancy model, and introduced master migration for tenant domain column/index.
+- Removed header-based tenant connection accessor flow and switched tenant DbContext resolution to scoped tenant context connection string to prevent cross-request leakage.
+- Added tenant context query slice and API endpoint for tenant-scoped response retrieval without exposing connection strings.
+- Refactored configuration to a single appsettings.json using Environment + AppEnv blocks and updated runtime/test binding to environment-scoped configuration sections.
+- Removed appsettings.Development.json and appsettings.Production.json and updated deployment documentation to unified configuration structure.
+- Re-ran tenancy tests against localhost/root/DbPass1@@ with codexsun_db and tenant1_db; fixed migration discovery issue and achieved passing test suite (2/2).
