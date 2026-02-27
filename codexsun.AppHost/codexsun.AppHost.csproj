@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\codexsun.Server\codexsun.Server.csproj"/>
+        <ProjectReference Include="..\cxserver\cxserver.csproj" />
     </ItemGroup>
 
     <ItemGroup>
