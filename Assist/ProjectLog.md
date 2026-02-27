@@ -19,7 +19,7 @@
 
 ---
 # 2: 2026-02-27T15:40:39+05:30
-Level: INFO
+Version: #1.0.0
 - Implemented performance optimizations for multi-tenant architecture including metadata/feature caching abstractions, compiled queries, pooled master DbContext, tenant DbContext options caching, migration batching, and provider-aware connection pooling configuration.
 - Implemented automated tenant onboarding vertical slice with CQRS command, FluentValidation, handler orchestration, idempotent duplicate handling, retry-safe infrastructure executors, compensation cleanup, activation flow, and onboarding API endpoint.
 - Integrated onboarding infrastructure services for tenant database creation/deletion, migration execution, seeding execution, feature configuration initialization, and coordinator wiring.
@@ -28,7 +28,7 @@ Level: INFO
 
 ---
 # 3: 2026-02-27T15:58:21+05:30
-Level: INFO
+Version: #1.0.0
 - Updated `cxserver` MariaDB configuration to use dev master database `codexsun_dev` and default tenant database `tenant_dev` with root credentials.
 - Added tenancy behavior integration tests in `cxtest` covering startup seeding validation and tenant onboarding idempotency/database provisioning.
 - Added database reset logic in tests for deterministic execution against local MariaDB.
@@ -40,7 +40,7 @@ Level: INFO
 
 ---
 # 5: 2026-02-27T16:08:10+05:30
-Level: INFO
+Version: #1.0.0
 - Added browser home endpoint for `cxserver` at `/` rendering a welcome page with service startup timestamp.
 - Registered runtime startup timestamp singleton and mapped home endpoint in API startup pipeline.
 - Updated tenant resolution middleware bypass paths to allow home page and infrastructure endpoints without tenant header.
@@ -48,7 +48,7 @@ Level: INFO
 
 ---
 # 6: 2026-02-27T17:08:26+05:30
-Level: INFO
+Version: #1.0.0
 - Established cxweb production-ready frontend foundation with feature-based structure (features, layouts, 
 outes, shared).
 - Implemented layout architecture with WebLayout, AppLayout, and AuthLayout using TailwindCSS and shadcn components.
@@ -63,7 +63,7 @@ pm run build.
 
 ---
 # 7: 2026-02-27T18:42:20+05:30
-Level: INFO
+Version: #1.0.0
 - Added root deployment artifacts for containerized Aspire AppHost: Dockerfile, .dockerignore, and root docker-compose.yml on codexion-network with MariaDB expected as an external/separate container.
 - Removed MariaDB service from .devcontainer/docker-compose.yml to keep DB lifecycle separate from devcontainer/runtime orchestration.
 - Fixed AppHost container startup behavior by disabling launch profiles in container run (--no-launch-profile) and binding host endpoints through compose env vars.
@@ -76,9 +76,16 @@ Level: INFO
 
 ---
 # 8: 2026-02-27T19:12:48+05:30
-Level: INFO
+Version: #1.0.0
 - Added dedicated production container build file Dockerfile.prod for Ubuntu/server deployment.
 - Added dedicated production compose file docker-compose.prod.yml with static ports (7040, 7041, 7042, 7043, 7045, 7046, 7047) and estart: unless-stopped.
 - Added deployment documentation Assist/Server-installation.md with step-by-step Ubuntu setup: Docker install, repository setup, production appsettings usage, external MariaDB setup on codexion-network, deploy, verification, and update flow.
 - Validated production compose configuration using docker compose -f docker-compose.prod.yml config.
 
+
+---
+#14: 2026-02-27T15:40:39
+Version: #1.0.0
+- Standardized configuration management to a single appsettings.json using Environment and AppEnv blocks for Local and Production.
+- Removed environment-specific configuration files and updated runtime binding to resolve settings from AppEnv:{Environment}.
+- Updated test configuration loading to use unified environment-resolved settings and validated tenant behavior with local MariaDB credentials.
