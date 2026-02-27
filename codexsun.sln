@@ -21,8 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 		.devcontainer\Dockerfile = .devcontainer\Dockerfile
 		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
 		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
-		.devcontainer\Dockerfile.prod = .devcontainer\Dockerfile.prod
 		.devcontainer\docker-compose.prod.yml = .devcontainer\docker-compose.prod.yml
+		.devcontainer\Dockerfile-prod = .devcontainer\Dockerfile-prod
 	EndProjectSection
 EndProject
 Global
