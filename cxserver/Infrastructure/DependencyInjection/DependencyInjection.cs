@@ -10,6 +10,7 @@ using cxserver.Infrastructure.Seeding;
 using cxserver.Infrastructure.Tenancy;
 using cxserver.Infrastructure.Time;
 using Microsoft.Extensions.Options;
+using cxserver.Infrastructure.WebEngine;
 
 namespace cxserver.Infrastructure.DependencyInjection;
 
@@ -50,6 +51,8 @@ public static class DependencyInjection
         services.AddScoped<ITenantDbContextAccessor, TenantDbContextAccessor>();
 
         services.AddScoped<IConfigurationDocumentStore, ConfigurationDocumentStore>();
+        services.AddScoped<IWebsitePageStore, WebsitePageStore>();
+        services.AddScoped<ISectionDataValidator, SectionDataValidator>();
         services.AddScoped<IUnitOfWork, TenantUnitOfWork>();
 
         services.AddScoped<ITenantDatabaseCreator, TenantDatabaseCreator>();

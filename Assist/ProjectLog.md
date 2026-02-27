@@ -101,3 +101,13 @@ Version: #1.0.0
 - Refactored configuration to a single appsettings.json using Environment + AppEnv blocks and updated runtime/test binding to environment-scoped configuration sections.
 - Removed appsettings.Development.json and appsettings.Production.json and updated deployment documentation to unified configuration structure.
 - Re-ran tenancy tests against localhost/root/DbPass1@@ with codexsun_db and tenant1_db; fixed migration discovery issue and achieved passing test suite (2/2).
+
+---
+#16: 2026-02-27T23:42:08.3533278+05:30
+Version: #1.0.0
+- Implemented dynamic section-based website engine with tenant-scoped page aggregate, section entity, publish/unpublish controls, section ordering invariants, and JSON section payload support.
+- Added WebEngine application slices for page and section lifecycle operations, published page retrieval by slug, validation rules, and section data validation strategy.
+- Added tenant infrastructure store and EF configurations for website pages/sections with publish, slug, and ordering indexes and tenant-db-only content access.
+- Updated public web API to a single tenant-resolved dynamic endpoint GET /api/web/{slug} returning published page metadata and ordered published sections.
+- Refactored frontend web routing to dynamic slug rendering and implemented section registry renderer with strongly typed section payload contracts and unknown-section fallback.
+- Removed legacy hardcoded web page components and obsolete intermediate web-content path, then validated backend build, frontend build, and tenancy tests successfully.

@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assist", "Assist", "{8E9B5D
 		Assist\ProjectLog.md = Assist\ProjectLog.md
 		Assist\Planning.md = Assist\Planning.md
 		Assist\Server-installation.md = Assist\Server-installation.md
+		Assist\promt.md = Assist\promt.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cxtest", "cxtest\cxtest.csproj", "{6A26184B-7A03-4B14-86C9-411414D59392}"

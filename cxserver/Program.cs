@@ -30,6 +30,7 @@ if (app.Environment.IsDevelopment())
 app.UseTenantResolution();
 
 app.MapHomeEndpoints();
+app.MapWebContentEndpoints();
 app.MapConfigurationDocumentsEndpoints();
 app.MapTenantContextEndpoints();
 app.MapTenantsEndpoints();

@@ -17,10 +17,14 @@ public sealed class TenantDbContext : DbContext
     }
 
     public DbSet<ConfigurationDocument> ConfigurationDocuments => Set<ConfigurationDocument>();
+    public DbSet<cxserver.Domain.WebEngine.Page> WebsitePages => Set<cxserver.Domain.WebEngine.Page>();
+    public DbSet<cxserver.Domain.WebEngine.PageSection> WebsitePageSections => Set<cxserver.Domain.WebEngine.PageSection>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ConfigurationDocumentConfiguration());
+        modelBuilder.ApplyConfiguration(new WebsitePageConfiguration());
+        modelBuilder.ApplyConfiguration(new WebsitePageSectionConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }
