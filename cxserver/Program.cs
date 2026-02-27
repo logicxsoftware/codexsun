@@ -2,8 +2,14 @@ using cxserver;
 using cxserver.Application.DependencyInjection;
 using cxserver.Endpoints;
 using cxserver.Infrastructure.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.Sources.Clear();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .AddCommandLine(args);
 
 builder.AddServiceDefaults();
 builder.Services.AddProblemDetails();
@@ -25,6 +31,7 @@ app.UseTenantResolution();
 
 app.MapHomeEndpoints();
 app.MapConfigurationDocumentsEndpoints();
+app.MapTenantContextEndpoints();
 app.MapTenantsEndpoints();
 app.MapDefaultEndpoints();
 app.UseFileServer();

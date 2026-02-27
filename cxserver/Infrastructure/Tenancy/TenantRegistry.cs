@@ -8,6 +8,10 @@ namespace cxserver.Infrastructure.Tenancy;
 
 internal sealed class TenantRegistry : ITenantRegistry
 {
+    private static readonly Func<MasterDbContext, string, IAsyncEnumerable<Tenant>> TenantByDomainQuery =
+        EF.CompileAsyncQuery((MasterDbContext db, string domain) =>
+            db.Tenants.AsNoTracking().Where(x => x.Domain == domain).Take(1));
+
     private static readonly Func<MasterDbContext, string, IAsyncEnumerable<Tenant>> TenantByIdentifierQuery =
         EF.CompileAsyncQuery((MasterDbContext db, string identifier) =>
             db.Tenants.AsNoTracking().Where(x => x.Identifier == identifier).Take(1));
@@ -33,11 +37,35 @@ internal sealed class TenantRegistry : ITenantRegistry
         _tenantFeatureCache = tenantFeatureCache;
     }
 
+    public async Task<TenantRegistryItem?> GetByDomainAsync(string domain, CancellationToken cancellationToken)
+    {
+        var normalized = domain.Trim();
+
+        var cached = await _tenantMetadataCache.GetByDomainAsync(normalized, cancellationToken);
+        if (cached is not null)
+        {
+            return cached;
+        }
+
+        var tenant = await TenantByDomainQuery(_masterDbContext, normalized).FirstOrDefaultAsync(cancellationToken);
+
+        if (tenant is null)
+        {
+            return null;
+        }
+
+        var mapped = Map(tenant);
+        await _tenantMetadataCache.SetAsync(mapped, cancellationToken);
+        await _tenantFeatureCache.SetAsync(mapped.TenantId, "tenant.features", mapped.FeatureSettingsJson, cancellationToken);
+
+        return mapped;
+    }
+
     public async Task<TenantRegistryItem?> GetByIdentifierAsync(string identifier, CancellationToken cancellationToken)
     {
         var normalized = identifier.Trim();
 
-        var cached = await _tenantMetadataCache.GetAsync(normalized, cancellationToken);
+        var cached = await _tenantMetadataCache.GetByIdentifierAsync(normalized, cancellationToken);
         if (cached is not null)
         {
             return cached;
@@ -73,6 +101,7 @@ internal sealed class TenantRegistry : ITenantRegistry
 
     public async Task<TenantRegistryItem> UpsertAsync(
         string identifier,
+        string domain,
         string name,
         string databaseName,
         string connectionString,
@@ -82,6 +111,7 @@ internal sealed class TenantRegistry : ITenantRegistry
         CancellationToken cancellationToken)
     {
         var normalized = identifier.Trim();
+        var normalizedDomain = domain.Trim();
 
         var tenant = await _masterDbContext.Tenants
             .AsTracking()
@@ -94,6 +124,7 @@ internal sealed class TenantRegistry : ITenantRegistry
             var created = Tenant.Create(
                 Guid.NewGuid(),
                 normalized,
+                normalizedDomain,
                 name,
                 databaseName,
                 connectionString,
@@ -116,6 +147,7 @@ internal sealed class TenantRegistry : ITenantRegistry
         }
 
         tenant.UpdateDisplayName(name, now);
+        tenant.UpdateDomain(normalizedDomain, now);
         tenant.UpdateConnection(databaseName, connectionString, now);
         tenant.UpdateFeatureSettings(JsonDocument.Parse(featureSettingsJson), now);
         tenant.UpdateIsolationMetadata(JsonDocument.Parse(isolationMetadataJson), now);
@@ -132,7 +164,7 @@ internal sealed class TenantRegistry : ITenantRegistry
         await _masterDbContext.SaveChangesAsync(cancellationToken);
 
         var mapped = Map(tenant);
-        await _tenantMetadataCache.InvalidateAsync(mapped.Identifier, cancellationToken);
+        await _tenantMetadataCache.InvalidateAsync(mapped, cancellationToken);
         await _tenantFeatureCache.InvalidateTenantAsync(mapped.TenantId, cancellationToken);
         await _tenantMetadataCache.SetAsync(mapped, cancellationToken);
         await _tenantFeatureCache.SetAsync(mapped.TenantId, "tenant.features", mapped.FeatureSettingsJson, cancellationToken);
@@ -149,7 +181,7 @@ internal sealed class TenantRegistry : ITenantRegistry
         await _masterDbContext.SaveChangesAsync(cancellationToken);
 
         var mapped = Map(tenant);
-        await _tenantMetadataCache.InvalidateAsync(mapped.Identifier, cancellationToken);
+        await _tenantMetadataCache.InvalidateAsync(mapped, cancellationToken);
         await _tenantMetadataCache.SetAsync(mapped, cancellationToken);
         return mapped;
     }
@@ -169,7 +201,7 @@ internal sealed class TenantRegistry : ITenantRegistry
 
         await _masterDbContext.SaveChangesAsync(cancellationToken);
 
-        await _tenantMetadataCache.InvalidateAsync(tenant.Identifier, cancellationToken);
+        await _tenantMetadataCache.InvalidateAsync(Map(tenant), cancellationToken);
         await _tenantFeatureCache.InvalidateTenantAsync(tenant.Id, cancellationToken);
     }
 
@@ -178,6 +210,7 @@ internal sealed class TenantRegistry : ITenantRegistry
         return new TenantRegistryItem(
             tenant.Id,
             tenant.Identifier,
+            tenant.Domain,
             tenant.Name,
             tenant.ConnectionString,
             tenant.Status == TenantStatus.Active,

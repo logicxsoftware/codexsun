@@ -44,6 +44,12 @@ namespace cxserver.Infrastructure.Migrations.Master
                         .HasColumnType("varchar(128)")
                         .HasColumnName("database_name");
 
+                    b.Property<string>("Domain")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("domain");
+
                     b.Property<DateTimeOffset?>("DeletedAtUtc")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("deleted_at_utc");
@@ -87,6 +93,10 @@ namespace cxserver.Infrastructure.Migrations.Master
                     b.HasIndex("DatabaseName")
                         .IsUnique()
                         .HasDatabaseName("ux_tenants_database_name");
+
+                    b.HasIndex("Domain")
+                        .IsUnique()
+                        .HasDatabaseName("ux_tenants_domain");
 
                     b.HasIndex("Identifier")
                         .IsUnique()

@@ -7,6 +7,7 @@ internal sealed class OnboardTenantCommandValidator : AbstractValidator<OnboardT
     public OnboardTenantCommandValidator()
     {
         RuleFor(x => x.Identifier).NotEmpty().MaximumLength(128).Matches("^[a-zA-Z0-9\\-]+$");
+        RuleFor(x => x.Domain).NotEmpty().MaximumLength(255).Matches("^[a-zA-Z0-9.-]+$");
         RuleFor(x => x.Name).NotEmpty().MaximumLength(256);
         RuleFor(x => x.DatabaseName).NotEmpty().MaximumLength(128).Matches("^[a-zA-Z0-9_]+$");
         RuleFor(x => x.FeatureSettingsJson).Must(BeJsonOrNull);

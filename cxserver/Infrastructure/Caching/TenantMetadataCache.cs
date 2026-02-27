@@ -24,9 +24,18 @@ internal sealed class TenantMetadataCache : ITenantMetadataCache
         _ttl = TimeSpan.FromSeconds(Math.Max(5, multiTenancyOptions.Value.Cache.MetadataTtlSeconds));
     }
 
-    public async Task<TenantRegistryItem?> GetAsync(string identifier, CancellationToken cancellationToken)
+    public Task<TenantRegistryItem?> GetByDomainAsync(string domain, CancellationToken cancellationToken)
     {
-        var key = TenantCacheKeys.Metadata(identifier);
+        return GetAsync(TenantCacheKeys.MetadataByDomain(domain), cancellationToken);
+    }
+
+    public Task<TenantRegistryItem?> GetByIdentifierAsync(string identifier, CancellationToken cancellationToken)
+    {
+        return GetAsync(TenantCacheKeys.MetadataByIdentifier(identifier), cancellationToken);
+    }
+
+    private async Task<TenantRegistryItem?> GetAsync(string key, CancellationToken cancellationToken)
+    {
 
         if (_memoryCache.TryGetValue<TenantRegistryItem>(key, out var cached))
         {
@@ -52,20 +61,31 @@ internal sealed class TenantMetadataCache : ITenantMetadataCache
 
     public async Task SetAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
     {
-        var key = TenantCacheKeys.Metadata(tenant.Identifier);
-        _memoryCache.Set(key, tenant, _ttl);
+        var domainKey = TenantCacheKeys.MetadataByDomain(tenant.Domain);
+        var identifierKey = TenantCacheKeys.MetadataByIdentifier(tenant.Identifier);
+
+        _memoryCache.Set(domainKey, tenant, _ttl);
+        _memoryCache.Set(identifierKey, tenant, _ttl);
 
         var payload = JsonSerializer.SerializeToUtf8Bytes(tenant, JsonOptions);
-        await _distributedCache.SetAsync(key, payload, new DistributedCacheEntryOptions
+        var options = new DistributedCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = _ttl
-        }, cancellationToken);
+        };
+
+        await _distributedCache.SetAsync(domainKey, payload, options, cancellationToken);
+        await _distributedCache.SetAsync(identifierKey, payload, options, cancellationToken);
     }
 
-    public async Task InvalidateAsync(string identifier, CancellationToken cancellationToken)
+    public async Task InvalidateAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
     {
-        var key = TenantCacheKeys.Metadata(identifier);
-        _memoryCache.Remove(key);
-        await _distributedCache.RemoveAsync(key, cancellationToken);
+        var domainKey = TenantCacheKeys.MetadataByDomain(tenant.Domain);
+        var identifierKey = TenantCacheKeys.MetadataByIdentifier(tenant.Identifier);
+
+        _memoryCache.Remove(domainKey);
+        _memoryCache.Remove(identifierKey);
+
+        await _distributedCache.RemoveAsync(domainKey, cancellationToken);
+        await _distributedCache.RemoveAsync(identifierKey, cancellationToken);
     }
 }

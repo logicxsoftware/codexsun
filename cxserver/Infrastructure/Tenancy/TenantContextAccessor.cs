@@ -4,21 +4,36 @@ namespace cxserver.Infrastructure.Tenancy;
 
 internal sealed class TenantContextAccessor : ITenantContextAccessor
 {
-    private readonly AsyncLocal<TenantSession?> _tenantState = new();
+    private readonly object _sync = new();
+    private TenantSession? _current;
 
-    public TenantSession? Current => _tenantState.Value;
+    public TenantSession? Current => _current;
     public Guid? TenantId => Current?.TenantId;
-    public string? Identifier => Current?.Identifier;
+    public string? TenantName => Current?.TenantName;
+    public string? Domain => Current?.Domain;
+    public string? TenantDatabaseConnectionString => Current?.TenantDatabaseConnectionString;
     public bool HasTenant => Current is not null;
 
     public void SetTenant(TenantSession tenantSession)
     {
         ArgumentNullException.ThrowIfNull(tenantSession);
-        _tenantState.Value = tenantSession;
+
+        lock (_sync)
+        {
+            if (_current is not null)
+            {
+                throw new InvalidOperationException("Tenant context is already set for this request.");
+            }
+
+            _current = tenantSession;
+        }
     }
 
     public void Clear()
     {
-        _tenantState.Value = null;
+        lock (_sync)
+        {
+            _current = null;
+        }
     }
 }

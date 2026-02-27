@@ -18,20 +18,21 @@ public sealed class TenancyBehaviorTests
         var services = BuildServices();
         await using var provider = services.BuildServiceProvider();
 
-        await ResetDatabasesAsync(provider, "codexsun_dev", "tenant_dev");
+        await ResetDatabasesAsync(provider, "codexsun_db", "tenant1_db");
         await RunHostedInitializationAsync(provider);
 
         var masterCs = GetConnectionString(provider, "Database:Master:ConnectionString");
         var tenantTemplate = GetConnectionString(provider, "Database:Tenant:ConnectionStringTemplate");
-        var tenantCs = tenantTemplate.Replace("{database}", "tenant_dev", StringComparison.OrdinalIgnoreCase);
+        var tenantCs = tenantTemplate.Replace("{database}", "tenant1_db", StringComparison.OrdinalIgnoreCase);
 
         await using var master = new MySqlConnection(masterCs);
         await master.OpenAsync();
 
         await using (var cmd = master.CreateCommand())
         {
-            cmd.CommandText = "SELECT COUNT(*) FROM tenants WHERE identifier = @identifier AND status = 1 AND is_deleted = 0";
+            cmd.CommandText = "SELECT COUNT(*) FROM tenants WHERE identifier = @identifier AND domain = @domain AND status = 1 AND is_deleted = 0";
             cmd.Parameters.AddWithValue("@identifier", "default");
+            cmd.Parameters.AddWithValue("@domain", "default.localhost");
             var count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             Assert.True(count >= 1);
         }
@@ -55,14 +56,15 @@ public sealed class TenancyBehaviorTests
         var services = BuildServices();
         await using var provider = services.BuildServiceProvider();
 
-        await ResetDatabasesAsync(provider, "codexsun_dev", "tenant_dev", "tenant_dev_behavior");
+        await ResetDatabasesAsync(provider, "codexsun_db", "tenant1_db", "tenant1_db_behavior");
         await RunHostedInitializationAsync(provider);
 
         var sender = provider.GetRequiredService<MediatR.ISender>();
 
-        var databaseName = "tenant_dev_behavior";
+        var databaseName = "tenant1_db_behavior";
         var command = new OnboardTenantCommand(
             "tenant-behavior",
+            "tenant-behavior.localhost",
             "Tenant Behavior",
             databaseName,
             "{}",
@@ -96,7 +98,6 @@ public sealed class TenancyBehaviorTests
 
         var config = new ConfigurationBuilder()
             .AddJsonFile(Path.Combine(GetSolutionRoot(), "cxserver", "appsettings.json"), optional: false, reloadOnChange: false)
-            .AddJsonFile(Path.Combine(GetSolutionRoot(), "cxserver", "appsettings.Development.json"), optional: false, reloadOnChange: false)
             .Build();
 
         services.AddSingleton<IConfiguration>(config);
@@ -143,7 +144,10 @@ public sealed class TenancyBehaviorTests
     private static string GetConnectionString(IServiceProvider provider, string key)
     {
         var config = provider.GetRequiredService<IConfiguration>();
-        var value = config[key];
+        var environment = config["Environment"];
+        Assert.False(string.IsNullOrWhiteSpace(environment));
+
+        var value = config[$"AppEnv:{environment}:{key}"];
         Assert.False(string.IsNullOrWhiteSpace(value));
         return value!;
     }

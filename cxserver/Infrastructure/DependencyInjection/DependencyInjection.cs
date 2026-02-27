@@ -17,8 +17,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SectionName));
-        services.Configure<MultiTenancyOptions>(configuration.GetSection(MultiTenancyOptions.SectionName));
+        var environmentSection = ResolveEnvironmentSection(configuration);
+
+        services.Configure<DatabaseOptions>(environmentSection.GetSection(DatabaseOptions.SectionName));
+        services.Configure<MultiTenancyOptions>(environmentSection.GetSection(MultiTenancyOptions.SectionName));
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddMemoryCache();
@@ -27,11 +29,11 @@ public static class DependencyInjection
 
         services.AddScoped<ITenantContextAccessor, TenantContextAccessor>();
         services.AddScoped<ITenantContext>(sp => sp.GetRequiredService<ITenantContextAccessor>());
-        services.AddScoped<ITenantConnectionAccessor, TenantConnectionAccessor>();
 
         services.AddScoped<ICurrentUser, CurrentUser>();
 
         services.AddScoped<ITenantConnectionStringBuilder, TenantConnectionStringBuilder>();
+        services.AddScoped<ITenantDomainLookup, DomainTenantLookup>();
         services.AddScoped<ITenantResolver, TenantResolver>();
         services.AddScoped<ITenantMetadataCache, TenantMetadataCache>();
         services.AddScoped<ITenantFeatureCache, TenantFeatureCache>();
@@ -64,5 +66,28 @@ public static class DependencyInjection
         services.AddHostedService<DatabaseInitializationHostedService>();
 
         return services;
+    }
+
+    private static IConfigurationSection ResolveEnvironmentSection(IConfiguration configuration)
+    {
+        var environment = configuration["Environment"];
+        if (string.IsNullOrWhiteSpace(environment))
+        {
+            throw new InvalidOperationException("Configuration key 'Environment' is required.");
+        }
+
+        var appEnvSection = configuration.GetSection("AppEnv");
+        if (!appEnvSection.Exists())
+        {
+            throw new InvalidOperationException("Configuration section 'AppEnv' is required.");
+        }
+
+        var environmentSection = appEnvSection.GetSection(environment);
+        if (!environmentSection.Exists())
+        {
+            throw new InvalidOperationException($"Configuration section 'AppEnv:{environment}' is missing.");
+        }
+
+        return environmentSection;
     }
 }

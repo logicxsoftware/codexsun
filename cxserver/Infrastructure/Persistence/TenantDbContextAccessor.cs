@@ -1,17 +1,18 @@
 using cxserver.Infrastructure.Tenancy;
+using cxserver.Application.Abstractions;
 
 namespace cxserver.Infrastructure.Persistence;
 
 internal sealed class TenantDbContextAccessor : ITenantDbContextAccessor, IAsyncDisposable
 {
-    private readonly ITenantConnectionAccessor _tenantConnectionAccessor;
+    private readonly ITenantContext _tenantContext;
     private readonly ITenantDbContextFactory _tenantDbContextFactory;
     private readonly SemaphoreSlim _gate;
     private TenantDbContext? _dbContext;
 
-    public TenantDbContextAccessor(ITenantConnectionAccessor tenantConnectionAccessor, ITenantDbContextFactory tenantDbContextFactory)
+    public TenantDbContextAccessor(ITenantContext tenantContext, ITenantDbContextFactory tenantDbContextFactory)
     {
-        _tenantConnectionAccessor = tenantConnectionAccessor;
+        _tenantContext = tenantContext;
         _tenantDbContextFactory = tenantDbContextFactory;
         _gate = new SemaphoreSlim(1, 1);
     }
@@ -31,12 +32,12 @@ internal sealed class TenantDbContextAccessor : ITenantDbContextAccessor, IAsync
                 return _dbContext;
             }
 
-            if (string.IsNullOrWhiteSpace(_tenantConnectionAccessor.ConnectionString))
+            if (string.IsNullOrWhiteSpace(_tenantContext.TenantDatabaseConnectionString))
             {
                 throw new InvalidOperationException("Tenant connection is not resolved for current request.");
             }
 
-            _dbContext = await _tenantDbContextFactory.CreateAsync(_tenantConnectionAccessor.ConnectionString, cancellationToken);
+            _dbContext = await _tenantDbContextFactory.CreateAsync(_tenantContext.TenantDatabaseConnectionString, cancellationToken);
             return _dbContext;
         }
         finally

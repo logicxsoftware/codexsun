@@ -24,22 +24,27 @@ cd codexsun
 
 Create or update:
 
-- `cxserver/appsettings.Production.json`
+- `cxserver/appsettings.json`
 
-Set production DB values there (do not keep dev passwords).
+Set production DB values under `AppEnv.Production` (do not keep dev passwords).
 
 Recommended minimal structure:
 
 ```json
 {
-  "Database": {
-    "Provider": "MariaDb",
-    "MariaDbServerVersion": "11.5.2",
-    "Master": {
-      "ConnectionString": "server=mariadb;port=3306;database=codexsun_prod;user=<db_user>;password=<strong_password>;"
-    },
-    "Tenant": {
-      "ConnectionStringTemplate": "server=mariadb;port=3306;database={database};user=<db_user>;password=<strong_password>;"
+  "Environment": "Production",
+  "AppEnv": {
+    "Production": {
+      "Database": {
+        "Provider": "MariaDb",
+        "MariaDbServerVersion": "11.5.2",
+        "Master": {
+          "ConnectionString": "server=mariadb;port=3306;database=codexsun_prod;user=<db_user>;password=<strong_password>;"
+        },
+        "Tenant": {
+          "ConnectionStringTemplate": "server=mariadb;port=3306;database={database};user=<db_user>;password=<strong_password>;"
+        }
+      }
     }
   }
 }

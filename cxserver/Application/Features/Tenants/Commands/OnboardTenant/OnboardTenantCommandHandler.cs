@@ -1,6 +1,7 @@
 using cxserver.Application.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace cxserver.Application.Features.Tenants.Commands.OnboardTenant;
 
@@ -26,6 +27,7 @@ internal sealed class OnboardTenantCommandHandler : IRequestHandler<OnboardTenan
     public async Task<OnboardTenantResult> Handle(OnboardTenantCommand request, CancellationToken cancellationToken)
     {
         var normalizedIdentifier = request.Identifier.Trim();
+        var normalizedDomain = NormalizeDomain(request.Domain);
         var normalizedName = request.Name.Trim();
         var normalizedDatabase = request.DatabaseName.Trim();
         var featureSettingsJson = string.IsNullOrWhiteSpace(request.FeatureSettingsJson) ? "{}" : request.FeatureSettingsJson;
@@ -51,6 +53,7 @@ internal sealed class OnboardTenantCommandHandler : IRequestHandler<OnboardTenan
         {
             registered = await _tenantRegistry.UpsertAsync(
                 normalizedIdentifier,
+                normalizedDomain,
                 normalizedName,
                 normalizedDatabase,
                 connectionString,
@@ -95,5 +98,17 @@ internal sealed class OnboardTenantCommandHandler : IRequestHandler<OnboardTenan
             await _tenantRegistry.DeactivateAndDeleteAsync(registered.TenantId, cancellationToken);
             throw;
         }
+    }
+
+    private static string NormalizeDomain(string domain)
+    {
+        if (string.IsNullOrWhiteSpace(domain))
+        {
+            throw new InvalidOperationException("Tenant domain is required.");
+        }
+
+        var normalized = domain.Trim().TrimEnd('.');
+        var idn = new IdnMapping();
+        return idn.GetAscii(normalized).ToLowerInvariant();
     }
 }

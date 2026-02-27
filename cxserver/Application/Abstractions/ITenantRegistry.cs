@@ -2,10 +2,12 @@ namespace cxserver.Application.Abstractions;
 
 public interface ITenantRegistry
 {
+    Task<TenantRegistryItem?> GetByDomainAsync(string domain, CancellationToken cancellationToken);
     Task<TenantRegistryItem?> GetByIdentifierAsync(string identifier, CancellationToken cancellationToken);
     Task<IReadOnlyList<TenantRegistryItem>> GetActiveAsync(CancellationToken cancellationToken);
     Task<TenantRegistryItem> UpsertAsync(
         string identifier,
+        string domain,
         string name,
         string databaseName,
         string connectionString,

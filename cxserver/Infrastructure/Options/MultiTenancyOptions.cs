@@ -3,7 +3,6 @@ namespace cxserver.Infrastructure.Options;
 public sealed class MultiTenancyOptions
 {
     public const string SectionName = "MultiTenancy";
-    public string HeaderName { get; set; } = "X-Tenant-Id";
     public TenantCacheOptions Cache { get; set; } = new();
     public DefaultTenantOptions DefaultTenant { get; set; } = new();
 }
@@ -11,6 +10,7 @@ public sealed class MultiTenancyOptions
 public sealed class DefaultTenantOptions
 {
     public string Identifier { get; set; } = "default";
+    public string Domain { get; set; } = "default.localhost";
     public string Name { get; set; } = "Default";
     public string DatabaseName { get; set; } = "codexsun_default";
     public string FeatureSettingsJson { get; set; } = "{}";

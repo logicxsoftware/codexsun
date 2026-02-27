@@ -7,6 +7,7 @@ public static class TenantsEndpoints
 {
     public sealed record OnboardTenantRequest(
         string Identifier,
+        string Domain,
         string Name,
         string DatabaseName,
         string? FeatureSettingsJson,
@@ -23,6 +24,7 @@ public static class TenantsEndpoints
         {
             var result = await sender.Send(new OnboardTenantCommand(
                 request.Identifier,
+                request.Domain,
                 request.Name,
                 request.DatabaseName,
                 request.FeatureSettingsJson,

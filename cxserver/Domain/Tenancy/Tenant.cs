@@ -8,6 +8,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
     private Tenant(
         Guid id,
         string identifier,
+        string domain,
         string name,
         string databaseName,
         string connectionString,
@@ -20,6 +21,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
         DateTimeOffset? deletedAtUtc) : base(id)
     {
         Identifier = identifier;
+        Domain = domain;
         Name = name;
         DatabaseName = databaseName;
         ConnectionString = connectionString;
@@ -35,6 +37,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
     private Tenant() : base(Guid.NewGuid())
     {
         Identifier = string.Empty;
+        Domain = string.Empty;
         Name = string.Empty;
         DatabaseName = string.Empty;
         ConnectionString = string.Empty;
@@ -43,6 +46,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
     }
 
     public string Identifier { get; private set; }
+    public string Domain { get; private set; }
     public string Name { get; private set; }
     public string DatabaseName { get; private set; }
     public string ConnectionString { get; private set; }
@@ -57,6 +61,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
     public static Tenant Create(
         Guid id,
         string identifier,
+        string domain,
         string name,
         string databaseName,
         string connectionString,
@@ -65,6 +70,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
         DateTimeOffset nowUtc)
     {
         if (string.IsNullOrWhiteSpace(identifier)) throw new ArgumentException("Identifier is required.", nameof(identifier));
+        if (string.IsNullOrWhiteSpace(domain)) throw new ArgumentException("Domain is required.", nameof(domain));
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.", nameof(name));
         if (string.IsNullOrWhiteSpace(databaseName)) throw new ArgumentException("Database name is required.", nameof(databaseName));
         if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("Connection string is required.", nameof(connectionString));
@@ -74,6 +80,7 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
         return new Tenant(
             id,
             identifier.Trim(),
+            domain.Trim(),
             name.Trim(),
             databaseName.Trim(),
             connectionString.Trim(),
@@ -90,6 +97,13 @@ public sealed class Tenant : AggregateRoot, ISoftDeletable
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.", nameof(name));
         Name = name.Trim();
+        UpdatedAtUtc = nowUtc;
+    }
+
+    public void UpdateDomain(string domain, DateTimeOffset nowUtc)
+    {
+        if (string.IsNullOrWhiteSpace(domain)) throw new ArgumentException("Domain is required.", nameof(domain));
+        Domain = domain.Trim();
         UpdatedAtUtc = nowUtc;
     }
 

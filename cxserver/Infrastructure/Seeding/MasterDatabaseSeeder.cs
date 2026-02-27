@@ -28,6 +28,7 @@ internal sealed class MasterDatabaseSeeder
 
         return await _tenantRegistry.UpsertAsync(
             defaultTenant.Identifier,
+            defaultTenant.Domain,
             defaultTenant.Name,
             defaultTenant.DatabaseName,
             connectionString,

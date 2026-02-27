@@ -4,6 +4,8 @@ public interface ITenantContext
 {
     TenantSession? Current { get; }
     Guid? TenantId { get; }
-    string? Identifier { get; }
+    string? TenantName { get; }
+    string? Domain { get; }
+    string? TenantDatabaseConnectionString { get; }
     bool HasTenant { get; }
 }

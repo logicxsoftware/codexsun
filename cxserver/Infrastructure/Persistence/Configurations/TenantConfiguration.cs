@@ -22,6 +22,11 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
             .HasMaxLength(128)
             .IsRequired();
 
+        builder.Property(x => x.Domain)
+            .HasColumnName("domain")
+            .HasMaxLength(255)
+            .IsRequired();
+
         builder.Property(x => x.Name)
             .HasColumnName("name")
             .HasMaxLength(256)
@@ -70,6 +75,10 @@ internal sealed class TenantConfiguration : IEntityTypeConfiguration<Tenant>
 
         builder.HasIndex(x => x.Identifier)
             .HasDatabaseName("ux_tenants_identifier")
+            .IsUnique();
+
+        builder.HasIndex(x => x.Domain)
+            .HasDatabaseName("ux_tenants_domain")
             .IsUnique();
 
         builder.HasIndex(x => x.DatabaseName)
