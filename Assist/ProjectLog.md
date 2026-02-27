@@ -18,7 +18,7 @@
 - Verified successful builds for `cxserver` and `cxtest`.
 
 ---
-Timestamp: 2026-02-27T15:40:39+05:30
+# 2: 2026-02-27T15:40:39+05:30
 Level: INFO
 - Implemented performance optimizations for multi-tenant architecture including metadata/feature caching abstractions, compiled queries, pooled master DbContext, tenant DbContext options caching, migration batching, and provider-aware connection pooling configuration.
 - Implemented automated tenant onboarding vertical slice with CQRS command, FluentValidation, handler orchestration, idempotent duplicate handling, retry-safe infrastructure executors, compensation cleanup, activation flow, and onboarding API endpoint.
@@ -27,7 +27,7 @@ Level: INFO
 - Verified `cxserver` build success after onboarding and optimization changes.
 
 ---
-Timestamp: 2026-02-27T15:58:21+05:30
+# 3: 2026-02-27T15:58:21+05:30
 Level: INFO
 - Updated `cxserver` MariaDB configuration to use dev master database `codexsun_dev` and default tenant database `tenant_dev` with root credentials.
 - Added tenancy behavior integration tests in `cxtest` covering startup seeding validation and tenant onboarding idempotency/database provisioning.
@@ -39,7 +39,7 @@ Level: INFO
 - Cleaned solution and confirmed successful full build: `dotnet build codexsun.sln` with zero errors.
 
 ---
-Timestamp: 2026-02-27T16:08:10+05:30
+# 5: 2026-02-27T16:08:10+05:30
 Level: INFO
 - Added browser home endpoint for `cxserver` at `/` rendering a welcome page with service startup timestamp.
 - Registered runtime startup timestamp singleton and mapped home endpoint in API startup pipeline.
@@ -47,15 +47,29 @@ Level: INFO
 - Verified `cxserver` builds successfully after home page and middleware updates.
 
 ---
-Timestamp: 2026-02-27T17:08:26+05:30
+# 6: 2026-02-27T17:08:26+05:30
 Level: INFO
-- Established cxweb production-ready frontend foundation with feature-based structure (eatures, layouts, outes, shared).
+- Established cxweb production-ready frontend foundation with feature-based structure (features, layouts, 
+outes, shared).
 - Implemented layout architecture with WebLayout, AppLayout, and AuthLayout using TailwindCSS and shadcn components.
 - Implemented centralized route configuration with grouped nested routes for /, /app, /auth, plus typed route error and 404 handling.
 - Added shared environment/config and centralized HTTP client for API-first readiness without hardcoded backend URLs.
 - Replaced starter UI shell with router-based app entry and strict root bootstrap handling.
-- Stabilized frontend configuration: fixed TypeScript aliasing, added ite-env.d.ts, aligned Vite alias resolution, and removed incompatible router plugin wiring.
+- Stabilized frontend configuration: fixed TypeScript aliasing, added vite-env.d.ts, aligned Vite alias resolution, and removed incompatible router plugin wiring.
 - Fixed strict/lint blockers in UI components and configuration; validated clean 
 pm run lint and successful 
 pm run build.
+
+
+---
+# 7: 2026-02-27T18:42:20+05:30
+Level: INFO
+- Added root deployment artifacts for containerized Aspire AppHost: Dockerfile, .dockerignore, and root docker-compose.yml on codexion-network with MariaDB expected as an external/separate container.
+- Removed MariaDB service from .devcontainer/docker-compose.yml to keep DB lifecycle separate from devcontainer/runtime orchestration.
+- Fixed AppHost container startup behavior by disabling launch profiles in container run (--no-launch-profile) and binding host endpoints through compose env vars.
+- Implemented static port mapping across Aspire and project settings to remove dynamic ports: AppHost 7040, cxserver HTTP 7041, cxserver HTTPS 7042, frontend 7043.
+- Updated codexsun.AppHost/AppHost.cs endpoint configuration to pin frontend and use external server endpoints without endpoint duplication conflicts.
+- Updated codexsun.AppHost/Properties/launchSettings.json, cxserver/Properties/launchSettings.json, and cxweb/vite.config.ts to align static local/dev ports.
+- Updated root docker-compose.yml published ports to 7040-7043 plus Aspire support ports 7045-7047.
+- Verified container runtime and connectivity: AppHost listens on http://0.0.0.0:7040; host TCP checks passed for 7040, 7041, 7042, and 7043.
 

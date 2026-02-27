@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 	ProjectSection(SolutionItems) = preProject
 		.devcontainer\Dockerfile = .devcontainer\Dockerfile
 		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
+		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
 	EndProjectSection
 EndProject
 Global

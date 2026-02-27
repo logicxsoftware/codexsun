@@ -12,6 +12,9 @@ export default defineConfig({
     },
   },
   server: {
+    host: "0.0.0.0",
+    port: 7043,
+    strictPort: true,
     proxy: {
       '/api': {
         target: process.env.SERVER_HTTPS || process.env.SERVER_HTTP,

@@ -1,9 +1,9 @@
 {
   "name": "aspire-app",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "devcontainer",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "remoteUser": "root",
   "customizations": {
@@ -20,7 +20,8 @@
     5000,
     5001,
     5173,
-    18888
+    18888,
+    3306
   ],
   "portsAttributes": {
     "5000": {
@@ -34,6 +35,9 @@
     },
     "18888": {
       "label": "aspire dashboard"
+    },
+    "3306": {
+      "label": "mariadb"
     }
   },
   "postCreateCommand": "dotnet restore codexsun.sln && cd cxweb && npm install",
