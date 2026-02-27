@@ -3,8 +3,8 @@
   "dockerComposeFile": [
     "docker-compose.yml"
   ],
-  "service": "devcontainer",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "service": "apphost",
+  "workspaceFolder": "/src",
   "remoteUser": "root",
   "customizations": {
     "vscode": {
@@ -17,27 +17,35 @@
     }
   },
   "forwardPorts": [
-    5000,
-    5001,
-    5173,
-    18888,
-    3306
+    7040,
+    7041,
+    7042,
+    7043,
+    7045,
+    7046,
+    7047
   ],
   "portsAttributes": {
-    "5000": {
-      "label": "aspire server http"
-    },
-    "5001": {
-      "label": "aspire server https"
-    },
-    "5173": {
-      "label": "vite dev server"
-    },
-    "18888": {
+    "7040": {
       "label": "aspire dashboard"
     },
-    "3306": {
-      "label": "mariadb"
+    "7041": {
+      "label": "cxserver http"
+    },
+    "7042": {
+      "label": "cxserver https"
+    },
+    "7043": {
+      "label": "frontend vite"
+    },
+    "7045": {
+      "label": "aspire otlp"
+    },
+    "7046": {
+      "label": "aspire mcp"
+    },
+    "7047": {
+      "label": "aspire resource service"
     }
   },
   "postCreateCommand": "dotnet restore codexsun.sln && cd cxweb && npm install",
