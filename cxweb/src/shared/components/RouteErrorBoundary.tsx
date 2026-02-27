@@ -1,34 +1,29 @@
 import { isRouteErrorResponse, Link, useRouteError } from "react-router"
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BodyText, ButtonWrapper, CardWrapper, PageContainer, SectionContainer, SectionHeader } from "@/shared/components/design-system"
 
 function RouteErrorBoundary() {
   const error = useRouteError()
 
-  const title = isRouteErrorResponse(error)
-    ? `Request failed (${error.status})`
-    : "Unexpected error"
+  const title = isRouteErrorResponse(error) ? `Request failed (${error.status})` : "Unexpected error"
 
-  const description = isRouteErrorResponse(error)
-    ? error.statusText
-    : "An unexpected application error occurred."
+  const description = isRouteErrorResponse(error) ? error.statusText : "An unexpected application error occurred."
 
   return (
-    <div className="grid min-h-screen place-items-center px-4 py-10">
-      <Card className="w-full max-w-xl">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4 text-muted-foreground">
-          <p>{description}</p>
-          <div>
-            <Button asChild>
-              <Link to="/">Return home</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="grid min-h-screen place-items-center py-10">
+      <PageContainer>
+        <CardWrapper className="mx-auto w-full max-w-xl">
+          <SectionContainer className="border-0 bg-transparent p-0">
+            <SectionHeader title={title} />
+            <BodyText>{description}</BodyText>
+            <div>
+              <ButtonWrapper asChild>
+                <Link to="/">Return home</Link>
+              </ButtonWrapper>
+            </div>
+          </SectionContainer>
+        </CardWrapper>
+      </PageContainer>
     </div>
   )
 }

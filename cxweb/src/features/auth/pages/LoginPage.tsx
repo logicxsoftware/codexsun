@@ -2,8 +2,8 @@ import { useState } from "react"
 import type { FormEvent } from "react"
 import { Link } from "react-router"
 
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { BodyText, ButtonWrapper, FormGroup, SectionHeader } from "@/shared/components/design-system"
 
 function LoginPage() {
   const [email, setEmail] = useState("")
@@ -14,29 +14,19 @@ function LoginPage() {
   }
 
   return (
-    <div className="space-y-5">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-semibold">Sign in</h1>
-        <p className="text-sm text-muted-foreground">Use your organization credentials to access application modules.</p>
-      </div>
+    <div className="grid gap-5">
+      <SectionHeader title="Sign in" subtitle="Use your organization credentials to access application modules." />
 
-      <form className="space-y-4" onSubmit={onSubmit}>
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium">
+      <form className="grid gap-4" onSubmit={onSubmit}>
+        <FormGroup>
+          <label htmlFor="email" className="text-sm font-medium text-foreground">
             Email
           </label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            autoComplete="email"
-            required
-          />
-        </div>
+          <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required />
+        </FormGroup>
 
-        <div className="space-y-2">
-          <label htmlFor="password" className="text-sm font-medium">
+        <FormGroup>
+          <label htmlFor="password" className="text-sm font-medium text-foreground">
             Password
           </label>
           <Input
@@ -47,16 +37,19 @@ function LoginPage() {
             autoComplete="current-password"
             required
           />
-        </div>
+        </FormGroup>
 
-        <Button type="submit" className="w-full">
+        <ButtonWrapper type="submit" block>
           Continue
-        </Button>
+        </ButtonWrapper>
       </form>
 
-      <p className="text-sm text-muted-foreground">
-        Need public site access? <Link to="/" className="text-foreground underline">Return to website</Link>
-      </p>
+      <BodyText>
+        Need public site access?{" "}
+        <Link to="/" className="text-link hover:text-link-hover">
+          Return to website
+        </Link>
+      </BodyText>
     </div>
   )
 }

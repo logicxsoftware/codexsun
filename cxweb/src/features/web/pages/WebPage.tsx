@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { HttpError } from "@/shared/services/http-client"
+
 import SectionRenderer from "@/features/web/components/SectionRenderer"
 import { webPageApi, type WebPageResponse } from "@/features/web/services/web-page-api"
+import { HttpError } from "@/shared/services/http-client"
+import { CardWrapper, PageContainer, SectionContainer, SectionHeader, Title } from "@/shared/components/design-system"
 
 type WebPageProps = {
   defaultSlug?: string
@@ -15,10 +16,8 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
   const [data, setData] = useState<WebPageResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const orderedSections = useMemo(
-    () => (data ? [...data.sections].sort((a, b) => a.displayOrder - b.displayOrder) : []),
-    [data],
-  )
+
+  const orderedSections = useMemo(() => (data ? [...data.sections].sort((a, b) => a.displayOrder - b.displayOrder) : []), [data])
 
   useEffect(() => {
     let isMounted = true
@@ -63,37 +62,38 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
 
   if (isLoading) {
     return (
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Loading</CardTitle>
-          </CardHeader>
-        </Card>
-      </section>
+      <PageContainer className="py-16">
+        <CardWrapper>
+          <SectionContainer className="border-0 bg-transparent p-0">
+            <SectionHeader title="Loading" />
+          </SectionContainer>
+        </CardWrapper>
+      </PageContainer>
     )
   }
 
   if (error || !data) {
     return (
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Unavailable</CardTitle>
-          </CardHeader>
-          <CardContent className="text-muted-foreground">{error ?? "Page not available."}</CardContent>
-        </Card>
-      </section>
+      <PageContainer className="py-16">
+        <CardWrapper>
+          <SectionContainer className="border-0 bg-transparent p-0">
+            <SectionHeader title="Unavailable" subtitle={error ?? "Page not available."} />
+          </SectionContainer>
+        </CardWrapper>
+      </PageContainer>
     )
   }
 
   return (
-    <section className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-16 md:px-6">
-      <header className="grid gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">{data.title}</h1>
-      </header>
-      {orderedSections.map((section) => (
-        <SectionRenderer key={section.id} section={section} />
-      ))}
-    </section>
+    <PageContainer className="py-12 md:py-16">
+      <div className="grid gap-6">
+        <header className="grid gap-2 border-b border-border/50 pb-5">
+          <Title>{data.title}</Title>
+        </header>
+        {orderedSections.map((section) => (
+          <SectionRenderer key={section.id} section={section} />
+        ))}
+      </div>
+    </PageContainer>
   )
 }

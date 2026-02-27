@@ -120,3 +120,14 @@ Version: #1.0.0
 - Updated local default tenant domain to localhost so domain-based tenant resolution works correctly for local web requests.
 - Fixed frontend web API path construction for dynamic page fetch to avoid duplicate /api prefix and resolve /api/web/{slug} correctly.
 - Revalidated backend build and tenancy tests after seeding and routing fixes.
+
+---
+# 18: 2026-02-28T00:57:07+05:30
+Version: #1.0.0
+- Implemented full cxweb OKLCH tokenized tenant theme engine with runtime tenant theme loading, validation, sanitization, scoped CSS variable application, dark/light/system mode handling, and cached per-tenant theme resolution.
+- Refactored web layouts and major UI surfaces (header, footer, cards, sections, toast, loader, links, auth/app shells) to token-first styling and theme-aware behavior.
+- Added development-only visual theme preview sandbox at /theme-preview with real-time token editor, OKLCH validation, debounced live updates, preset themes, light/dark preview switching, and isolated scoped rendering.
+- Added reusable design-system primitive layer (PageContainer, SectionContainer, ContentWrapper, Title, Subtitle, BodyText, Divider, CardWrapper, ButtonWrapper, FormGroup, SectionHeader, GridLayout) and adopted it across key pages.
+- Added canonical UI baseline reference page at /ui-template demonstrating approved layout patterns, typography scale, component variants, forms, alerts, sidebar/navigation samples, toast/loader triggers, CTA and footer patterns.
+- Completed frontend governance cleanup pass and validated successful frontend build and lint after all changes.
+

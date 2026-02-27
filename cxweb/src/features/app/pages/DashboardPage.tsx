@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { BodyText, CardWrapper, PageContainer, SectionContainer, SectionHeader } from "@/shared/components/design-system"
 import { httpClient } from "@/shared/services/http-client"
 
 type HealthResponse = {
@@ -34,17 +34,14 @@ function DashboardPage() {
   }, [])
 
   return (
-    <section className="mx-auto w-full max-w-5xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>Dashboard</CardTitle>
-          <CardDescription>Application shell is active and ready for feature modules.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">Backend status: {status}</p>
-        </CardContent>
-      </Card>
-    </section>
+    <PageContainer width="wide">
+      <CardWrapper>
+        <SectionContainer className="border-0 bg-transparent p-0">
+          <SectionHeader title="Dashboard" subtitle="Application shell is active and ready for feature modules." />
+          <BodyText>Backend status: {status}</BodyText>
+        </SectionContainer>
+      </CardWrapper>
+    </PageContainer>
   )
 }
 

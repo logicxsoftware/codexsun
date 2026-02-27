@@ -1,24 +1,23 @@
 import { Link } from "react-router"
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BodyText, ButtonWrapper, CardWrapper, PageContainer, SectionContainer, SectionHeader } from "@/shared/components/design-system"
 
 function NotFoundPage() {
   return (
-    <div className="grid min-h-[70vh] place-items-center px-4 py-10">
-      <Card className="w-full max-w-lg">
-        <CardHeader>
-          <CardTitle>Page not found</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4 text-muted-foreground">
-          <p>The requested route is not available.</p>
-          <div>
-            <Button asChild>
-              <Link to="/">Go to home</Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="grid min-h-[70vh] place-items-center py-10">
+      <PageContainer>
+        <CardWrapper className="mx-auto w-full max-w-lg">
+          <SectionContainer className="border-0 bg-transparent p-0">
+            <SectionHeader title="Page not found" />
+            <BodyText>The requested route is not available.</BodyText>
+            <div>
+              <ButtonWrapper asChild>
+                <Link to="/">Go to home</Link>
+              </ButtonWrapper>
+            </div>
+          </SectionContainer>
+        </CardWrapper>
+      </PageContainer>
     </div>
   )
 }

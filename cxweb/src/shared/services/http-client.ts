@@ -1,4 +1,5 @@
 import { appEnvironment } from "@/shared/config/env"
+import { startGlobalLoading, stopGlobalLoading } from "@/shared/components/ui/GlobalLoader/loading-store"
 
 export class HttpError extends Error {
   readonly status: number
@@ -29,21 +30,36 @@ const resolveUrl = (path: string): string => {
   return `${base}${normalizedPath}`
 }
 
-export const httpClient = {
-  async get<TResponse>(path: string, init?: RequestInit): Promise<TResponse> {
-    const response = await fetch(resolveUrl(path), {
-      ...init,
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        ...(init?.headers ?? {}),
-      },
-    })
+type HttpRequestInit = RequestInit & {
+  skipGlobalLoading?: boolean
+}
 
-    if (!response.ok) {
-      throw new HttpError(response.status, `Request failed with status ${response.status}`)
+export const httpClient = {
+  async get<TResponse>(path: string, init?: HttpRequestInit): Promise<TResponse> {
+    const shouldTrackLoading = !init?.skipGlobalLoading
+    if (shouldTrackLoading) {
+      startGlobalLoading()
     }
 
-    return (await response.json()) as TResponse
+    try {
+      const response = await fetch(resolveUrl(path), {
+        ...init,
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          ...(init?.headers ?? {}),
+        },
+      })
+
+      if (!response.ok) {
+        throw new HttpError(response.status, `Request failed with status ${response.status}`)
+      }
+
+      return (await response.json()) as TResponse
+    } finally {
+      if (shouldTrackLoading) {
+        stopGlobalLoading()
+      }
+    }
   },
 }
