@@ -1,0 +1,30 @@
+services:
+  apphost:
+    container_name: codexsun-apphost
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DOTNET_ENVIRONMENT: Production
+      ASPIRE_ALLOW_UNSECURED_TRANSPORT: "true"
+      ASPNETCORE_URLS: http://0.0.0.0:7040
+      ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL: http://0.0.0.0:7045
+      ASPIRE_DASHBOARD_MCP_ENDPOINT_URL: http://0.0.0.0:7046
+      ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL: http://0.0.0.0:7047
+    ports:
+      - "7040:7040"
+      - "7041:7041"
+      - "7042:7042"
+      - "7043:7043"
+      - "7045:7045"
+      - "7046:7046"
+      - "7047:7047"
+    networks:
+      - codexion-network
+    restart: unless-stopped
+
+networks:
+  codexion-network:
+    external: true
+    name: codexion-network

@@ -73,3 +73,12 @@ Level: INFO
 - Updated root docker-compose.yml published ports to 7040-7043 plus Aspire support ports 7045-7047.
 - Verified container runtime and connectivity: AppHost listens on http://0.0.0.0:7040; host TCP checks passed for 7040, 7041, 7042, and 7043.
 
+
+---
+# 8: 2026-02-27T19:12:48+05:30
+Level: INFO
+- Added dedicated production container build file Dockerfile.prod for Ubuntu/server deployment.
+- Added dedicated production compose file docker-compose.prod.yml with static ports (7040, 7041, 7042, 7043, 7045, 7046, 7047) and estart: unless-stopped.
+- Added deployment documentation Assist/Server-installation.md with step-by-step Ubuntu setup: Docker install, repository setup, production appsettings usage, external MariaDB setup on codexion-network, deploy, verification, and update flow.
+- Validated production compose configuration using docker compose -f docker-compose.prod.yml config.
+
