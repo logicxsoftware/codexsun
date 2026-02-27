@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
+builder.Services.AddSingleton(new ServerRuntimeInfo(DateTimeOffset.Now));
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -22,6 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseTenantResolution();
 
+app.MapHomeEndpoints();
 app.MapConfigurationDocumentsEndpoints();
 app.MapTenantsEndpoints();
 app.MapDefaultEndpoints();

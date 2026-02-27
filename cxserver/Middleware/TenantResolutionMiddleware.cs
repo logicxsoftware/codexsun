@@ -22,6 +22,12 @@ public sealed class TenantResolutionMiddleware
         ITenantContextAccessor tenantContextAccessor,
         ITenantConnectionAccessor tenantConnectionAccessor)
     {
+        if (IsBypassedPath(context.Request.Path))
+        {
+            await _next(context);
+            return;
+        }
+
         var cancellationToken = context.RequestAborted;
         if (!context.Request.Headers.TryGetValue(_headerName, out var values) || string.IsNullOrWhiteSpace(values))
         {
@@ -51,5 +57,14 @@ public sealed class TenantResolutionMiddleware
             tenantConnectionAccessor.Clear();
             tenantContextAccessor.Clear();
         }
+    }
+
+    private static bool IsBypassedPath(PathString path)
+    {
+        return path == "/"
+               || path.StartsWithSegments("/health")
+               || path.StartsWithSegments("/alive")
+               || path.StartsWithSegments("/openapi")
+               || path.StartsWithSegments("/api/tenants");
     }
 }

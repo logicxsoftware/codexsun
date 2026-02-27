@@ -37,3 +37,11 @@ Level: INFO
 - Verified extra `src` projects were unrelated to current `cxserver` architecture.
 - Removed unused solution projects and folders: `src/Codexsun.Domain`, `src/Codexsun.Application`, `src/Codexsun.Infrastructure`.
 - Cleaned solution and confirmed successful full build: `dotnet build codexsun.sln` with zero errors.
+
+---
+Timestamp: 2026-02-27T16:08:10+05:30
+Level: INFO
+- Added browser home endpoint for `cxserver` at `/` rendering a welcome page with service startup timestamp.
+- Registered runtime startup timestamp singleton and mapped home endpoint in API startup pipeline.
+- Updated tenant resolution middleware bypass paths to allow home page and infrastructure endpoints without tenant header.
+- Verified `cxserver` builds successfully after home page and middleware updates.
