@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assist", "Assist", "{8E9B5D
 		Assist\AGENT.md = Assist\AGENT.md
 		Assist\ProjectLog.md = Assist\ProjectLog.md
 		Assist\Planning.md = Assist\Planning.md
+		Assist\Server-installation.md = Assist\Server-installation.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cxtest", "cxtest\cxtest.csproj", "{6A26184B-7A03-4B14-86C9-411414D59392}"
@@ -20,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 		.devcontainer\Dockerfile = .devcontainer\Dockerfile
 		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
 		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
+		.devcontainer\Dockerfile.prod = .devcontainer\Dockerfile.prod
+		.devcontainer\docker-compose.prod.yml = .devcontainer\docker-compose.prod.yml
 	EndProjectSection
 EndProject
 Global
