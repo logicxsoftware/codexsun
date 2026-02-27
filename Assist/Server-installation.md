@@ -71,14 +71,14 @@ If you already have an external MariaDB server/container, keep the hostname in y
 Use the dedicated production compose file:
 
 ```bash
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose-prod.yml up -d --build
 ```
 
 ## 7. Verify Runtime
 
 ```bash
-docker compose -f docker-compose.prod.yml ps
-docker compose -f docker-compose.prod.yml logs -f apphost
+docker compose -f docker-compose.prod-yml ps
+docker compose -f docker-compose.prod-yml logs -f apphost
 ```
 
 Expected exposed ports:
@@ -92,7 +92,7 @@ Expected exposed ports:
 
 ```bash
 git pull
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose-prod.yml up -d --build
 ```
 
 ## 9. Optional: Auto-Start on Reboot
