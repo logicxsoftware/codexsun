@@ -12,15 +12,18 @@ internal sealed class TenantDatabaseSeeder
     private readonly ITenantDbContextFactory _tenantDbContextFactory;
     private readonly IOptions<MultiTenancyOptions> _multiTenancyOptions;
     private readonly Application.Abstractions.IDateTimeProvider _dateTimeProvider;
+    private readonly TenantWebsitePageSeeder _tenantWebsitePageSeeder;
 
     public TenantDatabaseSeeder(
         ITenantDbContextFactory tenantDbContextFactory,
         IOptions<MultiTenancyOptions> multiTenancyOptions,
-        Application.Abstractions.IDateTimeProvider dateTimeProvider)
+        Application.Abstractions.IDateTimeProvider dateTimeProvider,
+        TenantWebsitePageSeeder tenantWebsitePageSeeder)
     {
         _tenantDbContextFactory = tenantDbContextFactory;
         _multiTenancyOptions = multiTenancyOptions;
         _dateTimeProvider = dateTimeProvider;
+        _tenantWebsitePageSeeder = tenantWebsitePageSeeder;
     }
 
     public async Task SeedDefaultConfigurationAsync(string connectionString, CancellationToken cancellationToken)
@@ -45,7 +48,8 @@ internal sealed class TenantDatabaseSeeder
                 _dateTimeProvider.UtcNow);
 
             await dbContext.ConfigurationDocuments.AddAsync(document, cancellationToken);
-            await dbContext.SaveChangesAsync(cancellationToken);
         }
+
+        await _tenantWebsitePageSeeder.SeedAsync(dbContext, cancellationToken);
     }
 }

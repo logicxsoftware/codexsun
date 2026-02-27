@@ -69,5 +69,5 @@ export type WebPageResponse = {
 }
 
 export const webPageApi = {
-  getPublishedPage: (slug: string): Promise<WebPageResponse> => httpClient.get<WebPageResponse>(`/api/web/${slug}`),
+  getPublishedPage: (slug: string): Promise<WebPageResponse> => httpClient.get<WebPageResponse>(`/web/${encodeURIComponent(slug)}`),
 }

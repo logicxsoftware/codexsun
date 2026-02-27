@@ -1,6 +1,7 @@
 using System.Text.Json;
 using cxserver.Application.Abstractions;
 using cxserver.Domain.Configuration;
+using cxserver.Infrastructure.Seeding;
 using cxserver.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,16 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
 {
     private readonly ITenantDbContextFactory _tenantDbContextFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly TenantWebsitePageSeeder _tenantWebsitePageSeeder;
 
-    public TenantSeederExecutor(ITenantDbContextFactory tenantDbContextFactory, IDateTimeProvider dateTimeProvider)
+    public TenantSeederExecutor(
+        ITenantDbContextFactory tenantDbContextFactory,
+        IDateTimeProvider dateTimeProvider,
+        TenantWebsitePageSeeder tenantWebsitePageSeeder)
     {
         _tenantDbContextFactory = tenantDbContextFactory;
         _dateTimeProvider = dateTimeProvider;
+        _tenantWebsitePageSeeder = tenantWebsitePageSeeder;
     }
 
     public async Task ExecuteAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
@@ -30,7 +36,8 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
             var payload = JsonDocument.Parse($"{{\"tenantId\":\"{tenant.TenantId:D}\",\"identifier\":\"{tenant.Identifier}\"}}");
             var doc = ConfigurationDocument.Create(Guid.NewGuid(), "tenant", "bootstrap", payload, _dateTimeProvider.UtcNow);
             await dbContext.ConfigurationDocuments.AddAsync(doc, cancellationToken);
-            await dbContext.SaveChangesAsync(cancellationToken);
         }
+
+        await _tenantWebsitePageSeeder.SeedAsync(dbContext, cancellationToken);
     }
 }

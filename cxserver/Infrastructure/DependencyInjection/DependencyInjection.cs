@@ -63,6 +63,7 @@ public static class DependencyInjection
 
         services.AddScoped<MasterDatabaseSeeder>();
         services.AddScoped<TenantDatabaseSeeder>();
+        services.AddScoped<TenantWebsitePageSeeder>();
 
         services.AddScoped<ITenantDatabaseMigrationService, TenantDatabaseMigrationService>();
 

@@ -92,7 +92,7 @@ Version: #1.0.0
 - Updated test configuration loading to use unified environment-resolved settings and validated tenant behavior with local MariaDB credentials.
 
 ---
-#15: 2026-02-27T22:42:10+05:30
+# 15: 2026-02-27T22:42:10+05:30
 Version: #1.0.0
 - Implemented domain-based tenant resolution from request host with normalization, secure host validation, inactive/unknown tenant handling, and strict per-request tenant context isolation.
 - Added tenant domain lookup abstractions and infrastructure implementation, persisted tenant domain in master tenancy model, and introduced master migration for tenant domain column/index.
@@ -103,7 +103,7 @@ Version: #1.0.0
 - Re-ran tenancy tests against localhost/root/DbPass1@@ with codexsun_db and tenant1_db; fixed migration discovery issue and achieved passing test suite (2/2).
 
 ---
-#16: 2026-02-27T23:42:08.3533278+05:30
+# 16: 2026-02-27T23:42:08.3533278+05:30
 Version: #1.0.0
 - Implemented dynamic section-based website engine with tenant-scoped page aggregate, section entity, publish/unpublish controls, section ordering invariants, and JSON section payload support.
 - Added WebEngine application slices for page and section lifecycle operations, published page retrieval by slug, validation rules, and section data validation strategy.
@@ -111,3 +111,12 @@ Version: #1.0.0
 - Updated public web API to a single tenant-resolved dynamic endpoint GET /api/web/{slug} returning published page metadata and ordered published sections.
 - Refactored frontend web routing to dynamic slug rendering and implemented section registry renderer with strongly typed section payload contracts and unknown-section fallback.
 - Removed legacy hardcoded web page components and obsolete intermediate web-content path, then validated backend build, frontend build, and tenancy tests successfully.
+
+---
+# 17: 2026-02-27T23:53:14.4845834+05:30
+Version: #1.0.0
+- Added tenant website content seeder to create and publish default dynamic pages (home, bout, services, log, contact) with ordered section payloads.
+- Wired website content seeding into both startup tenant initialization and onboarding tenant seeding flows for consistent tenant bootstrap behavior.
+- Updated local default tenant domain to localhost so domain-based tenant resolution works correctly for local web requests.
+- Fixed frontend web API path construction for dynamic page fetch to avoid duplicate /api prefix and resolve /api/web/{slug} correctly.
+- Revalidated backend build and tenancy tests after seeding and routing fixes.
