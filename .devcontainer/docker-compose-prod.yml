@@ -2,8 +2,8 @@ services:
   apphost:
     container_name: codexsun-apphost
     build:
-      context: .
-      dockerfile: Dockerfile-prod
+      context: ..
+      dockerfile: .devcontainer/Dockerfile-prod
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       DOTNET_ENVIRONMENT: Production
