@@ -29,31 +29,13 @@ internal sealed class TenantDatabaseMigrationService : ITenantDatabaseMigrationS
     {
         await using var scope = _scopeFactory.CreateAsyncScope();
         var masterDbContext = scope.ServiceProvider.GetRequiredService<MasterDbContext>();
-
-        var hasMigrations = masterDbContext.Database.GetMigrations().Any();
-        if (hasMigrations)
-        {
-            await masterDbContext.Database.MigrateAsync(cancellationToken);
-        }
-        else
-        {
-            await masterDbContext.Database.EnsureCreatedAsync(cancellationToken);
-        }
+        await masterDbContext.Database.MigrateAsync(cancellationToken);
     }
 
     public async Task MigrateTenantAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
     {
         await using var tenantDbContext = await _tenantDbContextFactory.CreateAsync(tenant.ConnectionString, cancellationToken);
-        var hasMigrations = tenantDbContext.Database.GetMigrations().Any();
-
-        if (hasMigrations)
-        {
-            await tenantDbContext.Database.MigrateAsync(cancellationToken);
-        }
-        else
-        {
-            await tenantDbContext.Database.EnsureCreatedAsync(cancellationToken);
-        }
+        await tenantDbContext.Database.MigrateAsync(cancellationToken);
     }
 
     public async Task MigrateAllTenantsAsync(CancellationToken cancellationToken)

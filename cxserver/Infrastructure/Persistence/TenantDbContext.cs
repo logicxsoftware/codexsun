@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using cxserver.Application.Abstractions;
 using cxserver.Domain.Common;
 using cxserver.Domain.Configuration;
+using cxserver.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace cxserver.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ public sealed class TenantDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TenantDbContext).Assembly);
+        modelBuilder.ApplyConfiguration(new ConfigurationDocumentConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }

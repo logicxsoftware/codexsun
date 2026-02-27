@@ -1,10 +1,10 @@
 # Next Implementation Plan
 
 ## Phase 1: Schema and Migration Baseline
-1. [ ] Create and apply initial EF migration set for `MasterDbContext`.
-2. [ ] Create and apply initial EF migration set for `TenantDbContext`.
-3. [ ] Validate migration execution path in startup and onboarding flows.
-4. [ ] Add migration generation/run scripts for local and CI usage.
+1. [x] Create and apply initial EF migration set for `MasterDbContext`.
+2. [x] Create and apply initial EF migration set for `TenantDbContext`.
+3. [x] Validate migration execution path in startup and onboarding flows.
+4. [x] Add migration generation/run scripts for local and CI usage.
 
 ## Phase 2: Tenant Security and Secrets
 1. [ ] Move database credentials out of static config into secure secret source.
