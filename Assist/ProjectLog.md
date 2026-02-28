@@ -295,3 +295,15 @@ Files Changed: cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, Assis
 - Database Impact: No schema change (data-only update via existing seeder upsert path)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 33
+# Date: 2026-02-28 T21:28:00+05:30
+# V 1.0.0
+# Module: Website Section Seeder Stability
+# Type: Fix
+# Summary:
+Hardened website section synchronization to avoid display-order uniqueness crashes by rebuilding section sets when stored section shape/order is inconsistent (duplicate displayOrder, count mismatch, out-of-range order, or section-type mismatch), while preserving idempotent seeded output.
+Files Changed: cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, Assist/ProjectLog.md
+- Database Impact: No schema change (data-only normalization through existing seeder execution)
+- API Impact: No
+- Breaking Change: No

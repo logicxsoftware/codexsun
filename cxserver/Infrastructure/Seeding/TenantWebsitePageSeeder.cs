@@ -124,47 +124,50 @@ internal sealed class TenantWebsitePageSeeder
 
     private static void SyncSections(Page page, IReadOnlyList<SectionSeedDefinition> definitions, DateTimeOffset now)
     {
+        var activeSections = page.Sections
+            .Where(x => !x.IsDeleted)
+            .OrderBy(x => x.DisplayOrder)
+            .ThenBy(x => x.CreatedAtUtc)
+            .ToList();
+
+        var hasDuplicateDisplayOrders = activeSections
+            .GroupBy(x => x.DisplayOrder)
+            .Any(group => group.Count() > 1);
+
+        var hasShapeMismatch =
+            activeSections.Count != definitions.Count ||
+            activeSections.Any(x => x.DisplayOrder < 0 || x.DisplayOrder >= definitions.Count) ||
+            activeSections.Any(x => definitions[x.DisplayOrder].SectionType != x.SectionType);
+
+        if (hasDuplicateDisplayOrders || hasShapeMismatch)
+        {
+            foreach (var staleSection in activeSections
+                         .OrderByDescending(x => x.DisplayOrder)
+                         .ThenByDescending(x => x.CreatedAtUtc))
+            {
+                page.RemoveSection(staleSection.Id, now);
+            }
+
+            for (var i = 0; i < definitions.Count; i++)
+            {
+                var definition = definitions[i];
+                page.AddSection(
+                    Guid.NewGuid(),
+                    definition.SectionType,
+                    i,
+                    JsonDocument.Parse(definition.SectionDataJson),
+                    true,
+                    now);
+            }
+
+            return;
+        }
+
         for (var i = 0; i < definitions.Count; i++)
         {
             var definition = definitions[i];
-            var existing = page.Sections.FirstOrDefault(x => !x.IsDeleted && x.DisplayOrder == i);
-
-            if (existing is null)
-            {
-                page.AddSection(
-                    Guid.NewGuid(),
-                    definition.SectionType,
-                    i,
-                    JsonDocument.Parse(definition.SectionDataJson),
-                    true,
-                    now);
-                continue;
-            }
-
-            if (existing.SectionType != definition.SectionType)
-            {
-                page.RemoveSection(existing.Id, now);
-                page.AddSection(
-                    Guid.NewGuid(),
-                    definition.SectionType,
-                    i,
-                    JsonDocument.Parse(definition.SectionDataJson),
-                    true,
-                    now);
-                continue;
-            }
-
+            var existing = activeSections[i];
             page.UpdateSection(existing.Id, i, JsonDocument.Parse(definition.SectionDataJson), true, now);
-        }
-
-        var staleSectionIds = page.Sections
-            .Where(x => !x.IsDeleted && x.DisplayOrder >= definitions.Count)
-            .Select(x => x.Id)
-            .ToList();
-
-        foreach (var staleSectionId in staleSectionIds)
-        {
-            page.RemoveSection(staleSectionId, now);
         }
     }
 
