@@ -367,3 +367,74 @@ Files Changed: Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md
 - Database Impact: No schema change
 - API Impact: No contract change
 - Breaking Change: No
+
+# ProjectLog #: 39
+# Date: 2026-02-28 T23:20:00+05:30
+# V 1.0.0
+# Module: Home Features Section
+# Type: Enhancement
+# Summary:
+Added token-aligned Home Features section rendering after BrandSlider with FadeUpStagger animation, dynamic tenant-driven content mapping, and lazy-loaded temporary online image; updated tenant website seeding with idempotent ordered features payload; and expanded `/api/home-data` to include `features` with fallback-safe response handling.
+Files Changed: cxweb/src/features/web/components/FeaturesSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxserver/Endpoints/WebContentEndpoints.cs, Assist/API.md, Assist/STRUCTURE.md, Assist/ProjectLog.md
+- Database Impact: No schema change (features persisted in existing section JSON payload)
+- API Impact: Yes (`GET /api/home-data` now includes `features`)
+- Breaking Change: No
+
+# ProjectLog #: 40
+# Date: 2026-02-28 T23:55:00+05:30
+# V 1.0.0
+# Module: Home Location Section
+# Type: Enhancement
+# Summary:
+Added token-aligned Home Location section after CallToAction with FadeUp animation, responsive map overlay behavior, and lazy-loaded media; introduced `Location` section type support in backend/frontend section registries and validators; updated tenant home seeding with idempotent location payload (address, timings, contact, map metadata, and temporary online image); and expanded `/api/home-data` with additive `callToAction` and `location` fallback-safe blocks.
+Files Changed: cxweb/src/features/web/components/LocationSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Domain/WebEngine/SectionType.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Endpoints/WebContentEndpoints.cs, Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md
+- Database Impact: No schema change (location persisted in existing tenant-scoped section JSON payload)
+- API Impact: Yes (`GET /api/home-data` now includes `callToAction` and `location`)
+- Breaking Change: No
+
+# ProjectLog #: 41
+# Date: 2026-02-28 T23:59:00+05:30
+# V 1.0.0
+# Module: Home Newsletter Refactor
+# Type: Refactor
+# Summary:
+Refactored newsletter rendering to a dedicated token-aligned component with FadeUp animation, removed inline/legacy color-oriented field dependence, updated newsletter section payload shape to content-only fields, added home newsletter section after location in idempotent tenant seeding, and expanded `/api/home-data` with fallback-safe `newsletter` block.
+Files Changed: cxweb/src/features/web/components/NewsletterSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Endpoints/WebContentEndpoints.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md
+- Database Impact: No schema change (newsletter persisted in existing tenant-scoped section JSON payload)
+- API Impact: Yes (`GET /api/home-data` now includes `newsletter`)
+- Breaking Change: No
+
+# ProjectLog #: 42
+# Date: 2026-03-01 T00:10:00+05:30
+# V 1.0.0
+# Module: Home Section Alignment Guard
+# Type: Refactor
+# Summary:
+Enforced strict Home page rendering whitelist so only the approved section lineup (Hero, About, Stats, Catalog, WhyChooseUs, BrandSlider, Features, CallToAction, Location, Newsletter, Footer) is rendered from backend section data, preventing unintended extra section/card rendering on Home while preserving dynamic ordering and tenant-scoped data flow.
+Files Changed: cxweb/src/features/web/pages/WebPage.tsx, Assist/ProjectLog.md
+- Database Impact: No schema change
+- API Impact: No contract change
+- Breaking Change: No
+
+# ProjectLog #: 43
+# Date: 2026-03-01 T00:22:00+05:30
+# V 1.0.0
+# Module: Home CallToAction Section
+# Type: Refactor
+# Summary:
+Refactored Home CallToAction to a dedicated full-width token-aligned component and switched rendering from inline card to section-based layout. Expanded CallToAction payload to content-first fields (`title`, `description`, `buttonText`, `buttonHref`) while keeping legacy `label`/`href` compatibility, updated fallback payloads and validators, and seeded backend CallToAction content for home/contact with idempotent section synchronization.
+Files Changed: cxweb/src/features/web/components/CallToActionSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Endpoints/WebContentEndpoints.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, Assist/API.md, Assist/STRUCTURE.md, Assist/ProjectLog.md
+- Database Impact: No schema change (CallToAction remains in tenant-scoped section JSON payload)
+- API Impact: Yes (CallToAction response shape now includes content-first fields; legacy fields retained)
+- Breaking Change: No
+
+# ProjectLog #: 44
+# Date: 2026-02-28
+# Module: Home Newsletter Section
+# Type: Fix
+# Summary:
+Updated newsletter input borders to black and switched the subscribe button to a bright red Tailwind variant (`bg-red-600` / `hover:bg-red-700`) while keeping existing layout, animation, and data binding intact.
+Files Changed: cxweb/src/features/web/components/NewsletterSection.tsx, Assist/ProjectLog.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
