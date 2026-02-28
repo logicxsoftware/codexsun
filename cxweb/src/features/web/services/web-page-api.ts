@@ -5,6 +5,7 @@ export const SectionType = {
   Slider: 2,
   Hero: 3,
   About: 15,
+  Catalog: 16,
   Features: 4,
   Gallery: 5,
   ProductRange: 6,
@@ -32,9 +33,42 @@ export type AboutSectionData = {
 export type FeaturesSectionData = { items: Array<{ title: string; description: string }> }
 export type GallerySectionData = { images: Array<{ url: string; alt?: string }> }
 export type ProductRangeSectionData = { products: Array<{ name: string; description?: string }> }
-export type WhyChooseUsSectionData = { items: Array<{ title: string; description: string }> }
-export type StatsSectionData = { items: Array<{ label: string; value: string }> }
-export type BrandSliderSectionData = { brands: Array<{ name: string; logoUrl?: string }> }
+export type WhyChooseUsSectionData = {
+  heading?: string
+  subheading?: string
+  items: Array<{ title: string; description: string; icon?: string; order?: number }>
+}
+export type StatsItem = { label: string; value: string | number; suffix?: string; order?: number }
+export type CatalogBadgeVariant = "emerald" | "amber" | "blue" | "purple" | "rose" | "cyan" | "indigo" | "teal" | "black"
+export type StatsSectionData = {
+  backgroundToken?: string
+  borderToken?: string
+  stats?: StatsItem[]
+  items?: StatsItem[]
+}
+export type CatalogSectionData = {
+  heading: string
+  subheading?: string
+  categories: Array<{
+    title: string
+    slug: string
+    description?: string
+    image: string
+    variants?: string[]
+    bulkBadge?: string
+    featuredBadge?: string
+    badgeVariant?: CatalogBadgeVariant
+    featuredBadgeVariant?: CatalogBadgeVariant
+    order?: number
+  }>
+}
+export type BrandSliderSectionData = {
+  heading?: string
+  pauseOnHover?: boolean
+  animationDuration?: number
+  logos?: Array<{ name: string; logo: string; order?: number }>
+  brands?: Array<{ name: string; logo?: string; logoUrl?: string; order?: number }>
+}
 export type BlogShowSectionData = { limit: number; title?: string }
 export type TestimonialSectionData = { items: Array<{ author: string; quote: string }> }
 export type CallToActionSectionData = { title: string; label?: string; href?: string }
@@ -46,6 +80,7 @@ export type SectionDataMap = {
   [SectionType.Slider]: SliderSectionData
   [SectionType.Hero]: HeroSectionData
   [SectionType.About]: AboutSectionData
+  [SectionType.Catalog]: CatalogSectionData
   [SectionType.Features]: FeaturesSectionData
   [SectionType.Gallery]: GallerySectionData
   [SectionType.ProductRange]: ProductRangeSectionData

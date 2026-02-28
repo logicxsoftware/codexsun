@@ -11,7 +11,7 @@ import type {
 } from "@/features/web-navigation/types/navigation-types"
 
 export const defaultHeaderLayout: HeaderLayoutConfig = {
-  variant: "container",
+  variant: "full",
   zoneOrder: ["left", "center", "right"],
   menuAlign: "center",
   logoPosition: "left",
@@ -147,7 +147,7 @@ const asStringArray = (value: unknown, fallback: string[]): string[] =>
 export const parseHeaderLayout = (dto: NavigationConfigDto | null): HeaderLayoutConfig => {
   const config = asRecord(dto?.layoutConfig)
   return {
-    variant: config.variant === "full" ? "full" : "container",
+    variant: config.variant === "container" ? "container" : "full",
     zoneOrder: asStringArray(config.zoneOrder, defaultHeaderLayout.zoneOrder).filter(
       (zone): zone is "left" | "center" | "right" => zone === "left" || zone === "center" || zone === "right",
     ),

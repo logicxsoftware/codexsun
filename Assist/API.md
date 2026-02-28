@@ -16,11 +16,15 @@
 - Response includes:
   - `hero` (home hero section data)
   - `about` (home about section data)
+  - `stats` (home stats section data)
+  - `catalog` (home catalog section data)
+  - `whyChooseUs` (home why-choose-us section data)
+  - `brandSlider` (home brand slider section data)
   - `slider`
   - `navigation`
   - `footer`
   - `menus`
-- `hero` and `about` are derived from published `home` page sections and include safe fallback objects when missing.
+- `hero`, `about`, `stats`, `catalog`, `whyChooseUs`, and `brandSlider` are derived from published `home` page sections and include safe fallback objects when missing.
 
 ## Contract Rules
 - No silent breaking contract changes.

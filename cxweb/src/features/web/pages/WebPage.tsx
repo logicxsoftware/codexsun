@@ -24,6 +24,13 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
 
   const orderedSections = useMemo(() => (data ? [...data.sections].sort((a, b) => a.displayOrder - b.displayOrder) : []), [data])
   const visibleSections = useMemo(() => orderedSections.filter((section) => section.sectionType !== SectionType.Menu), [orderedSections])
+  const isFullWidthSection = (sectionType: SectionType): boolean =>
+    sectionType === SectionType.Hero ||
+    sectionType === SectionType.About ||
+    sectionType === SectionType.Stats ||
+    sectionType === SectionType.Catalog ||
+    sectionType === SectionType.WhyChooseUs ||
+    sectionType === SectionType.BrandSlider
 
   useEffect(() => {
     let isMounted = true
@@ -99,13 +106,17 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
           </Suspense>
         </SliderProvider>
       ) : null}
-      <PageContainer className="py-12 md:py-16">
-        <div className="grid gap-6">
-          {visibleSections.map((section) => (
+      <div className="grid gap-0 py-12 md:py-16">
+        {visibleSections.map((section) =>
+          isFullWidthSection(section.sectionType) ? (
             <SectionRenderer key={section.id} section={section} />
-          ))}
-        </div>
-      </PageContainer>
+          ) : (
+            <PageContainer key={section.id}>
+              <SectionRenderer section={section} />
+            </PageContainer>
+          ),
+        )}
+      </div>
     </>
   )
 }

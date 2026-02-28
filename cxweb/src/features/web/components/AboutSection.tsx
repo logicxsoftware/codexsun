@@ -13,10 +13,10 @@ function AboutSection({ data }: AboutSectionProps) {
   const safeImageAlt = data.image.alt?.trim() || "Team delivering IT support and services"
 
   return (
-    <section className="w-full bg-muted">
-      <div className="mx-auto max-w-7xl px-5 py-12 md:py-16">
-        <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12">
-          <FadeUp>
+    <section className="w-full bg-muted/70">
+      <div className="mx-auto w-full max-w-7xl px-5 py-12 md:py-16">
+        <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-14">
+          <FadeUp delay={0.2}>
             <div className="text-center md:text-left">
               <h2 className="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">{safeTitle}</h2>
               <p className="mt-4 text-xl font-medium text-muted-foreground">{safeSubtitle}</p>
@@ -30,15 +30,15 @@ function AboutSection({ data }: AboutSectionProps) {
             </div>
           </FadeUp>
 
-          <FadeUp delay={0.2}>
-            <div className="relative overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-border">
+          <FadeUp delay={0.3}>
+            <div className="relative mx-auto w-full max-w-xl overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-border md:mx-0 md:justify-self-end lg:max-w-2xl">
               <img
                 src={safeImageSrc}
                 alt={safeImageAlt}
-                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                className="aspect-video h-auto w-full object-cover transition-transform duration-500 hover:scale-105"
                 loading="lazy"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-background/10 to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/60 via-background/10 to-transparent" />
             </div>
           </FadeUp>
         </div>

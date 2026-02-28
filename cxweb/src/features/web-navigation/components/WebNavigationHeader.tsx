@@ -83,7 +83,7 @@ function WebNavigationHeader() {
       foregroundClassName={foregroundClass}
       borderClassName={borderClass}
     >
-      <NavContainer variant={resolved.headerLayout.variant === "full" ? "full" : "container"}>
+      <NavContainer variant="full">
         <div className="grid min-h-16 grid-cols-3 items-center gap-2 py-2">
           {(["left", "center", "right"] as const).map((zone) => (
             <NavZone

@@ -307,3 +307,51 @@ Files Changed: cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, Assis
 - Database Impact: No schema change (data-only normalization through existing seeder execution)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 34
+# Date: 2026-02-28 T23:35:00+05:30
+# V 1.0.0
+# Module: Home Catalog Section
+# Type: Enhancement
+# Summary:
+Added tenant-driven Home Catalog section support after Stats using the existing section JSON engine, introduced token-aligned Catalog frontend rendering, expanded `/api/home-data` to include `stats` and `catalog` with safe fallbacks, and updated website seeding with idempotent catalog category data using temporary online image URLs.
+Files Changed: cxweb/src/features/web/components/CatalogSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Domain/WebEngine/SectionType.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Endpoints/WebContentEndpoints.cs, Assist/API.md, Assist/ProjectLog.md
+- Database Impact: No schema change (catalog persisted in existing section JSON payloads)
+- API Impact: Yes (`GET /api/home-data` now includes `stats` and `catalog`)
+- Breaking Change: No
+
+# ProjectLog #: 35
+# Date: 2026-02-28 T23:55:00+05:30
+# V 1.0.0
+# Module: Home WhyChooseUs Section
+# Type: Enhancement
+# Summary:
+Added token-aligned WhyChooseUs section after Catalog on Home with FadeUp animation, type-safe icon mapping and BadgeCheck fallback, seeded idempotent tenant-specific WhyChooseUs content with deterministic order, and expanded `/api/home-data` to include `whyChooseUs` with safe fallback payload.
+Files Changed: cxweb/src/features/web/components/WhyChooseUsSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Endpoints/WebContentEndpoints.cs, Assist/API.md, Assist/ProjectLog.md
+- Database Impact: No schema change (why-choose-us persisted in existing section JSON payload)
+- API Impact: Yes (`GET /api/home-data` now includes `whyChooseUs`)
+- Breaking Change: No
+
+# ProjectLog #: 36
+# Date: 2026-03-01 T00:18:00+05:30
+# V 1.0.0
+# Module: Home BrandSlider Section
+# Type: Enhancement
+# Summary:
+Added token-aligned Home BrandSlider section after WhyChooseUs using `components/ui/marquee` with hover-pause and smooth infinite logo scrolling, seeded idempotent tenant-scoped brand slider data with web logo URLs and stable order, and expanded `/api/home-data` to include `brandSlider` with fallback payload.
+Files Changed: cxweb/src/features/web/components/BrandSliderSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxserver/Endpoints/WebContentEndpoints.cs, Assist/API.md, Assist/ProjectLog.md
+- Database Impact: No schema change (brand slider persisted in existing section JSON payload)
+- API Impact: Yes (`GET /api/home-data` now includes `brandSlider`)
+- Breaking Change: No
+
+# ProjectLog #: 37
+# Date: 2026-03-01 T00:35:00+05:30
+# V 1.0.0
+# Module: Home Sections Finalization
+# Type: Enhancement
+# Summary:
+Finalized Home page section enhancements with token-aligned Stats, Catalog, WhyChooseUs, and BrandSlider components; completed backend section seeding and home-data aggregation expansion for dynamic tenant-driven rendering; and consolidated frontend integration updates including marquee and animation primitives.
+Files Changed: Assist/API.md, Assist/ProjectLog.md, cxserver/Domain/WebEngine/SectionType.cs, cxserver/Endpoints/WebContentEndpoints.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxweb/src/App.tsx, cxweb/src/components/ui/marquee.tsx, cxweb/src/features/web/components/AboutSection.tsx, cxweb/src/features/web/components/BrandSliderSection.tsx, cxweb/src/features/web/components/CatalogCard.tsx, cxweb/src/features/web/components/CatalogSection.tsx, cxweb/src/features/web/components/Counter.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/components/StatsSection.tsx, cxweb/src/features/web/components/WhyChooseUsSection.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxweb/src/features/web-navigation/components/WebNavigationHeader.tsx, cxweb/src/features/web-navigation/utils/navigation-config.ts
+- Database Impact: No schema change (data-only section JSON updates via idempotent seeders)
+- API Impact: Yes (`GET /api/home-data` includes `stats`, `catalog`, `whyChooseUs`, and `brandSlider`)
+- Breaking Change: No

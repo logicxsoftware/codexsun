@@ -38,13 +38,25 @@ public static class WebContentEndpoints
 
             var heroSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Hero);
             var aboutSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.About);
+            var statsSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Stats);
+            var catalogSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Catalog);
+            var whyChooseUsSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.WhyChooseUs);
+            var brandSliderSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.BrandSlider);
 
             var hero = heroSection?.SectionData;
             var about = aboutSection?.SectionData;
+            var stats = statsSection?.SectionData;
+            var catalog = catalogSection?.SectionData;
+            var whyChooseUs = whyChooseUsSection?.SectionData;
+            var brandSlider = brandSliderSection?.SectionData;
 
             return Results.Ok(new HomeDataResponse(
                 hero.HasValue && hero.Value.ValueKind == JsonValueKind.Object ? hero.Value : BuildDefaultHeroData(),
                 about.HasValue && about.Value.ValueKind == JsonValueKind.Object ? about.Value : BuildDefaultAboutData(),
+                stats.HasValue && stats.Value.ValueKind == JsonValueKind.Object ? stats.Value : BuildDefaultStatsData(),
+                catalog.HasValue && catalog.Value.ValueKind == JsonValueKind.Object ? catalog.Value : BuildDefaultCatalogData(),
+                whyChooseUs.HasValue && whyChooseUs.Value.ValueKind == JsonValueKind.Object ? whyChooseUs.Value : BuildDefaultWhyChooseUsData(),
+                brandSlider.HasValue && brandSlider.Value.ValueKind == JsonValueKind.Object ? brandSlider.Value : BuildDefaultBrandSliderData(),
                 slider,
                 navigation is null ? null : ToNavigationResponse(navigation),
                 footer is null ? null : ToNavigationResponse(footer),
@@ -91,6 +103,30 @@ public static class WebContentEndpoints
         return document.RootElement.Clone();
     }
 
+    private static JsonElement BuildDefaultStatsData()
+    {
+        using var document = JsonDocument.Parse("""{"backgroundToken":"background","borderToken":"border","stats":[]}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultCatalogData()
+    {
+        using var document = JsonDocument.Parse("""{"heading":"","subheading":"","categories":[]}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultWhyChooseUsData()
+    {
+        using var document = JsonDocument.Parse("""{"heading":"","subheading":"","items":[]}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultBrandSliderData()
+    {
+        using var document = JsonDocument.Parse("""{"heading":"","pauseOnHover":true,"animationDuration":40,"logos":[]}""");
+        return document.RootElement.Clone();
+    }
+
     public sealed record NavigationConfigResponse(
         Guid Id,
         Guid? TenantId,
@@ -106,6 +142,10 @@ public static class WebContentEndpoints
     public sealed record HomeDataResponse(
         JsonElement Hero,
         JsonElement About,
+        JsonElement Stats,
+        JsonElement Catalog,
+        JsonElement WhyChooseUs,
+        JsonElement BrandSlider,
         SliderConfigDto Slider,
         NavigationConfigResponse? Navigation,
         NavigationConfigResponse? Footer,

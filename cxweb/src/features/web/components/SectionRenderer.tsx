@@ -6,11 +6,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import AboutSection from "@/features/web/components/AboutSection"
+import BrandSliderSection from "@/features/web/components/BrandSliderSection"
+import CatalogSection from "@/features/web/components/CatalogSection"
+import StatsSection from "@/features/web/components/StatsSection"
+import WhyChooseUsSection from "@/features/web/components/WhyChooseUsSection"
 import { SectionType as SectionTypeValues } from "@/features/web/services/web-page-api"
 import type {
   AboutSectionData,
   BlogShowSectionData,
   BrandSliderSectionData,
+  CatalogSectionData,
   CallToActionSectionData,
   FeaturesSectionData,
   FooterSectionData,
@@ -65,10 +70,10 @@ const HeroSection = ({ data }: SectionProps<HeroSectionData>) => {
     <section className="w-full">
       <div className="mx-auto max-w-5xl px-5 text-center">
         <FadeUp>
-          <h1 className="mb-6 break-words text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">{safeTitle}</h1>
+          <h1 className="mb-6 wrap-break-word text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">{safeTitle}</h1>
         </FadeUp>
         <FadeUp delay={0.1}>
-          <p className="mb-8 break-words text-lg leading-relaxed text-muted-foreground md:text-xl">{safeSubtitle}</p>
+          <p className="mb-8 wrap-break-word text-lg leading-relaxed text-muted-foreground md:text-xl">{safeSubtitle}</p>
         </FadeUp>
         <FadeUp delay={0.15}>
           <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-primary" />
@@ -79,6 +84,7 @@ const HeroSection = ({ data }: SectionProps<HeroSectionData>) => {
 }
 
 const AboutSectionRenderer = ({ data }: SectionProps<AboutSectionData>) => <AboutSection data={data} />
+const CatalogSectionRenderer = ({ data }: SectionProps<CatalogSectionData>) => <CatalogSection data={data} />
 
 const FeaturesSection = ({ data }: SectionProps<FeaturesSectionData>) => (
   <div className="grid gap-4 md:grid-cols-2">
@@ -116,41 +122,11 @@ const ProductRangeSection = ({ data }: SectionProps<ProductRangeSectionData>) =>
   </div>
 )
 
-const WhyChooseUsSection = ({ data }: SectionProps<WhyChooseUsSectionData>) => (
-  <div className="grid gap-4 md:grid-cols-3">
-    {data.items.map((item) => (
-      <Card key={item.title} className="border-border/80 bg-card/95">
-        <CardHeader>
-          <CardTitle>{item.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="text-muted-foreground">{item.description}</CardContent>
-      </Card>
-    ))}
-  </div>
-)
+const WhyChooseUsSectionRenderer = ({ data }: SectionProps<WhyChooseUsSectionData>) => <WhyChooseUsSection data={data} />
 
-const StatsSection = ({ data }: SectionProps<StatsSectionData>) => (
-  <div className="grid gap-4 md:grid-cols-4">
-    {data.items.map((item) => (
-      <Card key={item.label} className="border-border/80 bg-card/95">
-        <CardHeader>
-          <CardTitle className="text-chart-2">{item.value}</CardTitle>
-        </CardHeader>
-        <CardContent className="text-muted-foreground">{item.label}</CardContent>
-      </Card>
-    ))}
-  </div>
-)
+const StatsSectionRenderer = ({ data }: SectionProps<StatsSectionData>) => <StatsSection data={data} />
 
-const BrandSliderSection = ({ data }: SectionProps<BrandSliderSectionData>) => (
-  <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-    {data.brands.map((brand) => (
-      <Card key={brand.name} className="border-border/80 bg-card/95">
-        <CardContent className="py-6 text-center text-sm font-medium text-foreground">{brand.name}</CardContent>
-      </Card>
-    ))}
-  </div>
-)
+const BrandSliderSectionRenderer = ({ data }: SectionProps<BrandSliderSectionData>) => <BrandSliderSection data={data} />
 
 const BlogShowSection = ({ data }: SectionProps<BlogShowSectionData>) => (
   <Card className="border-border/80 bg-card/95">
@@ -234,12 +210,13 @@ const sectionRenderers: SectionRendererMap = {
   [SectionTypeValues.Slider]: SliderSection,
   [SectionTypeValues.Hero]: HeroSection,
   [SectionTypeValues.About]: AboutSectionRenderer,
+  [SectionTypeValues.Catalog]: CatalogSectionRenderer,
   [SectionTypeValues.Features]: FeaturesSection,
   [SectionTypeValues.Gallery]: GallerySection,
   [SectionTypeValues.ProductRange]: ProductRangeSection,
-  [SectionTypeValues.WhyChooseUs]: WhyChooseUsSection,
-  [SectionTypeValues.Stats]: StatsSection,
-  [SectionTypeValues.BrandSlider]: BrandSliderSection,
+  [SectionTypeValues.WhyChooseUs]: WhyChooseUsSectionRenderer,
+  [SectionTypeValues.Stats]: StatsSectionRenderer,
+  [SectionTypeValues.BrandSlider]: BrandSliderSectionRenderer,
   [SectionTypeValues.BlogShow]: BlogShowSection,
   [SectionTypeValues.Testimonial]: TestimonialSection,
   [SectionTypeValues.CallToAction]: CallToActionSection,
