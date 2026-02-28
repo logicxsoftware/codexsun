@@ -60,6 +60,34 @@
   - `201 Created` with `{ id, createdAtUtc }` for the stored message.
 - Contact submission validation is enforced in the application layer and persisted per tenant.
 
+## Product Catalog Endpoint
+- `GET /api/products` returns tenant-scoped PLP data with backend filtering, sorting, and pagination.
+- Query parameters:
+  - `category` (slug)
+  - `minPrice`, `maxPrice`
+  - `search`
+  - `sort` (`latest|price_asc|price_desc|name_asc|name_desc`)
+  - `page`, `pageSize`
+  - dynamic attributes via `attr_<key>=<value>` (repeatable query params)
+- Response shape:
+  - `data` (paginated product list projection)
+  - `pagination` (`page`, `pageSize`, `totalItems`, `totalPages`, `hasPrevious`, `hasNext`)
+  - `filters` (`categories`, dynamic `attributes`, `priceRange`)
+- Tenant enforcement:
+  - Product queries are always scoped by backend tenant context (`tenant_id`) and `is_active`.
+- `GET /api/products/{slug}` returns tenant-scoped product detail payload for PDP.
+- PDP response includes:
+  - `product` object:
+    - `id`, `name`, `slug`
+    - `description`, `shortDescription`
+    - `price`, `comparePrice`
+    - `inStock`
+    - `categoryName`, `categorySlug`
+    - `images` (ordered image URLs)
+    - `specifications` (key/value dictionary)
+    - `sku`
+  - `relatedProducts` (same-category tenant-scoped subset, excludes current product, newest first, limited)
+
 ## Contract Rules
 - No silent breaking contract changes.
 - Status codes and payload structure must remain stable per endpoint.

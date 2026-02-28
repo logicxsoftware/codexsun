@@ -65,14 +65,14 @@ export const defaultHeaderComponent: HeaderComponentConfig = {
 export const defaultFooterLayout: FooterLayoutConfig = {
   variant: "container",
   columns: 4,
-  sectionOrder: ["about", "links", "legal", "social", "businessHours", "newsletter", "payments", "bottom"],
+  sectionOrder: ["about", "links", "legal", "social", "bottom"],
 }
 
 export const defaultFooterStyle: FooterStyleConfig = {
-  backgroundToken: "footer-bg",
+  backgroundToken: "black",
   textToken: "footer-foreground",
-  linkToken: "link",
-  linkHoverToken: "link-hover",
+  linkToken: "footer-foreground",
+  linkHoverToken: "footer-foreground",
   borderTop: true,
   spacing: "normal",
   columnGap: "normal",

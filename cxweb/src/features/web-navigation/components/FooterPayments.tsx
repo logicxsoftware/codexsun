@@ -10,10 +10,10 @@ function FooterPayments({ enabled, providers }: FooterPaymentsProps) {
 
   return (
     <section className="space-y-2">
-      <h3 className="text-sm font-semibold text-foreground">Payments</h3>
+      <h3 className="text-sm font-semibold text-footer-foreground">Payments</h3>
       <div className="flex flex-wrap gap-2">
         {providers.map((provider) => (
-          <span key={provider} className="inline-flex rounded-md border border-border bg-card px-2 py-1 text-xs text-muted-foreground">
+          <span key={provider} className="inline-flex rounded-md border border-border bg-footer-bg px-2 py-1 text-xs text-muted-foreground">
             {provider}
           </span>
         ))}

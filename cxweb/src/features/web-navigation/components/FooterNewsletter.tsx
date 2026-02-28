@@ -24,10 +24,10 @@ function FooterNewsletter({ enabled, title, description }: FooterNewsletterProps
 
   return (
     <section className="space-y-2">
-      <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+      <h3 className="text-sm font-semibold text-footer-foreground">{title}</h3>
       <p className="text-sm text-muted-foreground">{description}</p>
       <form className="flex gap-2" onSubmit={handleSubmit}>
-        <Input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Email address" className="h-9 bg-background" required />
+        <Input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Email address" className="h-9 bg-footer-bg" required />
         <Button type="submit" className="h-9 bg-cta-bg text-cta-foreground hover:bg-cta-bg/90">
           Join
         </Button>

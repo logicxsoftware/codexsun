@@ -66,21 +66,22 @@ internal sealed class TenantMenuSeeder
         var menu = EnsureMenu(group, "Primary", "primary", MenuVariant.Custom, true, 0, now);
 
         var home = EnsureMenuItem(menu, null, "Home", "home", "/", 0, null, now);
-        var products = EnsureMenuItem(menu, null, "Products", "products", "/products", 1, "mega", now);
+        var shop = EnsureMenuItem(menu, null, "Shop", "shop", "/products", 1, null, now);
         var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions", "/solutions", 2, "dropdown", now);
         var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing", "/pricing", 3, null, now);
         var resources = EnsureMenuItem(menu, null, "Resources", "resources", "/resources", 4, "dropdown", now);
         var company = EnsureMenuItem(menu, null, "Company", "company", "/company", 5, "dropdown", now);
         var login = EnsureMenuItem(menu, null, "Login", "login", "/login", 6, "auth", now);
         _ = home;
+        _ = shop;
         _ = pricing;
+        RemoveMenuItemBySlug(menu, "products", now);
         RemoveMenuItemBySlug(menu, "get-started", now);
-
-        EnsureMenuItem(menu, products.Id, "Codexsun CRM", "codexsun-crm", "/products/crm", 0, null, now);
-        EnsureMenuItem(menu, products.Id, "Codexsun ERP", "codexsun-erp", "/products/erp", 1, null, now);
-        EnsureMenuItem(menu, products.Id, "Codexsun HRMS", "codexsun-hrms", "/products/hrms", 2, null, now);
-        EnsureMenuItem(menu, products.Id, "Codexsun POS", "codexsun-pos", "/products/pos", 3, null, now);
-        EnsureMenuItem(menu, products.Id, "Custom SaaS Development", "custom-saas-development", "/products/custom-saas", 4, null, now);
+        RemoveMenuItemBySlug(menu, "codexsun-crm", now);
+        RemoveMenuItemBySlug(menu, "codexsun-erp", now);
+        RemoveMenuItemBySlug(menu, "codexsun-hrms", now);
+        RemoveMenuItemBySlug(menu, "codexsun-pos", now);
+        RemoveMenuItemBySlug(menu, "custom-saas-development", now);
 
         EnsureMenuItem(menu, solutions.Id, "Small Business", "small-business", "/solutions/small-business", 0, null, now);
         EnsureMenuItem(menu, solutions.Id, "Enterprise", "enterprise", "/solutions/enterprise", 1, null, now);
@@ -104,21 +105,22 @@ internal sealed class TenantMenuSeeder
         var menu = EnsureMenu(group, "Mobile Primary", "mobile-primary", MenuVariant.Custom, false, 0, now);
 
         var home = EnsureMenuItem(menu, null, "Home", "home-mobile", "/", 0, null, now);
-        var products = EnsureMenuItem(menu, null, "Products", "products-mobile", "/products", 1, "mega", now);
+        var shop = EnsureMenuItem(menu, null, "Shop", "shop-mobile", "/products", 1, null, now);
         var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions-mobile", "/solutions", 2, "dropdown", now);
         var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing-mobile", "/pricing", 3, null, now);
         var resources = EnsureMenuItem(menu, null, "Resources", "resources-mobile", "/resources", 4, "dropdown", now);
         var company = EnsureMenuItem(menu, null, "Company", "company-mobile", "/company", 5, "dropdown", now);
         var login = EnsureMenuItem(menu, null, "Login", "login-mobile", "/login", 6, "auth", now);
         _ = home;
+        _ = shop;
         _ = pricing;
+        RemoveMenuItemBySlug(menu, "products-mobile", now);
         RemoveMenuItemBySlug(menu, "get-started-mobile", now);
-
-        EnsureMenuItem(menu, products.Id, "Codexsun CRM", "codexsun-crm-mobile", "/products/crm", 0, null, now);
-        EnsureMenuItem(menu, products.Id, "Codexsun ERP", "codexsun-erp-mobile", "/products/erp", 1, null, now);
-        EnsureMenuItem(menu, products.Id, "Codexsun HRMS", "codexsun-hrms-mobile", "/products/hrms", 2, null, now);
-        EnsureMenuItem(menu, products.Id, "Codexsun POS", "codexsun-pos-mobile", "/products/pos", 3, null, now);
-        EnsureMenuItem(menu, products.Id, "Custom SaaS Development", "custom-saas-development-mobile", "/products/custom-saas", 4, null, now);
+        RemoveMenuItemBySlug(menu, "codexsun-crm-mobile", now);
+        RemoveMenuItemBySlug(menu, "codexsun-erp-mobile", now);
+        RemoveMenuItemBySlug(menu, "codexsun-hrms-mobile", now);
+        RemoveMenuItemBySlug(menu, "codexsun-pos-mobile", now);
+        RemoveMenuItemBySlug(menu, "custom-saas-development-mobile", now);
 
         EnsureMenuItem(menu, solutions.Id, "Small Business", "small-business-mobile", "/solutions/small-business", 0, null, now);
         EnsureMenuItem(menu, solutions.Id, "Enterprise", "enterprise-mobile", "/solutions/enterprise", 1, null, now);

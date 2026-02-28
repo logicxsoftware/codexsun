@@ -3,6 +3,8 @@ const backgroundClassMap: Record<string, string> = {
   card: "bg-card",
   "header-bg": "bg-header-bg",
   "footer-bg": "bg-footer-bg",
+  black: "bg-black",
+  "black-80": "bg-black/80",
   muted: "bg-muted",
   secondary: "bg-secondary",
   primary: "bg-primary",

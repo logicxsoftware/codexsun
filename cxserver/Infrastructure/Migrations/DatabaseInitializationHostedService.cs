@@ -31,7 +31,7 @@ internal sealed class DatabaseInitializationHostedService : IHostedService
 
         foreach (var tenant in activeTenants)
         {
-            await tenantDatabaseSeeder.SeedDefaultConfigurationAsync(tenant.ConnectionString, cancellationToken);
+            await tenantDatabaseSeeder.SeedDefaultConfigurationAsync(tenant, cancellationToken);
         }
     }
 

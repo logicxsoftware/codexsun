@@ -6,6 +6,7 @@ using cxserver.Infrastructure.Migrations;
 using cxserver.Infrastructure.Onboarding;
 using cxserver.Infrastructure.Options;
 using cxserver.Infrastructure.Persistence;
+using cxserver.Infrastructure.ProductCatalog;
 using cxserver.Infrastructure.Seeding;
 using cxserver.Infrastructure.Tenancy;
 using cxserver.Infrastructure.Time;
@@ -60,6 +61,7 @@ public static class DependencyInjection
         services.AddScoped<IWebsiteNavigationStore, WebsiteNavigationStore>();
         services.AddScoped<ISliderStore, SliderStore>();
         services.AddScoped<IContactMessageStore, ContactMessageStore>();
+        services.AddScoped<IProductCatalogQueryService, ProductCatalogQueryService>();
         services.AddScoped<ISectionDataValidator, SectionDataValidator>();
         services.AddScoped<IUnitOfWork, TenantUnitOfWork>();
 
@@ -76,6 +78,7 @@ public static class DependencyInjection
         services.AddScoped<TenantMenuSeeder>();
         services.AddScoped<TenantNavigationSeeder>();
         services.AddScoped<TenantSliderSeeder>();
+        services.AddScoped<TenantProductCatalogSeeder>();
 
         services.AddScoped<ITenantDatabaseMigrationService, TenantDatabaseMigrationService>();
 

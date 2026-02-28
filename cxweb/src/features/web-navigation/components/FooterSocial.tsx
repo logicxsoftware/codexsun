@@ -14,10 +14,10 @@ function FooterSocial({ enabled, items }: FooterSocialProps) {
 
   return (
     <section className="space-y-2">
-      <h3 className="text-sm font-semibold text-foreground">Social</h3>
+      <h3 className="text-sm font-semibold text-footer-foreground">Social</h3>
       <div className="grid gap-1">
         {items.map((item) => (
-          <a key={`${item.label}-${item.url}`} href={item.url} target={item.target} rel={item.target === "_blank" ? "noreferrer" : undefined} className="inline-flex items-center gap-2 text-sm text-link hover:text-link-hover">
+          <a key={`${item.label}-${item.url}`} href={item.url} target={item.target} rel={item.target === "_blank" ? "noreferrer" : undefined} className="inline-flex items-center gap-2 text-sm text-footer-foreground hover:text-footer-foreground/80">
             <Globe className="h-3.5 w-3.5" />
             {item.label}
           </a>

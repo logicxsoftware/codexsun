@@ -482,3 +482,80 @@ Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/Pr
 - Database Impact: Yes (new tenant table `contact_messages`)
 - API Impact: Yes (`GET /api/contact-page`, `POST /api/contact`)
 - Breaking Change: No
+
+# ProjectLog #: 49
+# Date: 2026-02-28
+# Module: Product Catalog (PLP)
+# Type: Feature
+# Summary:
+Implemented a tenant-isolated product listing platform with backend query filtering/sorting/pagination, indexed product schema and idempotent seeding, plus frontend `/products` page with URL-synced filters, debounced search, responsive sidebar/drawer filters, grid/list toggle, and backend-driven pagination metadata rendering.
+Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Domain/ProductCatalog/Category.cs, cxserver/Domain/ProductCatalog/Product.cs, cxserver/Domain/ProductCatalog/ProductAttribute.cs, cxserver/Domain/ProductCatalog/ProductImage.cs, cxserver/Application/Abstractions/IProductCatalogQueryService.cs, cxserver/Infrastructure/ProductCatalog/ProductCatalogQueryService.cs, cxserver/Infrastructure/Persistence/Configurations/CategoryConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/ProductConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/ProductAttributeConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/ProductImageConfiguration.cs, cxserver/Infrastructure/Persistence/TenantDbContext.cs, cxserver/Infrastructure/Migrations/Tenant/20260228195824_AddProductCatalogSchema.cs, cxserver/Infrastructure/Migrations/Tenant/20260228195824_AddProductCatalogSchema.Designer.cs, cxserver/Infrastructure/Migrations/Tenant/TenantDbContextModelSnapshot.cs, cxserver/Infrastructure/Seeding/TenantProductCatalogSeeder.cs, cxserver/Infrastructure/Seeding/TenantDatabaseSeeder.cs, cxserver/Infrastructure/Onboarding/TenantSeederExecutor.cs, cxserver/Infrastructure/DependencyInjection/DependencyInjection.cs, cxserver/Endpoints/ProductCatalogEndpoints.cs, cxserver/Program.cs, cxtest/TestKit/TestEnvironment.cs, cxtest/integration/ProductCatalogTests.cs, cxweb/src/features/web/services/product-catalog-api.ts, cxweb/src/features/web/pages/products/index.tsx, cxweb/src/features/web/pages/products/components/FilterSidebar.tsx, cxweb/src/features/web/pages/products/components/ProductCard.tsx, cxweb/src/features/web/pages/products/components/ProductPagination.tsx, cxweb/src/routes/router.tsx, cxweb/tests/e2e/products.spec.ts
+- Database Impact: Yes (new tenant catalog tables + indexes)
+- API Impact: Yes (`GET /api/products`)
+- Breaking Change: No
+
+# ProjectLog #: 50
+# Date: 2026-02-28
+# Module: Product Catalog (PDP)
+# Type: Feature
+# Summary:
+Implemented tenant-scoped Product Detail Page support by extending the product catalog query service and API with slug-based detail retrieval (images, attributes, related products), adding frontend `/products/:productSlug` page rendering, and covering PDP behavior with backend integration and frontend E2E tests.
+Files Changed: Assist/API.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Application/Abstractions/IProductCatalogQueryService.cs, cxserver/Infrastructure/ProductCatalog/ProductCatalogQueryService.cs, cxserver/Endpoints/ProductCatalogEndpoints.cs, cxweb/src/features/web/services/product-catalog-api.ts, cxweb/src/features/web/pages/products/detail.tsx, cxweb/src/routes/router.tsx, cxtest/integration/ProductCatalogTests.cs, cxweb/tests/e2e/product-detail.spec.ts
+- Database Impact: No
+- API Impact: Yes (`GET /api/products/{slug}`)
+- Breaking Change: No
+
+# ProjectLog #: 51
+# Date: 2026-02-28
+# Module: Product Catalog (PDP Contract Alignment)
+# Type: Refactor
+# Summary:
+Aligned PDP contract and rendering path to `/products/{slug}` semantics by adding `categorySlug` to product detail payload, using category-id based related-product querying, and wiring frontend PDP route/SEO behavior to the updated response model with safer related-card links.
+Files Changed: Assist/API.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Application/Abstractions/IProductCatalogQueryService.cs, cxserver/Infrastructure/ProductCatalog/ProductCatalogQueryService.cs, cxweb/src/features/web/services/product-catalog-api.ts, cxweb/src/features/web/pages/products/detail.tsx, cxweb/src/routes/router.tsx
+- Database Impact: No
+- API Impact: Yes (PDP `product` now includes `categorySlug`)
+- Breaking Change: No
+
+# ProjectLog #: 52
+# Date: 2026-02-28
+# Module: Navigation + Product Catalog Seeding
+# Type: Refactor
+# Summary:
+Updated default tenant header/mobile navigation to add `Shop` immediately after `Home` and route it to `/products`, removed legacy product mega-menu SaaS children, and expanded idempotent catalog seeding to 25 products across `laptops`, `desktops`, and `computer-spares` categories with image and attribute metadata.
+Files Changed: Assist/DATABASE.md, Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs, cxserver/Infrastructure/Seeding/TenantProductCatalogSeeder.cs, cxtest/integration/ProductCatalogTests.cs
+- Database Impact: No schema change (seed data alignment only)
+- API Impact: No contract change
+- Breaking Change: No
+
+# ProjectLog #: 53
+# Date: 2026-02-28
+# Module: Product Catalog Seeding Expansion
+# Type: Refactor
+# Summary:
+Expanded tenant product catalog seed data from 25 to 50 detailed products, added additional seeded categories (`monitors`, `networking`, `printers`), and updated integration validation to assert the new seeded product volume while preserving idempotent and tenant-scoped seeding behavior.
+Files Changed: Assist/DATABASE.md, Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantProductCatalogSeeder.cs, cxtest/integration/ProductCatalogTests.cs
+- Database Impact: No schema change (seed data only)
+- API Impact: No contract change
+- Breaking Change: No
+
+# ProjectLog #: 54
+# Date: 2026-02-28
+# Module: Tenant Initialization Reliability
+# Type: Fix
+# Summary:
+Hardened tenant startup/onboarding seeding by explicitly applying tenant migrations before seed queries execute, preventing runtime failures when tenant databases exist without expected tables (for example `website_pages`).
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantDatabaseSeeder.cs, cxserver/Infrastructure/Onboarding/TenantSeederExecutor.cs
+- Database Impact: No schema change
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 55
+# Date: 2026-02-28
+# Module: Tenant Product Seed Isolation
+# Type: Fix
+# Summary:
+Fixed empty product listing for seeded tenants by removing tenant-id inference from tenant bootstrap JSON during catalog seeding and passing tenant id directly from tenant registry/onboarding context; added bootstrap backfill during default tenant seeding to keep tenant metadata consistent.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Migrations/DatabaseInitializationHostedService.cs, cxserver/Infrastructure/Seeding/TenantDatabaseSeeder.cs, cxserver/Infrastructure/Onboarding/TenantSeederExecutor.cs, cxserver/Infrastructure/Seeding/TenantProductCatalogSeeder.cs
+- Database Impact: No schema change
+- API Impact: No
+- Breaking Change: No

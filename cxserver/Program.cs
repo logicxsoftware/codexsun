@@ -37,6 +37,7 @@ app.MapSliderEndpoints();
 app.MapConfigurationDocumentsEndpoints();
 app.MapTenantContextEndpoints();
 app.MapTenantsEndpoints();
+app.MapProductCatalogEndpoints();
 app.MapDefaultEndpoints();
 app.UseFileServer();
 

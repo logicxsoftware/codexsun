@@ -16,6 +16,7 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
     private readonly TenantMenuSeeder _tenantMenuSeeder;
     private readonly TenantNavigationSeeder _tenantNavigationSeeder;
     private readonly TenantSliderSeeder _tenantSliderSeeder;
+    private readonly TenantProductCatalogSeeder _tenantProductCatalogSeeder;
 
     public TenantSeederExecutor(
         ITenantDbContextFactory tenantDbContextFactory,
@@ -24,7 +25,8 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
         TenantAboutPageSeeder tenantAboutPageSeeder,
         TenantMenuSeeder tenantMenuSeeder,
         TenantNavigationSeeder tenantNavigationSeeder,
-        TenantSliderSeeder tenantSliderSeeder)
+        TenantSliderSeeder tenantSliderSeeder,
+        TenantProductCatalogSeeder tenantProductCatalogSeeder)
     {
         _tenantDbContextFactory = tenantDbContextFactory;
         _dateTimeProvider = dateTimeProvider;
@@ -33,11 +35,13 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
         _tenantMenuSeeder = tenantMenuSeeder;
         _tenantNavigationSeeder = tenantNavigationSeeder;
         _tenantSliderSeeder = tenantSliderSeeder;
+        _tenantProductCatalogSeeder = tenantProductCatalogSeeder;
     }
 
     public async Task ExecuteAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
     {
         await using var dbContext = await _tenantDbContextFactory.CreateAsync(tenant.ConnectionString, cancellationToken);
+        await dbContext.Database.MigrateAsync(cancellationToken);
 
         var exists = await dbContext.ConfigurationDocuments
             .AsTracking()
@@ -55,5 +59,6 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
         await _tenantMenuSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantNavigationSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantSliderSeeder.SeedAsync(dbContext, cancellationToken);
+        await _tenantProductCatalogSeeder.SeedAsync(dbContext, tenant.TenantId, cancellationToken);
     }
 }

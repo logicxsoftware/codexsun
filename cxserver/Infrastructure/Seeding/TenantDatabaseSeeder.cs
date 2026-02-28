@@ -1,4 +1,5 @@
 using System.Text.Json;
+using cxserver.Application.Abstractions;
 using cxserver.Domain.Configuration;
 using cxserver.Infrastructure.Options;
 using cxserver.Infrastructure.Persistence;
@@ -17,6 +18,7 @@ internal sealed class TenantDatabaseSeeder
     private readonly TenantMenuSeeder _tenantMenuSeeder;
     private readonly TenantNavigationSeeder _tenantNavigationSeeder;
     private readonly TenantSliderSeeder _tenantSliderSeeder;
+    private readonly TenantProductCatalogSeeder _tenantProductCatalogSeeder;
 
     public TenantDatabaseSeeder(
         ITenantDbContextFactory tenantDbContextFactory,
@@ -26,7 +28,8 @@ internal sealed class TenantDatabaseSeeder
         TenantAboutPageSeeder tenantAboutPageSeeder,
         TenantMenuSeeder tenantMenuSeeder,
         TenantNavigationSeeder tenantNavigationSeeder,
-        TenantSliderSeeder tenantSliderSeeder)
+        TenantSliderSeeder tenantSliderSeeder,
+        TenantProductCatalogSeeder tenantProductCatalogSeeder)
     {
         _tenantDbContextFactory = tenantDbContextFactory;
         _multiTenancyOptions = multiTenancyOptions;
@@ -36,11 +39,13 @@ internal sealed class TenantDatabaseSeeder
         _tenantMenuSeeder = tenantMenuSeeder;
         _tenantNavigationSeeder = tenantNavigationSeeder;
         _tenantSliderSeeder = tenantSliderSeeder;
+        _tenantProductCatalogSeeder = tenantProductCatalogSeeder;
     }
 
-    public async Task SeedDefaultConfigurationAsync(string connectionString, CancellationToken cancellationToken)
+    public async Task SeedDefaultConfigurationAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
     {
-        await using var dbContext = await _tenantDbContextFactory.CreateAsync(connectionString, cancellationToken);
+        await using var dbContext = await _tenantDbContextFactory.CreateAsync(tenant.ConnectionString, cancellationToken);
+        await dbContext.Database.MigrateAsync(cancellationToken);
 
         var defaultTenant = _multiTenancyOptions.Value.DefaultTenant;
 
@@ -62,10 +67,26 @@ internal sealed class TenantDatabaseSeeder
             await dbContext.ConfigurationDocuments.AddAsync(document, cancellationToken);
         }
 
+        var bootstrapExists = await dbContext.ConfigurationDocuments
+            .AsTracking()
+            .AnyAsync(x => x.NamespaceKey == "tenant" && x.DocumentKey == "bootstrap", cancellationToken);
+        if (!bootstrapExists)
+        {
+            var bootstrapPayload = JsonDocument.Parse($"{{\"tenantId\":\"{tenant.TenantId:D}\",\"identifier\":\"{tenant.Identifier}\"}}");
+            var bootstrapDocument = ConfigurationDocument.Create(
+                Guid.NewGuid(),
+                "tenant",
+                "bootstrap",
+                bootstrapPayload,
+                _dateTimeProvider.UtcNow);
+            await dbContext.ConfigurationDocuments.AddAsync(bootstrapDocument, cancellationToken);
+        }
+
         await _tenantWebsitePageSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantAboutPageSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantMenuSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantNavigationSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantSliderSeeder.SeedAsync(dbContext, cancellationToken);
+        await _tenantProductCatalogSeeder.SeedAsync(dbContext, tenant.TenantId, cancellationToken);
     }
 }

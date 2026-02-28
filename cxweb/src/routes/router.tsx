@@ -8,6 +8,8 @@ import MenuItemsPage from "@/features/menu-admin/pages/MenuItemsPage"
 import ThemePreviewPage from "@/features/theme-preview/pages/ThemePreviewPage"
 import AboutPage from "@/features/web/pages/about"
 import ContactPage from "@/features/web/pages/contact"
+import ProductDetailPage from "@/features/web/pages/products/detail"
+import ProductsPage from "@/features/web/pages/products"
 import UiTemplatePage from "@/features/ui-template/pages/UiTemplatePage"
 import WebPage from "@/features/web/pages/WebPage"
 import WebMenuBuilderPage from "@/features/web-navigation/pages/WebMenuBuilderPage"
@@ -28,6 +30,8 @@ export const appRouter = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
       { path: "contact", element: <ContactPage /> },
       { path: "web-contacts", element: <ContactPage /> },
+      { path: "products", element: <ProductsPage /> },
+      { path: "products/:slug", element: <ProductDetailPage /> },
       { path: ":slug", element: <WebPage /> },
     ],
   },

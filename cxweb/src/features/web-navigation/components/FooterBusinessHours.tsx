@@ -12,7 +12,7 @@ function FooterBusinessHours({ enabled, items }: FooterBusinessHoursProps) {
 
   return (
     <section className="space-y-2">
-      <h3 className="text-sm font-semibold text-foreground">Business Hours</h3>
+      <h3 className="text-sm font-semibold text-footer-foreground">Business Hours</h3>
       <div className="grid gap-1">
         {items.map((item) => (
           <div key={`${item.day}-${item.hours}`} className="flex items-center justify-between gap-2 text-sm text-muted-foreground">

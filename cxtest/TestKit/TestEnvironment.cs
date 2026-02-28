@@ -128,6 +128,7 @@ internal static class TestEnvironment
                         endpoints.MapConfigurationDocumentsEndpoints();
                         endpoints.MapTenantContextEndpoints();
                         endpoints.MapTenantsEndpoints();
+                        endpoints.MapProductCatalogEndpoints();
                     });
                 });
             });

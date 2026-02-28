@@ -19,6 +19,7 @@ Current-state structure only. No planned modules are listed.
 - `Endpoints/` : API endpoint groups.
   - `HomeEndpoints.cs`
   - `WebContentEndpoints.cs`
+  - `ProductCatalogEndpoints.cs`
   - `MenuManagementEndpoints.cs`
   - `WebNavigationEndpoints.cs`
   - `SliderEndpoints.cs`
@@ -42,6 +43,7 @@ Current-state structure only. No planned modules are listed.
 - `Domain/Common/`
 - `Domain/AboutPage/`
 - `Domain/ContactEngine/`
+- `Domain/ProductCatalog/`
 - `Domain/Configuration/`
 - `Domain/MenuEngine/`
 - `Domain/NavigationEngine/`
@@ -59,6 +61,7 @@ Current-state structure only. No planned modules are listed.
 - `Infrastructure/MenuEngine/` : Menu persistence services.
 - `Infrastructure/NavigationEngine/` : Navigation/footer persistence services.
 - `Infrastructure/ContactEngine/` : Contact message persistence services.
+- `Infrastructure/ProductCatalog/` : Product listing query services and tenant-scoped catalog access.
 - `Infrastructure/SliderEngine/` : Slider persistence services.
 - `Infrastructure/ConfigurationStorage/` : Configuration document storage/unit of work.
 - `Infrastructure/Onboarding/` : Tenant onboarding flow executors.
@@ -103,6 +106,21 @@ Current-state structure only. No planned modules are listed.
 - Dedicated frontend routes: `/contact` and `/web-contacts` (mapped in `src/routes/router.tsx`) render a dynamic contact experience instead of slug-rendered generic sections.
 - API consumer:
   - `src/features/web/services/contact-page-api.ts`
+
+### Product Listing Composition (`src/features/web/pages/products`)
+- Dedicated frontend route: `/products` (mapped in `src/routes/router.tsx`) renders backend-driven PLP with URL-synced filters and pagination.
+- Dedicated PDP route: `/products/:slug` (mapped in `src/routes/router.tsx`) renders backend-driven product details.
+- Page and blocks:
+  - `pages/products/index.tsx`
+  - `pages/products/detail.tsx`
+  - `pages/products/components/FilterSidebar.tsx`
+  - `pages/products/components/ProductGallery.tsx`
+  - `pages/products/components/ProductCard.tsx`
+  - `pages/products/components/ProductPagination.tsx`
+  - `pages/products/components/ProductSpecifications.tsx`
+  - `pages/products/components/RelatedProducts.tsx`
+- API consumer:
+  - `src/features/web/services/product-catalog-api.ts`
 
 ### Home Section Composition (`src/features/web`)
 - Home page section rendering remains driven by backend `web/{slug}` section payload order.

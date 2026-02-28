@@ -6,6 +6,7 @@ using cxserver.Domain.Common;
 using cxserver.Domain.Configuration;
 using cxserver.Domain.MenuEngine;
 using cxserver.Domain.NavigationEngine;
+using cxserver.Domain.ProductCatalog;
 using cxserver.Domain.SliderEngine;
 using cxserver.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,10 @@ public sealed class TenantDbContext : DbContext
     public DbSet<Testimonial> Testimonials => Set<Testimonial>();
     public DbSet<RoadmapMilestone> RoadmapMilestones => Set<RoadmapMilestone>();
     public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<ProductAttribute> ProductAttributes => Set<ProductAttribute>();
+    public DbSet<ProductImage> ProductImages => Set<ProductImage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,6 +63,10 @@ public sealed class TenantDbContext : DbContext
         modelBuilder.ApplyConfiguration(new AboutTestimonialConfiguration());
         modelBuilder.ApplyConfiguration(new RoadmapMilestoneConfiguration());
         modelBuilder.ApplyConfiguration(new ContactMessageConfiguration());
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductAttributeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }

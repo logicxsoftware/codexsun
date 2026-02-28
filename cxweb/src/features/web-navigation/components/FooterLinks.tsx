@@ -23,7 +23,16 @@ function FooterLinks({ enabled, menuGroupSlug, groups }: FooterLinksProps) {
       return []
     }
 
-    return group.menus.flatMap((menu) => menu.items)
+    const flattened = group.menus.flatMap((menu) => menu.items)
+    const unique = new Map<string, (typeof flattened)[number]>()
+    for (const item of flattened) {
+      const key = `${item.slug.trim().toLowerCase()}|${item.url.trim().toLowerCase()}`
+      if (!unique.has(key)) {
+        unique.set(key, item)
+      }
+    }
+
+    return Array.from(unique.values())
   }, [enabled, groups, menuGroupSlug])
 
   if (!enabled || links.length === 0) {
@@ -32,10 +41,10 @@ function FooterLinks({ enabled, menuGroupSlug, groups }: FooterLinksProps) {
 
   return (
     <section className="space-y-2">
-      <h3 className="text-sm font-semibold text-foreground">Links</h3>
+      <h3 className="text-sm font-semibold text-footer-foreground">Links</h3>
       <div className="grid gap-1">
         {links.map((item) => (
-          <a key={`${item.slug}-${item.url}`} href={item.url} target={item.target === 2 ? "_blank" : "_self"} rel={item.target === 2 ? "noreferrer" : undefined} className="text-sm text-link hover:text-link-hover">
+          <a key={`${item.slug}-${item.url}`} href={item.url} target={item.target === 2 ? "_blank" : "_self"} rel={item.target === 2 ? "noreferrer" : undefined} className="text-sm text-footer-foreground hover:text-footer-foreground/80">
             {item.title}
           </a>
         ))}
