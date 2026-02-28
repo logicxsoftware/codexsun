@@ -45,6 +45,21 @@
 - `about`, `whyChooseUs`, `features`, and `callToAction` are sourced from published `about` page section JSON with fallback objects.
 - `hero`, `team`, `testimonials`, and `roadmap` are sourced from dedicated tenant-scoped About page tables.
 
+## Contact Page Endpoints
+- `GET /api/contact-page` returns tenant-resolved contact page composition payload.
+- Response includes:
+  - `hero` (contact hero section JSON from published `contact` page with fallback)
+  - `location` (contact location section JSON from published `contact` page, then `home` fallback, then safe default)
+- `POST /api/contact` accepts tenant-scoped contact submissions.
+- Request body:
+  - `name` (required)
+  - `email` (required, valid email)
+  - `subject` (optional)
+  - `message` (required)
+- Response:
+  - `201 Created` with `{ id, createdAtUtc }` for the stored message.
+- Contact submission validation is enforced in the application layer and persisted per tenant.
+
 ## Contract Rules
 - No silent breaking contract changes.
 - Status codes and payload structure must remain stable per endpoint.

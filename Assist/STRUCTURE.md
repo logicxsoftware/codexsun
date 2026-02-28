@@ -32,6 +32,7 @@ Current-state structure only. No planned modules are listed.
 - `Application/Behaviors/` : Cross-cutting request behaviors.
 - `Application/DependencyInjection/` : Application layer registrations.
 - `Application/Features/` : Vertical slices.
+  - `Contact/`
   - `ConfigurationDocuments/`
   - `MenuEngine/`
   - `Tenants/`
@@ -40,6 +41,7 @@ Current-state structure only. No planned modules are listed.
 ### Domain Layer
 - `Domain/Common/`
 - `Domain/AboutPage/`
+- `Domain/ContactEngine/`
 - `Domain/Configuration/`
 - `Domain/MenuEngine/`
 - `Domain/NavigationEngine/`
@@ -56,6 +58,7 @@ Current-state structure only. No planned modules are listed.
 - `Infrastructure/WebEngine/` : Web content persistence services.
 - `Infrastructure/MenuEngine/` : Menu persistence services.
 - `Infrastructure/NavigationEngine/` : Navigation/footer persistence services.
+- `Infrastructure/ContactEngine/` : Contact message persistence services.
 - `Infrastructure/SliderEngine/` : Slider persistence services.
 - `Infrastructure/ConfigurationStorage/` : Configuration document storage/unit of work.
 - `Infrastructure/Onboarding/` : Tenant onboarding flow executors.
@@ -95,6 +98,11 @@ Current-state structure only. No planned modules are listed.
   - `blocks/RoadmapSection.tsx`
 - API consumer:
   - `src/features/web/services/about-page-api.ts`
+
+### Contact Page Composition (`src/features/web/pages/contact`)
+- Dedicated frontend routes: `/contact` and `/web-contacts` (mapped in `src/routes/router.tsx`) render a dynamic contact experience instead of slug-rendered generic sections.
+- API consumer:
+  - `src/features/web/services/contact-page-api.ts`
 
 ### Home Section Composition (`src/features/web`)
 - Home page section rendering remains driven by backend `web/{slug}` section payload order.

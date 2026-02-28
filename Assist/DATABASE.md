@@ -11,6 +11,10 @@
   - `about_testimonials` (`section_id` FK, `tenant_id`, quote/rating fields, `display_order`)
   - `about_roadmap_milestones` (`section_id` FK, `tenant_id`, milestone fields, `display_order`)
 - Tenant migration `20260228183305_AddAboutPageSchema` provisions About page tables with tenant/order indexes and FK constraints.
+- Contact form submission table:
+  - `contact_messages` (`tenant_id`, `name`, `email`, `subject`, `message`, `created_at_utc`)
+  - Indexed columns: `tenant_id`, `created_at_utc`
+- Tenant migration `20260228191634_AddContactMessages` provisions contact message persistence for tenant-scoped web contact submissions.
 
 ## Rules
 - Every schema change requires migration.

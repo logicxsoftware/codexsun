@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using cxserver.Infrastructure.WebEngine;
 using cxserver.Infrastructure.MenuEngine;
 using cxserver.Infrastructure.NavigationEngine;
+using cxserver.Infrastructure.ContactEngine;
 using cxserver.Infrastructure.SliderEngine;
 
 namespace cxserver.Infrastructure.DependencyInjection;
@@ -58,6 +59,7 @@ public static class DependencyInjection
         services.AddScoped<IMenuStore, MenuStore>();
         services.AddScoped<IWebsiteNavigationStore, WebsiteNavigationStore>();
         services.AddScoped<ISliderStore, SliderStore>();
+        services.AddScoped<IContactMessageStore, ContactMessageStore>();
         services.AddScoped<ISectionDataValidator, SectionDataValidator>();
         services.AddScoped<IUnitOfWork, TenantUnitOfWork>();
 

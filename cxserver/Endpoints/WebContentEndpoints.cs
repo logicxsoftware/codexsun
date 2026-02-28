@@ -1,5 +1,6 @@
 using System.Text.Json;
 using cxserver.Application.Abstractions;
+using cxserver.Application.Features.Contact.Commands.SubmitContactMessage;
 using cxserver.Application.Features.MenuEngine.Queries.GetRenderMenus;
 using cxserver.Application.Features.WebEngine.Queries.GetPublishedPage;
 using cxserver.Infrastructure.Persistence;
@@ -140,6 +141,38 @@ public static class WebContentEndpoints
                 callToAction));
         });
 
+        app.MapGet("/api/contact-page", async (
+            ISender sender,
+            CancellationToken cancellationToken) =>
+        {
+            var contactPage = await sender.Send(new GetPublishedPageQuery("contact"), cancellationToken);
+            var homePage = await sender.Send(new GetPublishedPageQuery("home"), cancellationToken);
+
+            var hero = ExtractSectionData(contactPage, Domain.WebEngine.SectionType.Hero)
+                ?? BuildDefaultContactHeroData();
+            var location = ExtractSectionData(contactPage, Domain.WebEngine.SectionType.Location)
+                ?? ExtractSectionData(homePage, Domain.WebEngine.SectionType.Location)
+                ?? BuildDefaultLocationData();
+
+            return Results.Ok(new ContactPageResponse(hero, location));
+        });
+
+        app.MapPost("/api/contact", async (
+            SubmitContactMessageRequest request,
+            ISender sender,
+            CancellationToken cancellationToken) =>
+        {
+            var response = await sender.Send(
+                new SubmitContactMessageCommand(
+                    request.Name,
+                    request.Email,
+                    request.Subject,
+                    request.Message),
+                cancellationToken);
+
+            return Results.Created($"/api/contact/{response.Id}", response);
+        });
+
         return group;
     }
 
@@ -266,6 +299,12 @@ public static class WebContentEndpoints
         return document.RootElement.Clone();
     }
 
+    private static JsonElement BuildDefaultContactHeroData()
+    {
+        using var document = JsonDocument.Parse("""{"title":"Contact Us","subtitle":""}""");
+        return document.RootElement.Clone();
+    }
+
     public sealed record NavigationConfigResponse(
         Guid Id,
         Guid? TenantId,
@@ -327,4 +366,14 @@ public static class WebContentEndpoints
         string Title,
         string Description,
         int Order);
+
+    public sealed record ContactPageResponse(
+        JsonElement Hero,
+        JsonElement Location);
+
+    public sealed record SubmitContactMessageRequest(
+        string Name,
+        string Email,
+        string? Subject,
+        string Message);
 }

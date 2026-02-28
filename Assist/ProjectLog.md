@@ -471,3 +471,14 @@ Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/Pr
 - Database Impact: Yes (About page tenant schema additions + seeded data updates)
 - API Impact: Yes (`GET /api/about-page` plus aligned about/home payload usage)
 - Breaking Change: No
+
+# ProjectLog #: 48
+# Date: 2026-02-28
+# Module: Web Contact Page + Contact Submission
+# Type: Feature
+# Summary:
+Implemented a dedicated dynamic web contact page with token-aligned styling and backend integration, including tenant-scoped contact submission persistence, new contact API endpoints, idempotent contact page seeding updates, and route alignment for `/contact` and `/web-contacts`.
+Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Application/Abstractions/IContactMessageStore.cs, cxserver/Application/Features/Contact/Commands/SubmitContactMessage/SubmitContactMessageCommand.cs, cxserver/Domain/ContactEngine/ContactMessage.cs, cxserver/Endpoints/WebContentEndpoints.cs, cxserver/Infrastructure/ContactEngine/ContactMessageStore.cs, cxserver/Infrastructure/DependencyInjection/DependencyInjection.cs, cxserver/Infrastructure/Migrations/Tenant/20260228191634_AddContactMessages.cs, cxserver/Infrastructure/Migrations/Tenant/20260228191634_AddContactMessages.Designer.cs, cxserver/Infrastructure/Migrations/Tenant/TenantDbContextModelSnapshot.cs, cxserver/Infrastructure/Persistence/Configurations/ContactMessageConfiguration.cs, cxserver/Infrastructure/Persistence/TenantDbContext.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxweb/src/features/web/pages/contact/index.tsx, cxweb/src/features/web/services/contact-page-api.ts, cxweb/src/routes/router.tsx
+- Database Impact: Yes (new tenant table `contact_messages`)
+- API Impact: Yes (`GET /api/contact-page`, `POST /api/contact`)
+- Breaking Change: No

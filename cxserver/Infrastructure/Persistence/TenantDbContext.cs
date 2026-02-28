@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using cxserver.Domain.AboutPage;
 using cxserver.Application.Abstractions;
+using cxserver.Domain.ContactEngine;
 using cxserver.Domain.Common;
 using cxserver.Domain.Configuration;
 using cxserver.Domain.MenuEngine;
@@ -36,6 +37,7 @@ public sealed class TenantDbContext : DbContext
     public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
     public DbSet<Testimonial> Testimonials => Set<Testimonial>();
     public DbSet<RoadmapMilestone> RoadmapMilestones => Set<RoadmapMilestone>();
+    public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,6 +57,7 @@ public sealed class TenantDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TeamMemberConfiguration());
         modelBuilder.ApplyConfiguration(new AboutTestimonialConfiguration());
         modelBuilder.ApplyConfiguration(new RoadmapMilestoneConfiguration());
+        modelBuilder.ApplyConfiguration(new ContactMessageConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }
