@@ -11,6 +11,17 @@
   - Tenant context
   - Tenants onboarding/context
 
+## Home Data Endpoint
+- `GET /api/home-data` returns tenant-resolved aggregate home payload.
+- Response includes:
+  - `hero` (home hero section data)
+  - `about` (home about section data)
+  - `slider`
+  - `navigation`
+  - `footer`
+  - `menus`
+- `hero` and `about` are derived from published `home` page sections and include safe fallback objects when missing.
+
 ## Contract Rules
 - No silent breaking contract changes.
 - Status codes and payload structure must remain stable per endpoint.

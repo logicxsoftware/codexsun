@@ -35,43 +35,20 @@ internal sealed class TenantWebsitePageSeeder
                     definition.SeoTitle,
                     definition.SeoDescription,
                     now);
-
-                for (var i = 0; i < definition.Sections.Count; i++)
-                {
-                    var section = definition.Sections[i];
-                    page.AddSection(
-                        Guid.NewGuid(),
-                        section.SectionType,
-                        i,
-                        JsonDocument.Parse(section.SectionDataJson),
-                        true,
-                        now);
-                }
-
+                SyncSections(page, definition.Sections, now);
                 page.Publish(now);
                 await dbContext.WebsitePages.AddAsync(page, cancellationToken);
                 continue;
             }
+
+            page.Update(definition.Title, definition.SeoTitle, definition.SeoDescription, now);
 
             if (!page.IsPublished)
             {
                 page.Publish(now);
             }
 
-            if (page.Sections.Count == 0)
-            {
-                for (var i = 0; i < definition.Sections.Count; i++)
-                {
-                    var section = definition.Sections[i];
-                    page.AddSection(
-                        Guid.NewGuid(),
-                        section.SectionType,
-                        i,
-                        JsonDocument.Parse(section.SectionDataJson),
-                        true,
-                        now);
-                }
-            }
+            SyncSections(page, definition.Sections, now);
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -88,7 +65,8 @@ internal sealed class TenantWebsitePageSeeder
                 "Home page",
                 [
                     new SectionSeedDefinition(SectionType.Menu, "{\"items\":[{\"label\":\"Home\",\"href\":\"/\"},{\"label\":\"About\",\"href\":\"/about\"},{\"label\":\"Services\",\"href\":\"/services\"},{\"label\":\"Blog\",\"href\":\"/blog\"},{\"label\":\"Contact\",\"href\":\"/contact\"}]}"),
-                    new SectionSeedDefinition(SectionType.Hero, "{\"title\":\"Welcome\",\"subtitle\":\"Dynamic multi-tenant website engine\",\"primaryCtaLabel\":\"Explore Services\",\"primaryCtaHref\":\"/services\"}"),
+                    new SectionSeedDefinition(SectionType.Hero, "{\"title\":\"Your Trusted Computer Store & Service Partner in Tiruppur\",\"subtitle\":\"Complete IT solutions since 2002 - hardware sales, custom builds, repair, networking, CCTV, cloud services & reliable support.\",\"primaryCtaLabel\":\"Explore Services\",\"primaryCtaHref\":\"/services\"}"),
+                    new SectionSeedDefinition(SectionType.About, "{\"title\":\"Serving Tiruppur with Trusted IT Expertise Since 2002\",\"subtitle\":\"Reliable technology solutions tailored for homes and businesses\",\"content\":[\"We specialize in hardware sales, custom-built PCs, laptop and desktop repairs, and enterprise networking solutions.\",\"Our expertise extends to CCTV installation, structured cabling, cloud services, and long-term IT support.\",\"With over two decades of experience, we focus on reliability, performance, and customer satisfaction.\"],\"image\":{\"src\":\"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1400&q=80&auto=format&fit=crop\",\"alt\":\"IT specialist workspace with laptops and network equipment\"}}"),
                     new SectionSeedDefinition(SectionType.Features, "{\"items\":[{\"title\":\"Tenant Isolated\",\"description\":\"Content is isolated per tenant database.\"},{\"title\":\"Section Driven\",\"description\":\"Layouts are rendered from ordered section data.\"},{\"title\":\"Extensible\",\"description\":\"New section types can be added safely.\"}]}"),
                     new SectionSeedDefinition(SectionType.CallToAction, "{\"title\":\"Start your project\",\"label\":\"Contact Us\",\"href\":\"/contact\"}"),
                     new SectionSeedDefinition(SectionType.Footer, "{\"columns\":[{\"title\":\"Company\",\"links\":[{\"label\":\"About\",\"href\":\"/about\"},{\"label\":\"Contact\",\"href\":\"/contact\"}]},{\"title\":\"Resources\",\"links\":[{\"label\":\"Blog\",\"href\":\"/blog\"},{\"label\":\"Services\",\"href\":\"/services\"}]}]}")]
@@ -102,7 +80,7 @@ internal sealed class TenantWebsitePageSeeder
                     new SectionSeedDefinition(SectionType.Menu, "{\"items\":[{\"label\":\"Home\",\"href\":\"/\"},{\"label\":\"About\",\"href\":\"/about\"},{\"label\":\"Services\",\"href\":\"/services\"},{\"label\":\"Blog\",\"href\":\"/blog\"},{\"label\":\"Contact\",\"href\":\"/contact\"}]}"),
                     new SectionSeedDefinition(SectionType.Hero, "{\"title\":\"About Us\",\"subtitle\":\"We build reliable SaaS platforms.\"}"),
                     new SectionSeedDefinition(SectionType.WhyChooseUs, "{\"items\":[{\"title\":\"Architecture\",\"description\":\"Clean architecture with clear boundaries.\"},{\"title\":\"Delivery\",\"description\":\"Vertical-slice implementation for speed.\"},{\"title\":\"Scale\",\"description\":\"Provider-agnostic persistence strategy.\"}]}"),
-                    new SectionSeedDefinition(SectionType.Stats, "{\"items\":[{\"label\":\"Tenants\",\"value\":\"100+\"},{\"label\":\"Uptime\",\"value\":\"99.9%\"},{\"label\":\"Deployments\",\"value\":\"500+\"}]}"),
+                    new SectionSeedDefinition(SectionType.Stats, "{\"items\":[{\"value\":50,\"suffix\":\"+\",\"label\":\"Trusted Brands\",\"order\":1},{\"value\":12000,\"suffix\":\"+\",\"label\":\"Products In Stock\",\"order\":2},{\"value\":8000,\"suffix\":\"+\",\"label\":\"Happy Customers\",\"order\":3},{\"value\":24,\"suffix\":\"\",\"label\":\"Years of Expertise\",\"order\":4}]}"),
                     new SectionSeedDefinition(SectionType.Footer, "{\"columns\":[{\"title\":\"Navigate\",\"links\":[{\"label\":\"Home\",\"href\":\"/\"},{\"label\":\"Services\",\"href\":\"/services\"}]},{\"title\":\"Connect\",\"links\":[{\"label\":\"Blog\",\"href\":\"/blog\"},{\"label\":\"Contact\",\"href\":\"/contact\"}]}]}")]
             ),
             new PageSeedDefinition(
@@ -142,6 +120,52 @@ internal sealed class TenantWebsitePageSeeder
                     new SectionSeedDefinition(SectionType.Footer, "{\"columns\":[{\"title\":\"Company\",\"links\":[{\"label\":\"About\",\"href\":\"/about\"},{\"label\":\"Services\",\"href\":\"/services\"}]},{\"title\":\"Support\",\"links\":[{\"label\":\"Blog\",\"href\":\"/blog\"},{\"label\":\"Home\",\"href\":\"/\"}]}]}")]
             )
         ];
+    }
+
+    private static void SyncSections(Page page, IReadOnlyList<SectionSeedDefinition> definitions, DateTimeOffset now)
+    {
+        for (var i = 0; i < definitions.Count; i++)
+        {
+            var definition = definitions[i];
+            var existing = page.Sections.FirstOrDefault(x => !x.IsDeleted && x.DisplayOrder == i);
+
+            if (existing is null)
+            {
+                page.AddSection(
+                    Guid.NewGuid(),
+                    definition.SectionType,
+                    i,
+                    JsonDocument.Parse(definition.SectionDataJson),
+                    true,
+                    now);
+                continue;
+            }
+
+            if (existing.SectionType != definition.SectionType)
+            {
+                page.RemoveSection(existing.Id, now);
+                page.AddSection(
+                    Guid.NewGuid(),
+                    definition.SectionType,
+                    i,
+                    JsonDocument.Parse(definition.SectionDataJson),
+                    true,
+                    now);
+                continue;
+            }
+
+            page.UpdateSection(existing.Id, i, JsonDocument.Parse(definition.SectionDataJson), true, now);
+        }
+
+        var staleSectionIds = page.Sections
+            .Where(x => !x.IsDeleted && x.DisplayOrder >= definitions.Count)
+            .Select(x => x.Id)
+            .ToList();
+
+        foreach (var staleSectionId in staleSectionIds)
+        {
+            page.RemoveSection(staleSectionId, now);
+        }
     }
 
     private sealed record PageSeedDefinition(

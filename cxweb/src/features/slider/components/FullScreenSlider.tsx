@@ -25,15 +25,17 @@ const alignmentClassMap: Record<number, string> = {
 }
 
 const resolveHeightStyle = (config: SliderConfigDto): CSSProperties => {
+  const heightOffsetPx = 125
+
   if (config.heightMode === sliderHeightMode.Fullscreen) {
-    return { height: "100vh" }
+    return { height: `calc(100vh - ${heightOffsetPx}px)` }
   }
 
   if (config.heightMode === sliderHeightMode.Vh) {
-    return { height: `${Math.max(20, Math.min(100, config.heightValue))}vh` }
+    return { height: `calc(${Math.max(20, Math.min(100, config.heightValue))}vh - ${heightOffsetPx}px)` }
   }
 
-  return { height: `${Math.max(280, config.heightValue)}px` }
+  return { height: `${Math.max(120, config.heightValue - heightOffsetPx)}px` }
 }
 
 const getLayerVisibilityClass = (visibility: string): string => {
@@ -50,22 +52,22 @@ const getLayerVisibilityClass = (visibility: string): string => {
 
 const resolveOverlayClass = (overlayToken: string): string => {
   if (overlayToken.startsWith("background")) {
-    return "bg-background/50"
+    return "bg-background/18"
   }
 
   if (overlayToken.startsWith("muted")) {
-    return "bg-muted/60"
+    return "bg-muted/22"
   }
 
   if (overlayToken.startsWith("foreground")) {
-    return "bg-foreground/20"
+    return "bg-foreground/8"
   }
 
   if (overlayToken.startsWith("card")) {
-    return "bg-card/60"
+    return "bg-card/22"
   }
 
-  return "bg-background/45"
+  return "bg-background/16"
 }
 
 type LayerProps = {
@@ -257,7 +259,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
       ) : null}
 
       {config.showProgress ? (
-        <div className="absolute bottom-0 left-0 right-0 z-50 h-1 bg-muted/70">
+        <div className="absolute bottom-0 left-0 right-0 z-50 h-0.5 bg-muted/70">
           <div
             key={activeSlide.id}
             className="h-full bg-primary"

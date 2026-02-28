@@ -18,6 +18,7 @@ internal sealed class SectionDataValidator : ISectionDataValidator
             SectionType.Menu => HasAnyRequiredKey(sectionData, "items"),
             SectionType.Slider => HasAnyRequiredKey(sectionData, "slides"),
             SectionType.Hero => HasAnyRequiredKey(sectionData, "headline", "title"),
+            SectionType.About => HasAnyRequiredKey(sectionData, "title", "content"),
             SectionType.Features => HasAnyRequiredKey(sectionData, "items"),
             SectionType.Gallery => HasAnyRequiredKey(sectionData, "images"),
             SectionType.ProductRange => HasAnyRequiredKey(sectionData, "products"),

@@ -235,3 +235,63 @@ Files Changed: cxserver/Infrastructure/Seeding/TenantSliderSeeder.cs, cxserver/I
 - Database Impact: Yes (data-only updates in tenant1_db menu_items)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 28
+# Date: 2026-02-28 T19:24:00+05:30
+# V 1.0.0
+# Module: Navigation Width Seeder
+# Type: Fix
+# Summary:
+Updated tenant navigation seeder to persist full-width header layout by default and aligned live tenant navigation config row to full width (`width_variant=1`, `layout.variant=full`) to prevent startup reversion to container/boxed behavior.
+Files Changed: cxserver/Infrastructure/Seeding/TenantNavigationSeeder.cs, Assist/ProjectLog.md
+- Database Impact: Yes (data-only update in tenant1_db.web_navigation_configs)
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 29
+# Date: 2026-02-28 T20:05:00+05:30
+# V 1.0.0
+# Module: Home Hero Enhancement
+# Type: Enhancement
+# Summary:
+Enhanced Home hero section presentation with full-width centered responsive typography and fallback handling, and updated tenant website page seeding to idempotently sync section content/order while setting the new Home hero title/subtitle copy.
+Files Changed: cxweb/src/features/web/components/SectionRenderer.tsx, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, Assist/ProjectLog.md
+- Database Impact: Yes (data-only update to existing tenant1_db home hero section_data_json to match new seed copy)
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 30
+# Date: 2026-02-28 T20:16:00+05:30
+# V 1.0.0
+# Module: Home Hero Animation
+# Type: Enhancement
+# Summary:
+Added scroll-triggered FadeUp animations for Home hero title, description, and decorative divider with staggered delays and once-only viewport behavior, preserving responsive typography and token-based styling.
+Files Changed: cxweb/src/components/animations/FadeUp.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, Assist/ProjectLog.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 31
+# Date: 2026-02-28 T20:32:00+05:30
+# V 1.0.0
+# Module: Home About Section Integration
+# Type: Enhancement
+# Summary:
+Added dynamic About section support after Hero with token-aligned responsive frontend rendering and FadeUp animation, introduced `/api/home-data` tenant-resolved aggregate response including hero/about, and updated tenant website seeding to idempotently include real About content with image metadata.
+Files Changed: cxweb/src/features/web/components/AboutSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/services/web-page-api.ts, cxserver/Domain/WebEngine/SectionType.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Endpoints/WebContentEndpoints.cs, Assist/API.md, Assist/ProjectLog.md
+- Database Impact: No schema change (data-only upsert applied to tenant1_db home page sections)
+- API Impact: Yes (`GET /api/home-data` now returns hero/about aggregate fields)
+- Breaking Change: No
+
+# ProjectLog #: 32
+# Date: 2026-02-28 T21:05:00+05:30
+# V 1.0.0
+# Module: About Stats Seed Data
+# Type: Data Update
+# Summary:
+Updated tenant website page seeding for the Stats section to idempotently upsert the requested four business metrics with explicit value/suffix/label/order fields and preserved section ordering behavior.
+Files Changed: cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, Assist/ProjectLog.md
+- Database Impact: No schema change (data-only update via existing seeder upsert path)
+- API Impact: No
+- Breaking Change: No

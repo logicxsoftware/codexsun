@@ -2,11 +2,12 @@ import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
 
 import SectionRenderer from "@/features/web/components/SectionRenderer"
+import { SectionType } from "@/features/web/services/web-page-api"
 import { webPageApi, type WebPageResponse } from "@/features/web/services/web-page-api"
 import SliderSkeleton from "@/features/slider/components/SliderSkeleton"
 import { SliderProvider } from "@/features/slider/context/SliderProvider"
 import { HttpError } from "@/shared/services/http-client"
-import { CardWrapper, PageContainer, SectionContainer, SectionHeader, Title } from "@/shared/components/design-system"
+import { CardWrapper, PageContainer, SectionContainer, SectionHeader } from "@/shared/components/design-system"
 
 type WebPageProps = {
   defaultSlug?: string
@@ -22,6 +23,7 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
   const [error, setError] = useState<string | null>(null)
 
   const orderedSections = useMemo(() => (data ? [...data.sections].sort((a, b) => a.displayOrder - b.displayOrder) : []), [data])
+  const visibleSections = useMemo(() => orderedSections.filter((section) => section.sectionType !== SectionType.Menu), [orderedSections])
 
   useEffect(() => {
     let isMounted = true
@@ -99,10 +101,7 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
       ) : null}
       <PageContainer className="py-12 md:py-16">
         <div className="grid gap-6">
-          <header className="grid gap-2 border-b border-border/50 pb-5">
-            <Title>{data.title}</Title>
-          </header>
-          {orderedSections.map((section) => (
+          {visibleSections.map((section) => (
             <SectionRenderer key={section.id} section={section} />
           ))}
         </div>

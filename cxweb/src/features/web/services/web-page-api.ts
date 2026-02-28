@@ -4,6 +4,7 @@ export const SectionType = {
   Menu: 1,
   Slider: 2,
   Hero: 3,
+  About: 15,
   Features: 4,
   Gallery: 5,
   ProductRange: 6,
@@ -22,6 +23,12 @@ export type SectionType = (typeof SectionType)[keyof typeof SectionType]
 export type MenuSectionData = { items: Array<{ label: string; href: string }> }
 export type SliderSectionData = { slides: Array<{ title: string; subtitle?: string; imageUrl?: string }> }
 export type HeroSectionData = { title: string; subtitle?: string; primaryCtaLabel?: string; primaryCtaHref?: string }
+export type AboutSectionData = {
+  title: string
+  subtitle?: string
+  content: string[]
+  image: { src: string; alt: string }
+}
 export type FeaturesSectionData = { items: Array<{ title: string; description: string }> }
 export type GallerySectionData = { images: Array<{ url: string; alt?: string }> }
 export type ProductRangeSectionData = { products: Array<{ name: string; description?: string }> }
@@ -38,6 +45,7 @@ export type SectionDataMap = {
   [SectionType.Menu]: MenuSectionData
   [SectionType.Slider]: SliderSectionData
   [SectionType.Hero]: HeroSectionData
+  [SectionType.About]: AboutSectionData
   [SectionType.Features]: FeaturesSectionData
   [SectionType.Gallery]: GallerySectionData
   [SectionType.ProductRange]: ProductRangeSectionData

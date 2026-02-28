@@ -1,11 +1,14 @@
 import type { ReactElement } from "react"
 import { Link } from "react-router"
 
+import FadeUp from "@/components/animations/FadeUp"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import AboutSection from "@/features/web/components/AboutSection"
 import { SectionType as SectionTypeValues } from "@/features/web/services/web-page-api"
 import type {
+  AboutSectionData,
   BlogShowSectionData,
   BrandSliderSectionData,
   CallToActionSectionData,
@@ -54,23 +57,28 @@ const SliderSection = ({ data }: SectionProps<SliderSectionData>) => (
   </div>
 )
 
-const HeroSection = ({ data }: SectionProps<HeroSectionData>) => (
-  <Card className="border-border/80 bg-card/95">
-    <CardHeader>
-      <CardTitle className="text-3xl text-foreground">{data.title}</CardTitle>
-    </CardHeader>
-    <CardContent className="grid gap-4">
-      {data.subtitle ? <p className="text-muted-foreground">{data.subtitle}</p> : null}
-      {data.primaryCtaLabel && data.primaryCtaHref ? (
-        <div>
-          <Button asChild className="bg-cta-bg text-cta-foreground hover:bg-cta-bg/90">
-            <Link to={data.primaryCtaHref}>{data.primaryCtaLabel}</Link>
-          </Button>
-        </div>
-      ) : null}
-    </CardContent>
-  </Card>
-)
+const HeroSection = ({ data }: SectionProps<HeroSectionData>) => {
+  const safeTitle = data.title?.trim() || "Welcome"
+  const safeSubtitle = data.subtitle?.trim() || "Reliable technology solutions tailored for your business."
+
+  return (
+    <section className="w-full">
+      <div className="mx-auto max-w-5xl px-5 text-center">
+        <FadeUp>
+          <h1 className="mb-6 break-words text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">{safeTitle}</h1>
+        </FadeUp>
+        <FadeUp delay={0.1}>
+          <p className="mb-8 break-words text-lg leading-relaxed text-muted-foreground md:text-xl">{safeSubtitle}</p>
+        </FadeUp>
+        <FadeUp delay={0.15}>
+          <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-primary" />
+        </FadeUp>
+      </div>
+    </section>
+  )
+}
+
+const AboutSectionRenderer = ({ data }: SectionProps<AboutSectionData>) => <AboutSection data={data} />
 
 const FeaturesSection = ({ data }: SectionProps<FeaturesSectionData>) => (
   <div className="grid gap-4 md:grid-cols-2">
@@ -225,6 +233,7 @@ const sectionRenderers: SectionRendererMap = {
   [SectionTypeValues.Menu]: MenuSection,
   [SectionTypeValues.Slider]: SliderSection,
   [SectionTypeValues.Hero]: HeroSection,
+  [SectionTypeValues.About]: AboutSectionRenderer,
   [SectionTypeValues.Features]: FeaturesSection,
   [SectionTypeValues.Gallery]: GallerySection,
   [SectionTypeValues.ProductRange]: ProductRangeSection,

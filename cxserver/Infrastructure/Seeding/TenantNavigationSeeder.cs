@@ -27,8 +27,8 @@ internal sealed class TenantNavigationSeeder
             navigation = WebNavigationConfig.Create(
                 Guid.NewGuid(),
                 null,
-                NavWidthVariant.Container,
-                JsonDocument.Parse("""{"variant":"container","zoneOrder":["left","center","right"],"menuAlign":"center","logoPosition":"left","menuSize":"medium"}"""),
+                NavWidthVariant.Full,
+                JsonDocument.Parse("""{"variant":"full","zoneOrder":["left","center","right"],"menuAlign":"center","logoPosition":"left","menuSize":"medium"}"""),
                 JsonDocument.Parse("""{"backgroundToken":"header-bg","textToken":"header-foreground","hoverToken":"menu-hover","activeToken":"primary","dropdownToken":"card","borderToken":"border","scrollBackgroundToken":"header-bg","scrollTextToken":"header-foreground"}"""),
                 JsonDocument.Parse("""{"sticky":true,"scrollShadow":true,"transparentOnTop":true,"blur":true,"borderBottom":true,"mobileOverlay":true}"""),
                 JsonDocument.Parse("""{"left":["logo"],"center":["menu"],"right":["themeSwitch","auth"],"logo":{"type":"text","text":"Codexsun","showText":true,"textPosition":"right","size":"medium"},"auth":{"enabled":true,"loginPath":"/login","dashboardPath":"/app"},"cta":{"enabled":true,"label":"Get Started","url":"/signup","target":"_self"}}"""),
@@ -40,8 +40,8 @@ internal sealed class TenantNavigationSeeder
         else
         {
             navigation.Update(
-                NavWidthVariant.Container,
-                JsonDocument.Parse("""{"variant":"container","zoneOrder":["left","center","right"],"menuAlign":"center","logoPosition":"left","menuSize":"medium"}"""),
+                NavWidthVariant.Full,
+                JsonDocument.Parse("""{"variant":"full","zoneOrder":["left","center","right"],"menuAlign":"center","logoPosition":"left","menuSize":"medium"}"""),
                 JsonDocument.Parse("""{"backgroundToken":"header-bg","textToken":"header-foreground","hoverToken":"menu-hover","activeToken":"primary","dropdownToken":"card","borderToken":"border","scrollBackgroundToken":"header-bg","scrollTextToken":"header-foreground"}"""),
                 JsonDocument.Parse("""{"sticky":true,"scrollShadow":true,"transparentOnTop":true,"blur":true,"borderBottom":true,"mobileOverlay":true}"""),
                 JsonDocument.Parse("""{"left":["logo"],"center":["menu"],"right":["themeSwitch","auth"],"logo":{"type":"text","text":"Codexsun","showText":true,"textPosition":"right","size":"medium"},"auth":{"enabled":true,"loginPath":"/login","dashboardPath":"/app"},"cta":{"enabled":true,"label":"Get Started","url":"/signup","target":"_self"}}"""),

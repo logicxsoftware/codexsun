@@ -1,3 +1,6 @@
+using System.Text.Json;
+using cxserver.Application.Abstractions;
+using cxserver.Application.Features.MenuEngine.Queries.GetRenderMenus;
 using cxserver.Application.Features.WebEngine.Queries.GetPublishedPage;
 using MediatR;
 
@@ -15,6 +18,96 @@ public static class WebContentEndpoints
             return response is null ? Results.NotFound() : Results.Ok(response);
         });
 
+        app.MapGet("/api/home-data", async (
+            ISender sender,
+            ISliderStore sliderStore,
+            IWebsiteNavigationStore navigationStore,
+            ITenantContext tenantContext,
+            CancellationToken cancellationToken) =>
+        {
+            var page = await sender.Send(new GetPublishedPageQuery("home"), cancellationToken);
+            if (page is null)
+            {
+                return Results.NotFound();
+            }
+
+            var slider = await sliderStore.GetOrCreateAsync(tenantContext.TenantId, cancellationToken);
+            var navigation = await navigationStore.GetWebNavigationConfigAsync(tenantContext.TenantId, cancellationToken);
+            var footer = await navigationStore.GetFooterConfigAsync(tenantContext.TenantId, cancellationToken);
+            var menus = await sender.Send(new GetRenderMenusQuery(false), cancellationToken);
+
+            var heroSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Hero);
+            var aboutSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.About);
+
+            var hero = heroSection?.SectionData;
+            var about = aboutSection?.SectionData;
+
+            return Results.Ok(new HomeDataResponse(
+                hero.HasValue && hero.Value.ValueKind == JsonValueKind.Object ? hero.Value : BuildDefaultHeroData(),
+                about.HasValue && about.Value.ValueKind == JsonValueKind.Object ? about.Value : BuildDefaultAboutData(),
+                slider,
+                navigation is null ? null : ToNavigationResponse(navigation),
+                footer is null ? null : ToNavigationResponse(footer),
+                menus));
+        });
+
         return group;
     }
+
+    private static NavigationConfigResponse ToNavigationResponse(NavigationConfigItem item)
+    {
+        return new NavigationConfigResponse(
+            item.Id,
+            item.TenantId,
+            ToWidthVariantString(item.WidthVariant),
+            item.LayoutConfig,
+            item.StyleConfig,
+            item.BehaviorConfig,
+            item.ComponentConfig,
+            item.IsActive,
+            item.CreatedAtUtc,
+            item.UpdatedAtUtc);
+    }
+
+    private static string ToWidthVariantString(Domain.NavigationEngine.NavWidthVariant widthVariant)
+    {
+        return widthVariant switch
+        {
+            Domain.NavigationEngine.NavWidthVariant.Full => "full",
+            Domain.NavigationEngine.NavWidthVariant.Boxed => "boxed",
+            _ => "container",
+        };
+    }
+
+    private static JsonElement BuildDefaultHeroData()
+    {
+        using var document = JsonDocument.Parse("""{"title":"","subtitle":"","primaryCtaLabel":"","primaryCtaHref":""}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultAboutData()
+    {
+        using var document = JsonDocument.Parse("""{"title":"","subtitle":"","content":[],"image":{"src":"","alt":""}}""");
+        return document.RootElement.Clone();
+    }
+
+    public sealed record NavigationConfigResponse(
+        Guid Id,
+        Guid? TenantId,
+        string WidthVariant,
+        JsonDocument LayoutConfig,
+        JsonDocument StyleConfig,
+        JsonDocument BehaviorConfig,
+        JsonDocument ComponentConfig,
+        bool IsActive,
+        DateTimeOffset CreatedAtUtc,
+        DateTimeOffset UpdatedAtUtc);
+
+    public sealed record HomeDataResponse(
+        JsonElement Hero,
+        JsonElement About,
+        SliderConfigDto Slider,
+        NavigationConfigResponse? Navigation,
+        NavigationConfigResponse? Footer,
+        IReadOnlyList<MenuRenderGroupItem> Menus);
 }
