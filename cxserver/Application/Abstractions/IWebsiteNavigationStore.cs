@@ -1,4 +1,5 @@
 using System.Text.Json;
+using cxserver.Domain.NavigationEngine;
 
 namespace cxserver.Application.Abstractions;
 
@@ -16,6 +17,7 @@ public interface IWebsiteNavigationStore
 public sealed record NavigationConfigItem(
     Guid Id,
     Guid? TenantId,
+    NavWidthVariant WidthVariant,
     JsonDocument LayoutConfig,
     JsonDocument StyleConfig,
     JsonDocument BehaviorConfig,

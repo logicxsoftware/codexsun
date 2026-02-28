@@ -3,6 +3,7 @@
 ## Current Database Model
 - Master database: tenancy registry and master-level metadata.
 - Tenant database: tenant-scoped configuration, web pages/sections, menu engine, navigation/footer config, slider engine.
+- `web_navigation_configs` includes `width_variant` (int, default `0`) for backend-controlled width mode.
 
 ## Rules
 - Every schema change requires migration.

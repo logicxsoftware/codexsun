@@ -5,7 +5,7 @@ import { menuGroupType } from "@/features/menu-admin/types/menu-types"
 import type { MenuRenderGroupDto, MenuRenderNodeDto } from "@/features/menu-admin/types/menu-types"
 import type { HeaderLayoutConfig } from "@/features/web-navigation/types/navigation-types"
 import { cn } from "@/lib/utils"
-import NavMegaMenu from "@/features/web-navigation/components/NavMegaMenu"
+import NavMegaMenu, { buildMergedMenuItems } from "@/features/web-navigation/components/NavMegaMenu"
 
 type NavMenuProps = {
   groups: MenuRenderGroupDto[]
@@ -24,21 +24,43 @@ const alignClassMap: Record<HeaderLayoutConfig["menuAlign"], string> = {
   right: "justify-end",
 }
 
-const flattenItems = (items: MenuRenderNodeDto[]): MenuRenderNodeDto[] => {
-  return items.flatMap((item) => [item, ...flattenItems(item.children)])
-}
-
 function NavMenu({ groups, layout }: NavMenuProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const headerGroup = useMemo(() => groups.find((group) => group.groupType === menuGroupType.Header), [groups])
   const mobileGroup = useMemo(() => groups.find((group) => group.groupType === menuGroupType.Mobile), [groups])
 
-  const headerMenus = headerGroup?.menus ?? []
-  const primaryMenu = headerMenus.find((entry) => !entry.isMegaMenu)
-  const primaryItems = primaryMenu ? flattenItems(primaryMenu.items) : []
-  const megaMenus = headerMenus.filter((entry) => entry.isMegaMenu)
-  const mobileMenus = mobileGroup?.menus ?? []
-  const mobileItems = mobileMenus.length > 0 ? flattenItems(mobileMenus[0]?.items ?? []) : primaryItems
+  const headerMenus = useMemo(() => headerGroup?.menus ?? [], [headerGroup])
+  const mergedHeaderItems = useMemo(() => buildMergedMenuItems(headerMenus), [headerMenus])
+  const mobileMenus = useMemo(() => mobileGroup?.menus ?? [], [mobileGroup])
+  const mobileItems = useMemo(() => (mobileMenus.length > 0 ? buildMergedMenuItems(mobileMenus) : mergedHeaderItems), [mergedHeaderItems, mobileMenus])
+
+  const renderMobileItems = (items: MenuRenderNodeDto[], level = 0, prefix = "mobile") => {
+    if (items.length === 0) {
+      return null
+    }
+
+    return (
+      <ul className={cn("grid gap-1", level > 0 ? "ml-3 border-l border-border/60 pl-3" : "")}>
+        {items.map((item) => (
+          <li key={`${prefix}-${item.slug}-${item.url}`}>
+            <a
+              href={item.url}
+              target={item.target === 2 ? "_blank" : "_self"}
+              rel={item.target === 2 ? "noreferrer" : undefined}
+              className={cn(
+                "block rounded-md px-3 py-2 text-foreground transition-colors hover:bg-menu-hover",
+                level === 0 ? "text-sm font-medium" : "text-sm text-muted-foreground hover:text-link-hover",
+              )}
+              onClick={() => setMobileOpen(false)}
+            >
+              {item.title}
+            </a>
+            {renderMobileItems(item.children, level + 1, `${prefix}-${item.slug}-${item.url}`)}
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   return (
     <>
@@ -52,42 +74,11 @@ function NavMenu({ groups, layout }: NavMenuProps) {
       </button>
 
       <nav aria-label="Main navigation" className={cn("hidden min-w-0 flex-1 items-center md:flex", alignClassMap[layout.menuAlign])}>
-        <div className="flex items-center gap-0.5 lg:gap-1">
-          {primaryItems.map((item) => (
-            <a
-              key={`${item.slug}-${item.url}`}
-              href={item.url}
-              target={item.target === 2 ? "_blank" : "_self"}
-              rel={item.target === 2 ? "noreferrer" : undefined}
-              className={cn(
-                "rounded-md px-3 py-2 font-medium text-foreground/90 transition-colors hover:bg-menu-hover hover:text-foreground",
-                sizeClassMap[layout.menuSize],
-              )}
-            >
-              {item.title}
-            </a>
-          ))}
-          {megaMenus.map((megaMenu) => (
-            <NavMegaMenu key={megaMenu.slug} menu={megaMenu} />
-          ))}
-        </div>
+        <NavMegaMenu menus={headerMenus} menuSizeClassName={sizeClassMap[layout.menuSize]} />
       </nav>
 
       <div className={cn("w-full border-t border-border pt-2 md:hidden", !mobileOpen ? "hidden" : "")}>
-        <nav aria-label="Mobile navigation" className="grid gap-1">
-          {mobileItems.map((item) => (
-            <a
-              key={`mobile-${item.slug}-${item.url}`}
-              href={item.url}
-              target={item.target === 2 ? "_blank" : "_self"}
-              rel={item.target === 2 ? "noreferrer" : undefined}
-              className="rounded-md px-3 py-2 text-sm text-foreground hover:bg-menu-hover"
-              onClick={() => setMobileOpen(false)}
-            >
-              {item.title}
-            </a>
-          ))}
-        </nav>
+        <nav aria-label="Mobile navigation">{renderMobileItems(mobileItems)}</nav>
       </div>
     </>
   )

@@ -74,7 +74,7 @@ internal sealed class TenantMenuSeeder
         var login = EnsureMenuItem(menu, null, "Login", "login", "/login", 6, "auth", now);
         _ = home;
         _ = pricing;
-        EnsureMenuItem(menu, null, "Get Started", "get-started", "/signup", 7, "cta,highlight", now);
+        RemoveMenuItemBySlug(menu, "get-started", now);
 
         EnsureMenuItem(menu, products.Id, "Codexsun CRM", "codexsun-crm", "/products/crm", 0, null, now);
         EnsureMenuItem(menu, products.Id, "Codexsun ERP", "codexsun-erp", "/products/erp", 1, null, now);
@@ -112,7 +112,7 @@ internal sealed class TenantMenuSeeder
         var login = EnsureMenuItem(menu, null, "Login", "login-mobile", "/login", 6, "auth", now);
         _ = home;
         _ = pricing;
-        EnsureMenuItem(menu, null, "Get Started", "get-started-mobile", "/signup", 7, "cta,pinned-bottom,highlight", now);
+        RemoveMenuItemBySlug(menu, "get-started-mobile", now);
 
         EnsureMenuItem(menu, products.Id, "Codexsun CRM", "codexsun-crm-mobile", "/products/crm", 0, null, now);
         EnsureMenuItem(menu, products.Id, "Codexsun ERP", "codexsun-erp-mobile", "/products/erp", 1, null, now);
@@ -210,5 +210,16 @@ internal sealed class TenantMenuSeeder
         }
 
         return menu.UpdateItem(item.Id, parentId, title, slug, url, MenuItemTarget.Self, null, description, order, true, now);
+    }
+
+    private static void RemoveMenuItemBySlug(Menu menu, string slug, DateTimeOffset now)
+    {
+        var item = menu.Items.FirstOrDefault(x => x.Slug == slug && !x.IsDeleted);
+        if (item is null)
+        {
+            return;
+        }
+
+        menu.DeleteItem(item.Id, now);
     }
 }

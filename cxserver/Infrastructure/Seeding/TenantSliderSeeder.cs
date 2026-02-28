@@ -1,4 +1,4 @@
-using cxserver.Domain.SliderEngine;
+﻿using cxserver.Domain.SliderEngine;
 using cxserver.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,7 +74,7 @@ internal sealed class TenantSliderSeeder
         EnsureLayer(slide2, 1, SliderLayerType.Image, "Floating chart", "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=640", 64, 58, "24%", SliderLayerAnimationFrom.Bottom, 220, 620, "ease-out", "desktop", now);
         EnsureLayer(slide2, 2, SliderLayerType.Button, "See CRM Features", null, 10, 66, "190px", SliderLayerAnimationFrom.Zoom, 260, 560, "ease-out", "all", now);
 
-        var slide3 = EnsureSlide(config, 2, "Full-Scale ERP for Growing Enterprises", "Finance, inventory, HR, procurement — unified under one intelligent system.", "Explore ERP", "/products/erp", SliderCtaColor.Secondary, 6800, SliderDirection.Fade, SliderVariant.Luxury, SliderIntensity.Medium, SliderBackgroundMode.Normal, true, "foreground/20", "/assets/techmedia/videos/erp-bg.mp4", SliderMediaType.Video, null, now);
+        var slide3 = EnsureSlide(config, 2, "Full-Scale ERP for Growing Enterprises", "Finance, inventory, HR, procurement â€” unified under one intelligent system.", "Explore ERP", "/products/erp", SliderCtaColor.Secondary, 6800, SliderDirection.Fade, SliderVariant.Luxury, SliderIntensity.Medium, SliderBackgroundMode.Normal, true, "foreground/20", "/assets/techmedia/videos/erp-bg.mp4", SliderMediaType.Video, null, now);
         slide3.ReplaceHighlights(
             [
                 ("Unified Operations", "secondary", 0),
@@ -107,16 +107,7 @@ internal sealed class TenantSliderSeeder
         EnsureLayer(slide5, 1, SliderLayerType.Badge, "Sales Counter +245", null, 10, 16, "180px", SliderLayerAnimationFrom.Top, 100, 520, "ease-out", "all", now);
         EnsureLayer(slide5, 2, SliderLayerType.Button, "Start Selling", null, 10, 66, "170px", SliderLayerAnimationFrom.Zoom, 260, 560, "ease-out", "all", now);
 
-        var slide6 = EnsureSlide(config, 5, "Custom SaaS Solutions for Startups & Enterprises", "From MVP to enterprise platform — Codexsun builds scalable software.", "Build with Codexsun", "/products/custom-saas", SliderCtaColor.Primary, 7200, SliderDirection.Right, SliderVariant.Saas, SliderIntensity.High, SliderBackgroundMode.Parallax, true, "muted/70", "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1920", SliderMediaType.Image, null, now);
-        slide6.ReplaceHighlights(
-            [
-                ("MVP to Scale", "primary", 0),
-                ("Dedicated Engineering", "success", 1),
-            ],
-            now);
-        EnsureLayer(slide6, 0, SliderLayerType.Custom, "Code snippet overlay", null, 10, 12, "240px", SliderLayerAnimationFrom.Fade, 120, 560, "ease-out", "all", now);
-        EnsureLayer(slide6, 1, SliderLayerType.Image, "Floating device mockups", "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?w=640", 58, 22, "30%", SliderLayerAnimationFrom.Right, 180, 620, "ease-out", "desktop", now);
-        EnsureLayer(slide6, 2, SliderLayerType.Badge, "Startup + Enterprise", null, 10, 62, "190px", SliderLayerAnimationFrom.Bottom, 260, 540, "ease-out", "all", now);
+        RemoveSlidesOutsideRange(config, minOrder: 0, maxOrder: 4, now);
 
         await dbContext.SaveChangesAsync(cancellationToken);
     }
@@ -174,4 +165,18 @@ internal sealed class TenantSliderSeeder
 
         return slide.UpdateLayer(existing.Id, order, type, content, mediaUrl, x, y, width, from, delay, duration, easing, visibility, now);
     }
+
+    private static void RemoveSlidesOutsideRange(SliderConfig config, int minOrder, int maxOrder, DateTimeOffset now)
+    {
+        var staleSlideIds = config.Slides
+            .Where(x => !x.IsDeleted && (x.Order < minOrder || x.Order > maxOrder))
+            .Select(x => x.Id)
+            .ToList();
+
+        foreach (var slideId in staleSlideIds)
+        {
+            config.DeleteSlide(slideId, now);
+        }
+    }
 }
+

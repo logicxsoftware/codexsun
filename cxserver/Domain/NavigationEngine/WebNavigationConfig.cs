@@ -8,6 +8,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
     private WebNavigationConfig(
         Guid id,
         Guid? tenantId,
+        NavWidthVariant widthVariant,
         JsonDocument layoutConfig,
         JsonDocument styleConfig,
         JsonDocument behaviorConfig,
@@ -19,6 +20,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
         DateTimeOffset? deletedAtUtc) : base(id)
     {
         TenantId = tenantId;
+        WidthVariant = widthVariant;
         LayoutConfig = layoutConfig;
         StyleConfig = styleConfig;
         BehaviorConfig = behaviorConfig;
@@ -32,6 +34,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
 
     private WebNavigationConfig() : base(Guid.NewGuid())
     {
+        WidthVariant = NavWidthVariant.Container;
         LayoutConfig = JsonDocument.Parse("{}");
         StyleConfig = JsonDocument.Parse("{}");
         BehaviorConfig = JsonDocument.Parse("{}");
@@ -39,6 +42,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
     }
 
     public Guid? TenantId { get; private set; }
+    public NavWidthVariant WidthVariant { get; private set; }
     public JsonDocument LayoutConfig { get; private set; }
     public JsonDocument StyleConfig { get; private set; }
     public JsonDocument BehaviorConfig { get; private set; }
@@ -52,6 +56,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
     public static WebNavigationConfig Create(
         Guid id,
         Guid? tenantId,
+        NavWidthVariant widthVariant,
         JsonDocument layoutConfig,
         JsonDocument styleConfig,
         JsonDocument behaviorConfig,
@@ -67,6 +72,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
         return new WebNavigationConfig(
             id,
             tenantId,
+            widthVariant,
             layoutConfig,
             styleConfig,
             behaviorConfig,
@@ -79,6 +85,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
     }
 
     public void Update(
+        NavWidthVariant widthVariant,
         JsonDocument layoutConfig,
         JsonDocument styleConfig,
         JsonDocument behaviorConfig,
@@ -91,6 +98,7 @@ public sealed class WebNavigationConfig : AggregateRoot, ISoftDeletable
         ArgumentNullException.ThrowIfNull(behaviorConfig);
         ArgumentNullException.ThrowIfNull(componentConfig);
 
+        WidthVariant = widthVariant;
         LayoutConfig = layoutConfig;
         StyleConfig = styleConfig;
         BehaviorConfig = behaviorConfig;

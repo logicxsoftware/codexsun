@@ -163,3 +163,75 @@ Files Changed: Assist/AI.md, Assist/PROJECT.md, Assist/STRUCTURE.md, Assist/TENA
 - Database Impact: No
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 22
+# Date: 2026-02-28 T14:43:12
+# V 1.0.0
+# Module: Web Navigation
+# Type: Refactor
+# Summary: 
+Refined NavMegaMenu runtime merge to combine common and tenant menus with tenant slug override, ordered child merge, deduplication, deep nesting support, and mobile fallback alignment.
+Files Changed: cxweb/src/features/web-navigation/components/NavMegaMenu.tsx, cxweb/src/features/web-navigation/components/NavMenu.tsx, Assist/TENANT.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 23
+# Date: 2026-02-28 T14:51:12
+# V 1.0.0
+# Module: Web Navigation Layout
+# Type: Refactor
+# Summary: 
+Extended NavContainer width variants with container/full/boxed class logic, default container behavior, full-width px-5 support, and boxed token-based visual separation.
+Files Changed: cxweb/src/features/web-navigation/components/NavContainer.tsx
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 24
+# Date: 2026-02-28 T15:01:44
+# V 1.0.0
+# Module: Web Navigation Merge Ordering
+# Type: Refactor
+# Summary: 
+Updated menu merge ordering to render primary common menus first, tenant-specific menus in the middle, and trailing common menus last, while preserving tenant-over-common slug overrides and ordered child merge behavior.
+Files Changed: cxweb/src/features/web-navigation/components/NavMegaMenu.tsx, Assist/TENANT.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 25
+# Date: 2026-02-28 T15:24:21
+# V 1.0.0
+# Module: cxserver Navigation Engine
+# Type: Refactor
+# Summary: 
+Aligned backend navigation width variant support with persisted enum (`container|full|boxed`), tenant/global/default fallback, string API serialization, and real-DB integration coverage.
+Files Changed: cxserver/Domain/NavigationEngine/NavWidthVariant.cs, cxserver/Domain/NavigationEngine/WebNavigationConfig.cs, cxserver/Infrastructure/Persistence/Configurations/WebNavigationConfigConfiguration.cs, cxserver/Infrastructure/Migrations/Tenant/20260228191500_AddWebNavigationWidthVariant.cs, cxserver/Application/Abstractions/IWebsiteNavigationStore.cs, cxserver/Infrastructure/NavigationEngine/WebsiteNavigationStore.cs, cxserver/Infrastructure/Seeding/TenantNavigationSeeder.cs, cxserver/Endpoints/WebNavigationEndpoints.cs, cxtest/integration/NavigationConfigTests.cs, Assist/DATABASE.md, Assist/API.md, Assist/TENANT.md
+- Database Impact: Yes
+- API Impact: Yes
+- Breaking Change: No
+
+# ProjectLog #: 26
+# Date: 2026-02-28 T18:32:22+05:30
+# V 1.0.0
+# Module: cxweb ThemeSwitch
+# Type: Refactor
+# Summary:
+Refactored ThemeSwitch to a single token-based icon button with animated Framer Motion dropdown menu (Light/Dark/System), outside-click + Escape close behavior, keyboard menu navigation, immediate theme update, and active icon synchronization.
+Files Changed: cxweb/src/shared/theme/ThemeSwitch.tsx, cxweb/package.json, cxweb/package-lock.json, Assist/STANDARDS.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
+
+# ProjectLog #: 27
+# Date: 2026-02-28 T19:12:00+05:30
+# V 1.0.0
+# Module: Navigation + Slider Seed Defaults
+# Type: Refactor
+# Summary:
+Standardized tenant seed defaults to exactly 5 home slider entries (with stale slide cleanup), removed Get Started from seeded header/mobile main menus, and aligned live tenant DB menu items by soft-deleting existing get-started entries.
+Files Changed: cxserver/Infrastructure/Seeding/TenantSliderSeeder.cs, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs, Assist/ProjectLog.md
+- Database Impact: Yes (data-only updates in tenant1_db menu_items)
+- API Impact: No
+- Breaking Change: No

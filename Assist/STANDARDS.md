@@ -11,6 +11,7 @@
 - No implicit `any`.
 - Token-based styling only.
 - No hardcoded UI colors in feature pages/components.
+- No inline style objects for feature UI; use token-driven class utilities.
 - Keep feature-local logic inside feature module boundaries.
 
 ## Quality Standards

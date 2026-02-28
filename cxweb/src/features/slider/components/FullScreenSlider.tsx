@@ -110,6 +110,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
   const rafRef = useRef<number | null>(null)
 
   const activeSlide = slides[index] ?? null
+  const heightStyle = useMemo(() => resolveHeightStyle(config), [config])
 
   const next = useCallback(() => {
     setIndex((current) => (current + 1) % slides.length)
@@ -158,7 +159,6 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
 
   const mediaType = detectMediaType(activeSlide.mediaType)
   const mediaLoaded = mediaReady[activeSlide.id] ?? false
-  const heightStyle = useMemo(() => resolveHeightStyle(config), [config])
 
   return (
     <section className="relative w-full overflow-hidden" style={heightStyle}>

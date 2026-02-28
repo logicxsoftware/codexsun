@@ -15,6 +15,7 @@
 - No silent breaking contract changes.
 - Status codes and payload structure must remain stable per endpoint.
 - Tenant-sensitive endpoints must enforce tenant context.
+- Navigation config responses expose `widthVariant` as lowercase string (`container|full|boxed`), not numeric enum.
 
 ## Change Discipline
 - Any contract change requires updates to:

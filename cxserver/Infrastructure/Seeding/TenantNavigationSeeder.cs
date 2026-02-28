@@ -27,6 +27,7 @@ internal sealed class TenantNavigationSeeder
             navigation = WebNavigationConfig.Create(
                 Guid.NewGuid(),
                 null,
+                NavWidthVariant.Container,
                 JsonDocument.Parse("""{"variant":"container","zoneOrder":["left","center","right"],"menuAlign":"center","logoPosition":"left","menuSize":"medium"}"""),
                 JsonDocument.Parse("""{"backgroundToken":"header-bg","textToken":"header-foreground","hoverToken":"menu-hover","activeToken":"primary","dropdownToken":"card","borderToken":"border","scrollBackgroundToken":"header-bg","scrollTextToken":"header-foreground"}"""),
                 JsonDocument.Parse("""{"sticky":true,"scrollShadow":true,"transparentOnTop":true,"blur":true,"borderBottom":true,"mobileOverlay":true}"""),
@@ -39,6 +40,7 @@ internal sealed class TenantNavigationSeeder
         else
         {
             navigation.Update(
+                NavWidthVariant.Container,
                 JsonDocument.Parse("""{"variant":"container","zoneOrder":["left","center","right"],"menuAlign":"center","logoPosition":"left","menuSize":"medium"}"""),
                 JsonDocument.Parse("""{"backgroundToken":"header-bg","textToken":"header-foreground","hoverToken":"menu-hover","activeToken":"primary","dropdownToken":"card","borderToken":"border","scrollBackgroundToken":"header-bg","scrollTextToken":"header-foreground"}"""),
                 JsonDocument.Parse("""{"sticky":true,"scrollShadow":true,"transparentOnTop":true,"blur":true,"borderBottom":true,"mobileOverlay":true}"""),

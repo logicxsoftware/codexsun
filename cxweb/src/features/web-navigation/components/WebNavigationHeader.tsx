@@ -26,11 +26,20 @@ function WebNavigationHeader() {
   const foregroundClass = resolveTextClass(resolved.headerStyle.textToken, "text-header-foreground")
   const borderClass = resolveBorderClass(resolved.headerStyle.borderToken, "border-border")
 
+  const normalizeZoneTokens = (zone: "left" | "center" | "right", tokens: string[]): string[] => {
+    if (zone !== "right") {
+      return tokens
+    }
+
+    const filtered = tokens.filter((token) => token !== "themeSwitch")
+    return tokens.includes("themeSwitch") ? [...filtered, "themeSwitch"] : filtered
+  }
+
   const zoneItems = useMemo(
     () => ({
-      left: resolved.headerComponent.left,
-      center: resolved.headerComponent.center,
-      right: resolved.headerComponent.right,
+      left: normalizeZoneTokens("left", resolved.headerComponent.left),
+      center: normalizeZoneTokens("center", resolved.headerComponent.center),
+      right: normalizeZoneTokens("right", resolved.headerComponent.right),
     }),
     [resolved.headerComponent.center, resolved.headerComponent.left, resolved.headerComponent.right],
   )
@@ -48,16 +57,16 @@ function WebNavigationHeader() {
       return <NavAuth key="auth" config={resolved.headerComponent.auth} />
     }
 
-    if (token === "themeSwitch") {
-      return <NavThemeSwitch key="themeSwitch" />
-    }
-
     if (token === "cta" && resolved.headerComponent.cta.enabled && resolved.headerComponent.cta.label && resolved.headerComponent.cta.url) {
       return (
         <Button key="cta" asChild size="sm" className="h-9 bg-cta-bg px-3 text-cta-foreground hover:bg-cta-bg/90">
           <Link to={resolved.headerComponent.cta.url}>{resolved.headerComponent.cta.label}</Link>
         </Button>
       )
+    }
+
+    if (token === "themeSwitch") {
+      return <NavThemeSwitch key="themeSwitch" />
     }
 
     return null

@@ -1,0 +1,913 @@
+﻿[
+    {
+        "groupType":  1,
+        "groupSlug":  "header",
+        "groupName":  "Header",
+        "menus":  [
+                      {
+                          "name":  "Primary",
+                          "slug":  "primary",
+                          "variant":  2,
+                          "isMegaMenu":  true,
+                          "order":  0,
+                          "items":  [
+                                        {
+                                            "title":  "Home",
+                                            "slug":  "home",
+                                            "url":  "/",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Products",
+                                            "slug":  "products",
+                                            "url":  "/products",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "mega",
+                                            "order":  1,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "Codexsun CRM",
+                                                                 "slug":  "codexsun-crm",
+                                                                 "url":  "/products/crm",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Codexsun ERP",
+                                                                 "slug":  "codexsun-erp",
+                                                                 "url":  "/products/erp",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Codexsun HRMS",
+                                                                 "slug":  "codexsun-hrms",
+                                                                 "url":  "/products/hrms",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Codexsun POS",
+                                                                 "slug":  "codexsun-pos",
+                                                                 "url":  "/products/pos",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  3,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Custom SaaS Development",
+                                                                 "slug":  "custom-saas-development",
+                                                                 "url":  "/products/custom-saas",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  4,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Solutions",
+                                            "slug":  "solutions",
+                                            "url":  "/solutions",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "dropdown",
+                                            "order":  2,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "Small Business",
+                                                                 "slug":  "small-business",
+                                                                 "url":  "/solutions/small-business",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Enterprise",
+                                                                 "slug":  "enterprise",
+                                                                 "url":  "/solutions/enterprise",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Startups",
+                                                                 "slug":  "startups",
+                                                                 "url":  "/solutions/startups",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Agencies",
+                                                                 "slug":  "agencies",
+                                                                 "url":  "/solutions/agencies",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  3,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Pricing",
+                                            "slug":  "pricing",
+                                            "url":  "/pricing",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  3,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Resources",
+                                            "slug":  "resources",
+                                            "url":  "/resources",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "dropdown",
+                                            "order":  4,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "Blog",
+                                                                 "slug":  "blog",
+                                                                 "url":  "/blog",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Documentation",
+                                                                 "slug":  "documentation",
+                                                                 "url":  "/docs",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Case Studies",
+                                                                 "slug":  "case-studies",
+                                                                 "url":  "/case-studies",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Help Center",
+                                                                 "slug":  "help-center",
+                                                                 "url":  "/help",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  3,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Company",
+                                            "slug":  "company",
+                                            "url":  "/company",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "dropdown",
+                                            "order":  5,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "About Us",
+                                                                 "slug":  "about-us",
+                                                                 "url":  "/about",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Careers",
+                                                                 "slug":  "careers",
+                                                                 "url":  "/careers",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Contact",
+                                                                 "slug":  "contact",
+                                                                 "url":  "/contact",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Login",
+                                            "slug":  "login",
+                                            "url":  "/login",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "auth",
+                                            "order":  6,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Get Started",
+                                            "slug":  "get-started",
+                                            "url":  "/signup",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "cta,highlight",
+                                            "order":  7,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      }
+                  ]
+    },
+    {
+        "groupType":  2,
+        "groupSlug":  "footer",
+        "groupName":  "Footer",
+        "menus":  [
+                      {
+                          "name":  "Product",
+                          "slug":  "footer-product",
+                          "variant":  2,
+                          "isMegaMenu":  false,
+                          "order":  0,
+                          "items":  [
+                                        {
+                                            "title":  "CRM",
+                                            "slug":  "crm",
+                                            "url":  "/products/crm",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "ERP",
+                                            "slug":  "erp",
+                                            "url":  "/products/erp",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  1,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "HRMS",
+                                            "slug":  "hrms",
+                                            "url":  "/products/hrms",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  2,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "POS",
+                                            "slug":  "pos",
+                                            "url":  "/products/pos",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  3,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Custom SaaS",
+                                            "slug":  "custom-saas",
+                                            "url":  "/products/custom-saas",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  4,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      },
+                      {
+                          "name":  "Company",
+                          "slug":  "footer-company",
+                          "variant":  2,
+                          "isMegaMenu":  false,
+                          "order":  1,
+                          "items":  [
+                                        {
+                                            "title":  "About",
+                                            "slug":  "about",
+                                            "url":  "/about",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Careers",
+                                            "slug":  "careers",
+                                            "url":  "/careers",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  1,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Blog",
+                                            "slug":  "blog",
+                                            "url":  "/blog",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  2,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Contact",
+                                            "slug":  "contact",
+                                            "url":  "/contact",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  3,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      },
+                      {
+                          "name":  "Support",
+                          "slug":  "footer-support",
+                          "variant":  2,
+                          "isMegaMenu":  false,
+                          "order":  2,
+                          "items":  [
+                                        {
+                                            "title":  "Help Center",
+                                            "slug":  "help-center",
+                                            "url":  "/help",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Documentation",
+                                            "slug":  "documentation",
+                                            "url":  "/docs",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  1,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Status",
+                                            "slug":  "status",
+                                            "url":  "/status",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  2,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Privacy Policy",
+                                            "slug":  "privacy-policy",
+                                            "url":  "/privacy-policy",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  3,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Terms of Service",
+                                            "slug":  "terms-of-service",
+                                            "url":  "/terms",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  4,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      },
+                      {
+                          "name":  "Legal",
+                          "slug":  "footer-legal",
+                          "variant":  2,
+                          "isMegaMenu":  false,
+                          "order":  3,
+                          "items":  [
+                                        {
+                                            "title":  "Privacy Policy",
+                                            "slug":  "privacy-policy-legal",
+                                            "url":  "/privacy-policy",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Terms",
+                                            "slug":  "terms-legal",
+                                            "url":  "/terms",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  1,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Cookie Policy",
+                                            "slug":  "cookie-policy",
+                                            "url":  "/cookies",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  2,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Refund Policy",
+                                            "slug":  "refund-policy",
+                                            "url":  "/refund-policy",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  3,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      }
+                  ]
+    },
+    {
+        "groupType":  3,
+        "groupSlug":  "mobile",
+        "groupName":  "Mobile",
+        "menus":  [
+                      {
+                          "name":  "Mobile Primary",
+                          "slug":  "mobile-primary",
+                          "variant":  2,
+                          "isMegaMenu":  false,
+                          "order":  0,
+                          "items":  [
+                                        {
+                                            "title":  "Home",
+                                            "slug":  "home-mobile",
+                                            "url":  "/",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Products",
+                                            "slug":  "products-mobile",
+                                            "url":  "/products",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "mega",
+                                            "order":  1,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "Codexsun CRM",
+                                                                 "slug":  "codexsun-crm-mobile",
+                                                                 "url":  "/products/crm",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Codexsun ERP",
+                                                                 "slug":  "codexsun-erp-mobile",
+                                                                 "url":  "/products/erp",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Codexsun HRMS",
+                                                                 "slug":  "codexsun-hrms-mobile",
+                                                                 "url":  "/products/hrms",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Codexsun POS",
+                                                                 "slug":  "codexsun-pos-mobile",
+                                                                 "url":  "/products/pos",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  3,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Custom SaaS Development",
+                                                                 "slug":  "custom-saas-development-mobile",
+                                                                 "url":  "/products/custom-saas",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  4,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Solutions",
+                                            "slug":  "solutions-mobile",
+                                            "url":  "/solutions",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "dropdown",
+                                            "order":  2,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "Small Business",
+                                                                 "slug":  "small-business-mobile",
+                                                                 "url":  "/solutions/small-business",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Enterprise",
+                                                                 "slug":  "enterprise-mobile",
+                                                                 "url":  "/solutions/enterprise",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Startups",
+                                                                 "slug":  "startups-mobile",
+                                                                 "url":  "/solutions/startups",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Agencies",
+                                                                 "slug":  "agencies-mobile",
+                                                                 "url":  "/solutions/agencies",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  3,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Pricing",
+                                            "slug":  "pricing-mobile",
+                                            "url":  "/pricing",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  3,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Resources",
+                                            "slug":  "resources-mobile",
+                                            "url":  "/resources",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "dropdown",
+                                            "order":  4,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "Blog",
+                                                                 "slug":  "blog-mobile",
+                                                                 "url":  "/blog",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Documentation",
+                                                                 "slug":  "documentation-mobile",
+                                                                 "url":  "/docs",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Case Studies",
+                                                                 "slug":  "case-studies-mobile",
+                                                                 "url":  "/case-studies",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Help Center",
+                                                                 "slug":  "help-center-mobile",
+                                                                 "url":  "/help",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  3,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Company",
+                                            "slug":  "company-mobile",
+                                            "url":  "/company",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "dropdown",
+                                            "order":  5,
+                                            "children":  [
+                                                             {
+                                                                 "title":  "About Us",
+                                                                 "slug":  "about-us-mobile",
+                                                                 "url":  "/about",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  0,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Careers",
+                                                                 "slug":  "careers-mobile",
+                                                                 "url":  "/careers",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  1,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             },
+                                                             {
+                                                                 "title":  "Contact",
+                                                                 "slug":  "contact-mobile",
+                                                                 "url":  "/contact",
+                                                                 "target":  1,
+                                                                 "icon":  null,
+                                                                 "description":  null,
+                                                                 "order":  2,
+                                                                 "children":  [
+
+                                                                              ]
+                                                             }
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Login",
+                                            "slug":  "login-mobile",
+                                            "url":  "/login",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "auth",
+                                            "order":  6,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Get Started",
+                                            "slug":  "get-started-mobile",
+                                            "url":  "/signup",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  "cta,pinned-bottom,highlight",
+                                            "order":  7,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      }
+                  ]
+    },
+    {
+        "groupType":  4,
+        "groupSlug":  "sidemenu",
+        "groupName":  "Sidemenu",
+        "menus":  [
+                      {
+                          "name":  "Application",
+                          "slug":  "app",
+                          "variant":  2,
+                          "isMegaMenu":  false,
+                          "order":  0,
+                          "items":  [
+                                        {
+                                            "title":  "Dashboard",
+                                            "slug":  "dashboard",
+                                            "url":  "/app",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  0,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Menu Groups",
+                                            "slug":  "menu-groups",
+                                            "url":  "/admin/menu-groups",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  1,
+                                            "children":  [
+
+                                                         ]
+                                        },
+                                        {
+                                            "title":  "Web Menu Builder",
+                                            "slug":  "web-menu-builder",
+                                            "url":  "/admin/web-menu-builder",
+                                            "target":  1,
+                                            "icon":  null,
+                                            "description":  null,
+                                            "order":  2,
+                                            "children":  [
+
+                                                         ]
+                                        }
+                                    ]
+                      }
+                  ]
+    }
+]

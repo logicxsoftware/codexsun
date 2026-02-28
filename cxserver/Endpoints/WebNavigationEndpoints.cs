@@ -18,17 +18,24 @@ public static class WebNavigationEndpoints
 
         admin.MapPut("/web-navigation-config", async (UpsertNavigationConfigRequest request, IWebsiteNavigationStore store, ITenantContext tenantContext, CancellationToken cancellationToken) =>
         {
-            var updated = await store.UpsertWebNavigationConfigAsync(
-                new UpsertNavigationConfigInput(
-                    tenantContext.TenantId,
-                    request.LayoutConfig,
-                    request.StyleConfig,
-                    request.BehaviorConfig,
-                    request.ComponentConfig,
-                    request.IsActive),
-                cancellationToken);
+            try
+            {
+                var updated = await store.UpsertWebNavigationConfigAsync(
+                    new UpsertNavigationConfigInput(
+                        tenantContext.TenantId,
+                        request.LayoutConfig,
+                        request.StyleConfig,
+                        request.BehaviorConfig,
+                        request.ComponentConfig,
+                        request.IsActive),
+                    cancellationToken);
 
-            return Results.Ok(ToResponse(updated));
+                return Results.Ok(ToResponse(updated));
+            }
+            catch (ArgumentException exception)
+            {
+                return Results.BadRequest(new { message = exception.Message });
+            }
         });
 
         admin.MapPost("/web-navigation-config/default", async (IWebsiteNavigationStore store, ITenantContext tenantContext, CancellationToken cancellationToken) =>
@@ -96,6 +103,7 @@ public static class WebNavigationEndpoints
         return new NavigationConfigResponse(
             item.Id,
             item.TenantId,
+            ToWidthVariantString(item.WidthVariant),
             item.LayoutConfig,
             item.StyleConfig,
             item.BehaviorConfig,
@@ -115,6 +123,7 @@ public static class WebNavigationEndpoints
     public sealed record NavigationConfigResponse(
         Guid Id,
         Guid? TenantId,
+        string WidthVariant,
         JsonDocument LayoutConfig,
         JsonDocument StyleConfig,
         JsonDocument BehaviorConfig,
@@ -122,4 +131,14 @@ public static class WebNavigationEndpoints
         bool IsActive,
         DateTimeOffset CreatedAtUtc,
         DateTimeOffset UpdatedAtUtc);
+
+    private static string ToWidthVariantString(Domain.NavigationEngine.NavWidthVariant widthVariant)
+    {
+        return widthVariant switch
+        {
+            Domain.NavigationEngine.NavWidthVariant.Full => "full",
+            Domain.NavigationEngine.NavWidthVariant.Boxed => "boxed",
+            _ => "container",
+        };
+    }
 }

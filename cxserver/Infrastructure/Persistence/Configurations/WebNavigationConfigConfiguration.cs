@@ -20,6 +20,11 @@ internal sealed class WebNavigationConfigConfiguration : IEntityTypeConfiguratio
         builder.Property(x => x.TenantId)
             .HasColumnName("tenant_id");
 
+        builder.Property(x => x.WidthVariant)
+            .HasColumnName("width_variant")
+            .IsRequired()
+            .HasDefaultValue(NavWidthVariant.Container);
+
         builder.Property(x => x.LayoutConfig)
             .HasColumnName("layout_config_json")
             .HasConversion(new JsonDocumentValueConverter())

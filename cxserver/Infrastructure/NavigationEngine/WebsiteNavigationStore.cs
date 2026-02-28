@@ -53,7 +53,22 @@ internal sealed class WebsiteNavigationStore : IWebsiteNavigationStore
         var dbContext = await _tenantDbContextAccessor.GetAsync(cancellationToken);
         var scopedTenantId = ResolveTenantScope(tenantId);
         var config = await ResolveNavigationAsync(dbContext, scopedTenantId, cancellationToken);
-        return config is null ? null : Map(config);
+        if (config is not null)
+        {
+            return Map(config);
+        }
+
+        return new NavigationConfigItem(
+            Guid.Empty,
+            null,
+            NavWidthVariant.Container,
+            CloneJson(DefaultNavigationLayout),
+            CloneJson(DefaultNavigationStyle),
+            CloneJson(DefaultNavigationBehavior),
+            CloneJson(DefaultNavigationComponent),
+            true,
+            DateTimeOffset.MinValue,
+            DateTimeOffset.MinValue);
     }
 
     public async Task<NavigationConfigItem> UpsertWebNavigationConfigAsync(UpsertNavigationConfigInput input, CancellationToken cancellationToken)
@@ -66,9 +81,11 @@ internal sealed class WebsiteNavigationStore : IWebsiteNavigationStore
 
         if (entity is null)
         {
+            var widthVariant = ParseNavigationWidthVariant(input.LayoutConfig, strict: true);
             entity = WebNavigationConfig.Create(
                 Guid.NewGuid(),
                 scopedTenantId,
+                widthVariant,
                 CloneJson(input.LayoutConfig),
                 CloneJson(input.StyleConfig),
                 CloneJson(input.BehaviorConfig),
@@ -80,7 +97,9 @@ internal sealed class WebsiteNavigationStore : IWebsiteNavigationStore
         }
         else
         {
+            var widthVariant = ParseNavigationWidthVariant(input.LayoutConfig, strict: true);
             entity.Update(
+                widthVariant,
                 CloneJson(input.LayoutConfig),
                 CloneJson(input.StyleConfig),
                 CloneJson(input.BehaviorConfig),
@@ -229,9 +248,17 @@ internal sealed class WebsiteNavigationStore : IWebsiteNavigationStore
 
     private static NavigationConfigItem Map(WebNavigationConfig entity)
     {
+        var widthVariant = entity.WidthVariant;
+        var parsedVariant = ParseNavigationWidthVariant(entity.LayoutConfig, strict: false);
+        if (parsedVariant != widthVariant)
+        {
+            widthVariant = parsedVariant;
+        }
+
         return new NavigationConfigItem(
             entity.Id,
             entity.TenantId,
+            widthVariant,
             CloneJson(entity.LayoutConfig),
             CloneJson(entity.StyleConfig),
             CloneJson(entity.BehaviorConfig),
@@ -246,6 +273,7 @@ internal sealed class WebsiteNavigationStore : IWebsiteNavigationStore
         return new NavigationConfigItem(
             entity.Id,
             entity.TenantId,
+            NavWidthVariant.Container,
             CloneJson(entity.LayoutConfig),
             CloneJson(entity.StyleConfig),
             CloneJson(entity.BehaviorConfig),
@@ -253,5 +281,33 @@ internal sealed class WebsiteNavigationStore : IWebsiteNavigationStore
             entity.IsActive,
             entity.CreatedAtUtc,
             entity.UpdatedAtUtc);
+    }
+
+    private static NavWidthVariant ParseNavigationWidthVariant(JsonDocument layoutConfig, bool strict)
+    {
+        if (!layoutConfig.RootElement.TryGetProperty("variant", out var variantElement))
+        {
+            return NavWidthVariant.Container;
+        }
+
+        if (variantElement.ValueKind is not JsonValueKind.String)
+        {
+            if (strict)
+            {
+                throw new ArgumentException("layoutConfig.variant must be a string.");
+            }
+
+            return NavWidthVariant.Container;
+        }
+
+        var raw = variantElement.GetString()?.Trim().ToLowerInvariant();
+        return raw switch
+        {
+            "container" => NavWidthVariant.Container,
+            "full" => NavWidthVariant.Full,
+            "boxed" => NavWidthVariant.Boxed,
+            _ when strict => throw new ArgumentException("layoutConfig.variant must be one of: container, full, boxed."),
+            _ => NavWidthVariant.Container,
+        };
     }
 }
