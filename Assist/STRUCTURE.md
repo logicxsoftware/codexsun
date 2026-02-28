@@ -86,6 +86,19 @@ Current-state structure only. No planned modules are listed.
 - `src/features/web/`
 - `src/features/web-navigation/`
 
+### Home Section Composition (`src/features/web`)
+- Home page section rendering remains driven by backend `web/{slug}` section payload order.
+- Home dynamic section components currently include:
+  - `AboutSection.tsx`
+  - `StatsSection.tsx`
+  - `CatalogSection.tsx`
+  - `WhyChooseUsSection.tsx`
+  - `BrandSliderSection.tsx`
+- Supporting UI primitives for these sections include:
+  - `Counter.tsx`
+  - `CatalogCard.tsx`
+  - `components/ui/marquee.tsx`
+
 ### Shared and UI Layers
 - `src/shared/auth/`
 - `src/shared/config/`
@@ -118,6 +131,7 @@ Current-state structure only. No planned modules are listed.
 ## Shared Layers Across Backend and Frontend
 - Tenant context and isolation are enforced in backend tenancy middleware/services and consumed by frontend through tenant-scoped API behavior.
 - Web rendering uses backend web/navigation/slider modules and frontend `web`, `web-navigation`, and `slider` features.
+- Home aggregate data endpoint `/api/home-data` supplements section-driven rendering by exposing tenant-resolved `hero`, `about`, `stats`, `catalog`, `whyChooseUs`, and `brandSlider` blocks plus navigation/footer/slider/menu context.
 
 ## Tests
 - `cxtest/` : Backend test project.

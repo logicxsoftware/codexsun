@@ -4,6 +4,7 @@
 - Master database: tenancy registry and master-level metadata.
 - Tenant database: tenant-scoped configuration, web pages/sections, menu engine, navigation/footer config, slider engine.
 - `web_navigation_configs` includes `width_variant` (int, default `0`) for backend-controlled width mode.
+- Home content modules (`hero`, `about`, `stats`, `catalog`, `whyChooseUs`, `brandSlider`) are stored as tenant-scoped section JSON payloads in existing `website_page_sections` records; no dedicated catalog/why/brand tables exist in the current model.
 
 ## Rules
 - Every schema change requires migration.
