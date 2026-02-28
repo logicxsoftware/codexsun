@@ -39,6 +39,7 @@ Current-state structure only. No planned modules are listed.
 
 ### Domain Layer
 - `Domain/Common/`
+- `Domain/AboutPage/`
 - `Domain/Configuration/`
 - `Domain/MenuEngine/`
 - `Domain/NavigationEngine/`
@@ -85,6 +86,15 @@ Current-state structure only. No planned modules are listed.
 - `src/features/ui-template/`
 - `src/features/web/`
 - `src/features/web-navigation/`
+
+### About Page Composition (`src/features/web/pages/about`)
+- Dedicated frontend route: `/about` (mapped in `src/routes/router.tsx`) uses an About-specific page composition instead of slug-rendered generic sections.
+- Blocks:
+  - `blocks/TeamSection.tsx`
+  - `blocks/TestimonialsSection.tsx`
+  - `blocks/RoadmapSection.tsx`
+- API consumer:
+  - `src/features/web/services/about-page-api.ts`
 
 ### Home Section Composition (`src/features/web`)
 - Home page section rendering remains driven by backend `web/{slug}` section payload order.

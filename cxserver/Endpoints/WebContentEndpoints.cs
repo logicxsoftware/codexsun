@@ -2,7 +2,9 @@ using System.Text.Json;
 using cxserver.Application.Abstractions;
 using cxserver.Application.Features.MenuEngine.Queries.GetRenderMenus;
 using cxserver.Application.Features.WebEngine.Queries.GetPublishedPage;
+using cxserver.Infrastructure.Persistence;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace cxserver.Endpoints;
 
@@ -75,7 +77,92 @@ public static class WebContentEndpoints
                 menus));
         });
 
+        app.MapGet("/api/about-page", async (
+            ISender sender,
+            ITenantContext tenantContext,
+            ITenantDbContextAccessor tenantDbContextAccessor,
+            CancellationToken cancellationToken) =>
+        {
+            var dbContext = await tenantDbContextAccessor.GetAsync(cancellationToken);
+
+            var aboutPageSection = await dbContext.AboutPageSections
+                .Include(x => x.TeamMembers)
+                .Include(x => x.Testimonials)
+                .Include(x => x.RoadmapMilestones)
+                .FirstOrDefaultAsync(x => x.TenantId == tenantContext.TenantId, cancellationToken);
+
+            if (aboutPageSection is null)
+            {
+                aboutPageSection = await dbContext.AboutPageSections
+                    .Include(x => x.TeamMembers)
+                    .Include(x => x.Testimonials)
+                    .Include(x => x.RoadmapMilestones)
+                    .OrderBy(x => x.CreatedAtUtc)
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+
+            var page = await sender.Send(new GetPublishedPageQuery("about"), cancellationToken);
+
+            var about = ExtractSectionData(page, Domain.WebEngine.SectionType.About)
+                ?? BuildDefaultAboutData(aboutPageSection);
+            var whyChooseUs = ExtractSectionData(page, Domain.WebEngine.SectionType.WhyChooseUs)
+                ?? BuildDefaultWhyChooseUsData();
+            var features = ExtractSectionData(page, Domain.WebEngine.SectionType.Features)
+                ?? BuildDefaultFeaturesData();
+            var callToAction = ExtractSectionData(page, Domain.WebEngine.SectionType.CallToAction)
+                ?? BuildDefaultCallToActionData();
+
+            var team = (aboutPageSection?.TeamMembers ?? [])
+                .OrderBy(x => x.Order)
+                .Select(x => new AboutTeamMemberResponse(x.Name, x.Role, x.Bio, x.Image, x.Order))
+                .ToList();
+
+            var testimonials = (aboutPageSection?.Testimonials ?? [])
+                .OrderBy(x => x.Order)
+                .Select(x => new AboutTestimonialResponse(x.Name, x.Company, x.Quote, x.Rating, x.Order))
+                .ToList();
+
+            var roadmap = (aboutPageSection?.RoadmapMilestones ?? [])
+                .OrderBy(x => x.Order)
+                .Select(x => new AboutRoadmapMilestoneResponse(x.Year, x.Title, x.Description, x.Order))
+                .ToList();
+
+            return Results.Ok(new AboutPageResponse(
+                new AboutHeroResponse(
+                    aboutPageSection?.HeroTitle ?? string.Empty,
+                    aboutPageSection?.HeroSubtitle ?? string.Empty),
+                about,
+                whyChooseUs,
+                features,
+                team,
+                testimonials,
+                roadmap,
+                callToAction));
+        });
+
         return group;
+    }
+
+    private static JsonElement? ExtractSectionData(GetPublishedPageResponse? page, Domain.WebEngine.SectionType sectionType)
+    {
+        if (page is null)
+        {
+            return null;
+        }
+
+        var section = page.Sections.FirstOrDefault(x => x.SectionType == sectionType);
+        if (section is null)
+        {
+            return null;
+        }
+
+        var data = section.SectionData;
+        if (data.ValueKind != JsonValueKind.Object)
+        {
+            return null;
+        }
+
+        return data;
     }
 
     private static NavigationConfigResponse ToNavigationResponse(NavigationConfigItem item)
@@ -112,6 +199,22 @@ public static class WebContentEndpoints
     private static JsonElement BuildDefaultAboutData()
     {
         using var document = JsonDocument.Parse("""{"title":"","subtitle":"","content":[],"image":{"src":"","alt":""}}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultAboutData(cxserver.Domain.AboutPage.AboutPageSection? aboutPageSection)
+    {
+        var title = aboutPageSection?.AboutTitle ?? string.Empty;
+        var subtitle = aboutPageSection?.AboutSubtitle ?? string.Empty;
+        using var document = JsonDocument.Parse(
+            $$"""
+              {
+                "title":"{{title}}",
+                "subtitle":"{{subtitle}}",
+                "content":[],
+                "image":{"src":"","alt":""}
+              }
+              """);
         return document.RootElement.Clone();
     }
 
@@ -190,4 +293,38 @@ public static class WebContentEndpoints
         NavigationConfigResponse? Navigation,
         NavigationConfigResponse? Footer,
         IReadOnlyList<MenuRenderGroupItem> Menus);
+
+    public sealed record AboutPageResponse(
+        AboutHeroResponse Hero,
+        JsonElement About,
+        JsonElement WhyChooseUs,
+        JsonElement Features,
+        IReadOnlyList<AboutTeamMemberResponse> Team,
+        IReadOnlyList<AboutTestimonialResponse> Testimonials,
+        IReadOnlyList<AboutRoadmapMilestoneResponse> Roadmap,
+        JsonElement CallToAction);
+
+    public sealed record AboutHeroResponse(
+        string Title,
+        string Subtitle);
+
+    public sealed record AboutTeamMemberResponse(
+        string Name,
+        string Role,
+        string Bio,
+        string Image,
+        int Order);
+
+    public sealed record AboutTestimonialResponse(
+        string Name,
+        string? Company,
+        string Quote,
+        int? Rating,
+        int Order);
+
+    public sealed record AboutRoadmapMilestoneResponse(
+        string Year,
+        string Title,
+        string Description,
+        int Order);
 }

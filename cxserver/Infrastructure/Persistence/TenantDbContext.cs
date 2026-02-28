@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using cxserver.Domain.AboutPage;
 using cxserver.Application.Abstractions;
 using cxserver.Domain.Common;
 using cxserver.Domain.Configuration;
@@ -31,6 +32,10 @@ public sealed class TenantDbContext : DbContext
     public DbSet<Slide> Slides => Set<Slide>();
     public DbSet<SlideLayer> SlideLayers => Set<SlideLayer>();
     public DbSet<SlideHighlight> SlideHighlights => Set<SlideHighlight>();
+    public DbSet<AboutPageSection> AboutPageSections => Set<AboutPageSection>();
+    public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
+    public DbSet<Testimonial> Testimonials => Set<Testimonial>();
+    public DbSet<RoadmapMilestone> RoadmapMilestones => Set<RoadmapMilestone>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,6 +51,10 @@ public sealed class TenantDbContext : DbContext
         modelBuilder.ApplyConfiguration(new SlideConfiguration());
         modelBuilder.ApplyConfiguration(new SlideLayerConfiguration());
         modelBuilder.ApplyConfiguration(new SlideHighlightConfiguration());
+        modelBuilder.ApplyConfiguration(new AboutPageSectionConfiguration());
+        modelBuilder.ApplyConfiguration(new TeamMemberConfiguration());
+        modelBuilder.ApplyConfiguration(new AboutTestimonialConfiguration());
+        modelBuilder.ApplyConfiguration(new RoadmapMilestoneConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }

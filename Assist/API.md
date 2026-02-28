@@ -31,6 +31,20 @@
 - `hero`, `about`, `stats`, `catalog`, `whyChooseUs`, `brandSlider`, `features`, `callToAction`, `location`, and `newsletter` are derived from published `home` page sections and include safe fallback objects when missing.
   - `callToAction` shape supports content-first fields: `title`, `description`, `buttonText`, `buttonHref` (legacy `label`/`href` accepted for backward compatibility).
 
+## About Page Endpoint
+- `GET /api/about-page` returns tenant-resolved About page composition payload.
+- Response includes:
+  - `hero`
+  - `about`
+  - `whyChooseUs`
+  - `features`
+  - `team`
+  - `testimonials`
+  - `roadmap`
+  - `callToAction`
+- `about`, `whyChooseUs`, `features`, and `callToAction` are sourced from published `about` page section JSON with fallback objects.
+- `hero`, `team`, `testimonials`, and `roadmap` are sourced from dedicated tenant-scoped About page tables.
+
 ## Contract Rules
 - No silent breaking contract changes.
 - Status codes and payload structure must remain stable per endpoint.

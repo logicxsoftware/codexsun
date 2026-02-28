@@ -1,7 +1,6 @@
 import type { ReactElement } from "react"
 import { Link } from "react-router"
 
-import FadeUp from "@/components/animations/FadeUp"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import AboutSection from "@/features/web/components/AboutSection"
@@ -9,6 +8,7 @@ import BrandSliderSection from "@/features/web/components/BrandSliderSection"
 import CallToActionSection from "@/features/web/components/CallToActionSection"
 import CatalogSection from "@/features/web/components/CatalogSection"
 import FeaturesSection from "@/features/web/components/FeaturesSection"
+import HeroSection from "@/features/web/components/HeroSection"
 import LocationSection from "@/features/web/components/LocationSection"
 import NewsletterSection from "@/features/web/components/NewsletterSection"
 import StatsSection from "@/features/web/components/StatsSection"
@@ -66,26 +66,7 @@ const SliderSection = ({ data }: SectionProps<SliderSectionData>) => (
   </div>
 )
 
-const HeroSection = ({ data }: SectionProps<HeroSectionData>) => {
-  const safeTitle = data.title?.trim() || "Welcome"
-  const safeSubtitle = data.subtitle?.trim() || "Reliable technology solutions tailored for your business."
-
-  return (
-    <section className="w-full">
-      <div className="mx-auto max-w-5xl px-5 text-center">
-        <FadeUp>
-          <h1 className="mb-6 wrap-break-word text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl">{safeTitle}</h1>
-        </FadeUp>
-        <FadeUp delay={0.1}>
-          <p className="mb-8 wrap-break-word text-lg leading-relaxed text-muted-foreground md:text-xl">{safeSubtitle}</p>
-        </FadeUp>
-        <FadeUp delay={0.15}>
-          <div className="mx-auto mt-6 h-1 w-20 rounded-full bg-primary" />
-        </FadeUp>
-      </div>
-    </section>
-  )
-}
+const HeroSectionRenderer = ({ data }: SectionProps<HeroSectionData>) => <HeroSection data={data} />
 
 const AboutSectionRenderer = ({ data }: SectionProps<AboutSectionData>) => <AboutSection data={data} />
 const CatalogSectionRenderer = ({ data }: SectionProps<CatalogSectionData>) => <CatalogSection data={data} />
@@ -172,7 +153,7 @@ type SectionRendererMap = {
 const sectionRenderers: SectionRendererMap = {
   [SectionTypeValues.Menu]: MenuSection,
   [SectionTypeValues.Slider]: SliderSection,
-  [SectionTypeValues.Hero]: HeroSection,
+  [SectionTypeValues.Hero]: HeroSectionRenderer,
   [SectionTypeValues.About]: AboutSectionRenderer,
   [SectionTypeValues.Catalog]: CatalogSectionRenderer,
   [SectionTypeValues.Location]: LocationSectionRenderer,

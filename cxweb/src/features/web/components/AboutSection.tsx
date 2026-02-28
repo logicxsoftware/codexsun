@@ -14,7 +14,7 @@ function AboutSection({ data }: AboutSectionProps) {
 
   return (
     <section className="w-full bg-muted/70">
-      <div className="mx-auto w-full max-w-7xl px-5 py-12 md:py-16">
+      <div className="mx-auto w-full max-w-7xl px-5 py-16 md:py-24">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-14">
           <FadeUp delay={0.2}>
             <div className="text-center md:text-left">

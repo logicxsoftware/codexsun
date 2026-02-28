@@ -21,7 +21,7 @@ export default function CallToActionSection({ data }: CallToActionSectionProps) 
       <div className="mx-auto max-w-7xl px-5 text-center">
         <FadeUp>
           {title ? <h2 className="mb-4 text-2xl font-semibold md:text-3xl">{title}</h2> : null}
-          {description ? <p className="mx-auto mb-6 max-w-2xl whitespace-pre-line text-primary-foreground/80">{description}</p> : null}
+          {description ? <p className="mx-auto mb-6 max-w-2xl whitespace-pre-line text-primary-foreground/60">{description}</p> : null}
           {buttonText && buttonHref ? (
             <Link
               to={buttonHref}

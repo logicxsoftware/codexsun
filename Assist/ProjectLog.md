@@ -449,3 +449,25 @@ Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/Pr
 - Database Impact: No schema change (section JSON payload and seed data alignment only)
 - API Impact: Yes (`GET /api/home-data` section composition and shape alignment)
 - Breaking Change: No
+
+# ProjectLog #: 46
+# Date: 2026-02-28
+# Module: About Page (Web + API + Tenant Data)
+# Type: Feature
+# Summary:
+Implemented a dedicated dynamic About page composition with reusable Hero/About/WhyChooseUs/Features/CallToAction blocks plus new Team, Testimonials, and Roadmap sections. Added tenant-scoped About page persistence tables with migration and idempotent seeding, introduced `GET /api/about-page` aggregate endpoint, and wired frontend `/about` route to backend-driven data.
+Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Domain/AboutPage/AboutPageSection.cs, cxserver/Domain/AboutPage/TeamMember.cs, cxserver/Domain/AboutPage/Testimonial.cs, cxserver/Domain/AboutPage/RoadmapMilestone.cs, cxserver/Infrastructure/Persistence/Configurations/AboutPageSectionConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/TeamMemberConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/AboutTestimonialConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/RoadmapMilestoneConfiguration.cs, cxserver/Infrastructure/Persistence/TenantDbContext.cs, cxserver/Infrastructure/Migrations/Tenant/20260228183305_AddAboutPageSchema.cs, cxserver/Infrastructure/Migrations/Tenant/TenantDbContextModelSnapshot.cs, cxserver/Infrastructure/Seeding/TenantAboutPageSeeder.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Infrastructure/Seeding/TenantDatabaseSeeder.cs, cxserver/Infrastructure/Onboarding/TenantSeederExecutor.cs, cxserver/Infrastructure/DependencyInjection/DependencyInjection.cs, cxserver/Endpoints/WebContentEndpoints.cs, cxweb/src/routes/router.tsx, cxweb/src/features/web/services/about-page-api.ts, cxweb/src/features/web/pages/about/index.tsx, cxweb/src/features/web/pages/about/blocks/TeamSection.tsx, cxweb/src/features/web/pages/about/blocks/TestimonialsSection.tsx, cxweb/src/features/web/pages/about/blocks/RoadmapSection.tsx
+- Database Impact: Yes (new tenant tables and migration for About page data)
+- API Impact: Yes (`GET /api/about-page` added)
+- Breaking Change: No
+
+# ProjectLog #: 47
+# Date: 2026-02-28
+# Module: Home + About UI/Data Alignment
+# Type: Refactor
+# Summary:
+Committed the full pending integration set: About page dynamic backend/frontend delivery, reusable hero extraction, home section styling/behavior refinements (newsletter, location, features, CTA, footer width/background), and tenant-seeded content synchronization.
+Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Domain/AboutPage/AboutPageSection.cs, cxserver/Domain/AboutPage/TeamMember.cs, cxserver/Domain/AboutPage/Testimonial.cs, cxserver/Domain/AboutPage/RoadmapMilestone.cs, cxserver/Endpoints/WebContentEndpoints.cs, cxserver/Infrastructure/DependencyInjection/DependencyInjection.cs, cxserver/Infrastructure/Migrations/Tenant/20260228183305_AddAboutPageSchema.cs, cxserver/Infrastructure/Migrations/Tenant/TenantDbContextModelSnapshot.cs, cxserver/Infrastructure/Onboarding/TenantSeederExecutor.cs, cxserver/Infrastructure/Persistence/Configurations/AboutPageSectionConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/AboutTestimonialConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/RoadmapMilestoneConfiguration.cs, cxserver/Infrastructure/Persistence/Configurations/TeamMemberConfiguration.cs, cxserver/Infrastructure/Persistence/TenantDbContext.cs, cxserver/Infrastructure/Seeding/TenantAboutPageSeeder.cs, cxserver/Infrastructure/Seeding/TenantDatabaseSeeder.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxweb/src/css/app.css, cxweb/src/features/web-navigation/components/FooterContainer.tsx, cxweb/src/features/web/components/AboutSection.tsx, cxweb/src/features/web/components/CallToActionSection.tsx, cxweb/src/features/web/components/FeaturesSection.tsx, cxweb/src/features/web/components/HeroSection.tsx, cxweb/src/features/web/components/LocationSection.tsx, cxweb/src/features/web/components/NewsletterSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/about/index.tsx, cxweb/src/features/web/pages/about/blocks/RoadmapSection.tsx, cxweb/src/features/web/pages/about/blocks/TeamSection.tsx, cxweb/src/features/web/pages/about/blocks/TestimonialsSection.tsx, cxweb/src/features/web/services/about-page-api.ts, cxweb/src/routes/router.tsx
+- Database Impact: Yes (About page tenant schema additions + seeded data updates)
+- API Impact: Yes (`GET /api/about-page` plus aligned about/home payload usage)
+- Breaking Change: No

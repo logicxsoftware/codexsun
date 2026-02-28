@@ -86,7 +86,7 @@ export default function LocationSection({ data }: LocationSectionProps) {
                 src={imageSrc}
                 alt={imageAlt}
                 loading="lazy"
-                className="h-56 w-full max-w-sm rounded-xl object-cover md:h-64 lg:max-w-md"
+                className="h-56 w-full max-w-sm rounded-xl object-cover md:h-96 lg:max-w-xl"
               />
               {mapEmbedUrl ? (
                 <div className="mt-4 rounded-xl border border-border bg-card p-3 shadow-xl lg:absolute lg:-bottom-10 lg:left-4 lg:mt-0 lg:w-[78%]">

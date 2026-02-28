@@ -10,8 +10,8 @@ type FooterContainerProps = {
   style: FooterStyleConfig
 }
 
-function FooterContainer({ children, layout, style }: FooterContainerProps) {
-  const widthClass = layout.variant === "container" ? "mx-auto max-w-7xl px-4 sm:px-6" : "w-full px-4 sm:px-6"
+function FooterContainer({ children, layout: _layout, style }: FooterContainerProps) {
+  const widthClass = "w-full px-5"
   const spacingClass = style.spacing === "compact" ? "py-6" : style.spacing === "relaxed" ? "py-12" : "py-8"
   const borderClass = style.borderTop ? cn("border-t", resolveBorderClass("border", "border-border")) : ""
 

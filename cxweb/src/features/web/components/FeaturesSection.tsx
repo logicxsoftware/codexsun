@@ -32,7 +32,7 @@ export default function FeaturesSection({ data }: FeaturesSectionProps) {
   }
 
   return (
-    <section className="bg-muted py-16 md:py-20 lg:py-24">
+    <section className="bg-muted/70 py-18 md:py-24 lg:py-26">
       <div className="mx-auto max-w-7xl px-5">
         <FadeUpStagger className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16" staggerChildren={0.2} delay={0.05}>
           <FadeUpItem>

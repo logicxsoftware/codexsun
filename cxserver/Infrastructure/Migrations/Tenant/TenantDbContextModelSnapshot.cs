@@ -22,6 +22,219 @@ namespace cxserver.Infrastructure.Migrations.Tenant
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("cxserver.Domain.AboutPage.AboutPageSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("AboutSubtitle")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("about_subtitle");
+
+                    b.Property<string>("AboutTitle")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)")
+                        .HasColumnName("about_title");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<string>("HeroSubtitle")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("hero_subtitle");
+
+                    b.Property<string>("HeroTitle")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)")
+                        .HasColumnName("hero_title");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_about_page_sections_tenant_id");
+
+                    b.ToTable("about_page_sections", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.RoadmapMilestone", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("description");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("section_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("title");
+
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order")
+                        .HasDatabaseName("ix_about_roadmap_milestones_display_order");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_about_roadmap_milestones_tenant_id");
+
+                    b.HasIndex("SectionId", "Order")
+                        .IsUnique()
+                        .HasDatabaseName("ux_about_roadmap_milestones_section_order");
+
+                    b.ToTable("about_roadmap_milestones", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.TeamMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("bio");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("image");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("role");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("section_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order")
+                        .HasDatabaseName("ix_about_team_members_display_order");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_about_team_members_tenant_id");
+
+                    b.HasIndex("SectionId", "Order")
+                        .IsUnique()
+                        .HasDatabaseName("ux_about_team_members_section_order");
+
+                    b.ToTable("about_team_members", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.Testimonial", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Company")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("company");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("Quote")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("quote");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int")
+                        .HasColumnName("rating");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("section_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order")
+                        .HasDatabaseName("ix_about_testimonials_display_order");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("ix_about_testimonials_tenant_id");
+
+                    b.HasIndex("SectionId", "Order")
+                        .IsUnique()
+                        .HasDatabaseName("ux_about_testimonials_section_order");
+
+                    b.ToTable("about_testimonials", (string)null);
+                });
+
             modelBuilder.Entity("cxserver.Domain.Configuration.ConfigurationDocument", b =>
                 {
                     b.Property<Guid>("Id")
@@ -74,6 +287,983 @@ namespace cxserver.Infrastructure.Migrations.Tenant
                         .HasDatabaseName("ix_configuration_documents_lookup_soft_delete");
 
                     b.ToTable("configuration_documents", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.Menu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<bool>("IsMegaMenu")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_mega_menu");
+
+                    b.Property<Guid>("MenuGroupId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("menu_group_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("slug");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.Property<int>("Variant")
+                        .HasColumnType("int")
+                        .HasColumnName("variant");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuGroupId", "IsActive", "IsDeleted")
+                        .HasDatabaseName("ix_menus_group_active");
+
+                    b.HasIndex("MenuGroupId", "Order", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_menus_group_order_soft_delete");
+
+                    b.HasIndex("TenantId", "MenuGroupId", "Slug", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_menus_tenant_group_slug_soft_delete");
+
+                    b.ToTable("menus", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.MenuGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("slug");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int")
+                        .HasColumnName("type");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId", "Slug", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_menu_groups_tenant_slug_soft_delete");
+
+                    b.HasIndex("Type", "IsActive", "IsDeleted")
+                        .HasDatabaseName("ix_menu_groups_type_active");
+
+                    b.ToTable("menu_groups", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.MenuItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Icon")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("icon");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("menu_id");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("parent_id");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("slug");
+
+                    b.Property<int>("Target")
+                        .HasColumnType("int")
+                        .HasColumnName("target");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("title");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("MenuId", "Slug", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_menu_items_menu_slug_soft_delete");
+
+                    b.HasIndex("MenuId", "ParentId", "IsActive", "IsDeleted")
+                        .HasDatabaseName("ix_menu_items_tree_lookup");
+
+                    b.HasIndex("MenuId", "ParentId", "Order", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_menu_items_menu_parent_order_soft_delete");
+
+                    b.ToTable("menu_items", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.NavigationEngine.FooterConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("BehaviorConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("behavior_config_json");
+
+                    b.Property<string>("ComponentConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("component_config_json");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("LayoutConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("layout_config_json");
+
+                    b.Property<string>("StyleConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("style_config_json");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsActive", "IsDeleted")
+                        .HasDatabaseName("ix_footer_configs_active");
+
+                    b.HasIndex("TenantId", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_footer_configs_tenant_soft_delete");
+
+                    b.ToTable("footer_configs", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.NavigationEngine.WebNavigationConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("BehaviorConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("behavior_config_json");
+
+                    b.Property<string>("ComponentConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("component_config_json");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("LayoutConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("layout_config_json");
+
+                    b.Property<string>("StyleConfig")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("style_config_json");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.Property<int>("WidthVariant")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("width_variant");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsActive", "IsDeleted")
+                        .HasDatabaseName("ix_web_navigation_configs_active");
+
+                    b.HasIndex("TenantId", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_web_navigation_configs_tenant_soft_delete");
+
+                    b.ToTable("web_navigation_configs", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.Slide", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ActionHref")
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("action_href");
+
+                    b.Property<string>("ActionText")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("action_text");
+
+                    b.Property<int>("BackgroundMode")
+                        .HasColumnType("int")
+                        .HasColumnName("background_mode");
+
+                    b.Property<string>("BackgroundUrl")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("background_url");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<int>("CtaColor")
+                        .HasColumnType("int")
+                        .HasColumnName("cta_color");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<int>("Direction")
+                        .HasColumnType("int")
+                        .HasColumnName("direction");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int")
+                        .HasColumnName("duration");
+
+                    b.Property<int>("Intensity")
+                        .HasColumnType("int")
+                        .HasColumnName("intensity");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("MediaType")
+                        .HasColumnType("int")
+                        .HasColumnName("media_type");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<string>("OverlayToken")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)")
+                        .HasColumnName("overlay_token");
+
+                    b.Property<bool>("ShowOverlay")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("show_overlay");
+
+                    b.Property<Guid>("SliderConfigId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("slider_config_id");
+
+                    b.Property<string>("Tagline")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("tagline");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("title");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.Property<int>("Variant")
+                        .HasColumnType("int")
+                        .HasColumnName("variant");
+
+                    b.Property<string>("YoutubeVideoId")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)")
+                        .HasColumnName("youtube_video_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SliderConfigId", "IsActive", "IsDeleted")
+                        .HasDatabaseName("ix_slides_lookup");
+
+                    b.HasIndex("SliderConfigId", "Order", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_slides_order_soft_delete");
+
+                    b.ToTable("slides", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.SlideHighlight", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<Guid>("SlideId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("slide_id");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("text");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.Property<string>("Variant")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)")
+                        .HasColumnName("variant");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SlideId", "Order", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_highlights_order_soft_delete");
+
+                    b.ToTable("highlights", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.SlideLayer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<int>("AnimationDelay")
+                        .HasColumnType("int")
+                        .HasColumnName("animation_delay");
+
+                    b.Property<int>("AnimationDuration")
+                        .HasColumnType("int")
+                        .HasColumnName("animation_duration");
+
+                    b.Property<string>("AnimationEasing")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)")
+                        .HasColumnName("animation_easing");
+
+                    b.Property<int>("AnimationFrom")
+                        .HasColumnType("int")
+                        .HasColumnName("animation_from");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("content");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("MediaUrl")
+                        .HasMaxLength(2048)
+                        .HasColumnType("varchar(2048)")
+                        .HasColumnName("media_url");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<decimal>("PositionX")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("decimal(6,2)")
+                        .HasColumnName("position_x");
+
+                    b.Property<decimal>("PositionY")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("decimal(6,2)")
+                        .HasColumnName("position_y");
+
+                    b.Property<string>("ResponsiveVisibility")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)")
+                        .HasColumnName("responsive_visibility");
+
+                    b.Property<Guid>("SlideId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("slide_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int")
+                        .HasColumnName("type");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.Property<string>("Width")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("width");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SlideId", "Order", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_slide_layers_order_soft_delete");
+
+                    b.ToTable("slide_layers", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.SliderConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Autoplay")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("autoplay");
+
+                    b.Property<int>("ContainerMode")
+                        .HasColumnType("int")
+                        .HasColumnName("container_mode");
+
+                    b.Property<int>("ContentAlignment")
+                        .HasColumnType("int")
+                        .HasColumnName("content_alignment");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<int>("DefaultBackgroundMode")
+                        .HasColumnType("int")
+                        .HasColumnName("default_background_mode");
+
+                    b.Property<int>("DefaultDirection")
+                        .HasColumnType("int")
+                        .HasColumnName("default_direction");
+
+                    b.Property<int>("DefaultIntensity")
+                        .HasColumnType("int")
+                        .HasColumnName("default_intensity");
+
+                    b.Property<int>("DefaultVariant")
+                        .HasColumnType("int")
+                        .HasColumnName("default_variant");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<int>("HeightMode")
+                        .HasColumnType("int")
+                        .HasColumnName("height_mode");
+
+                    b.Property<int>("HeightValue")
+                        .HasColumnType("int")
+                        .HasColumnName("height_value");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<bool>("Loop")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("loop");
+
+                    b.Property<bool>("Parallax")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("parallax");
+
+                    b.Property<bool>("Particles")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("particles");
+
+                    b.Property<int>("ScrollBehavior")
+                        .HasColumnType("int")
+                        .HasColumnName("scroll_behavior");
+
+                    b.Property<bool>("ShowDots")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("show_dots");
+
+                    b.Property<bool>("ShowNavArrows")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("show_nav_arrows");
+
+                    b.Property<bool>("ShowProgress")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("show_progress");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("tenant_id");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_slider_configs_tenant_soft_delete");
+
+                    b.ToTable("slider_configs", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.WebEngine.Page", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_published");
+
+                    b.Property<DateTimeOffset?>("PublishedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("published_at_utc");
+
+                    b.Property<string>("SeoDescription")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("seo_description");
+
+                    b.Property<string>("SeoTitle")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("seo_title");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("slug");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("title");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsPublished")
+                        .HasDatabaseName("ix_website_pages_is_published");
+
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasDatabaseName("ux_website_pages_slug");
+
+                    b.ToTable("website_pages", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.WebEngine.PageSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at_utc");
+
+                    b.Property<DateTimeOffset?>("DeletedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at_utc");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int")
+                        .HasColumnName("display_order");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_published");
+
+                    b.Property<Guid>("PageId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("page_id");
+
+                    b.Property<DateTimeOffset?>("PublishedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("published_at_utc");
+
+                    b.Property<string>("SectionData")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("section_data_json");
+
+                    b.Property<int>("SectionType")
+                        .HasColumnType("int")
+                        .HasColumnName("section_type");
+
+                    b.Property<DateTimeOffset>("UpdatedAtUtc")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at_utc");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DisplayOrder")
+                        .HasDatabaseName("ix_website_page_sections_display_order");
+
+                    b.HasIndex("PageId")
+                        .HasDatabaseName("ix_website_page_sections_page_id");
+
+                    b.HasIndex("PageId", "DisplayOrder", "IsDeleted")
+                        .IsUnique()
+                        .HasDatabaseName("ux_website_page_sections_page_order_soft_delete");
+
+                    b.HasIndex("PageId", "IsPublished", "IsDeleted")
+                        .HasDatabaseName("ix_website_page_sections_published_lookup");
+
+                    b.ToTable("website_page_sections", (string)null);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.RoadmapMilestone", b =>
+                {
+                    b.HasOne("cxserver.Domain.AboutPage.AboutPageSection", null)
+                        .WithMany("RoadmapMilestones")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.TeamMember", b =>
+                {
+                    b.HasOne("cxserver.Domain.AboutPage.AboutPageSection", null)
+                        .WithMany("TeamMembers")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.Testimonial", b =>
+                {
+                    b.HasOne("cxserver.Domain.AboutPage.AboutPageSection", null)
+                        .WithMany("Testimonials")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.Menu", b =>
+                {
+                    b.HasOne("cxserver.Domain.MenuEngine.MenuGroup", null)
+                        .WithMany("Menus")
+                        .HasForeignKey("MenuGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.MenuItem", b =>
+                {
+                    b.HasOne("cxserver.Domain.MenuEngine.Menu", null)
+                        .WithMany("Items")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("cxserver.Domain.MenuEngine.MenuItem", null)
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.Slide", b =>
+                {
+                    b.HasOne("cxserver.Domain.SliderEngine.SliderConfig", null)
+                        .WithMany("Slides")
+                        .HasForeignKey("SliderConfigId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.SlideHighlight", b =>
+                {
+                    b.HasOne("cxserver.Domain.SliderEngine.Slide", null)
+                        .WithMany("Highlights")
+                        .HasForeignKey("SlideId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.SlideLayer", b =>
+                {
+                    b.HasOne("cxserver.Domain.SliderEngine.Slide", null)
+                        .WithMany("Layers")
+                        .HasForeignKey("SlideId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.WebEngine.PageSection", b =>
+                {
+                    b.HasOne("cxserver.Domain.WebEngine.Page", null)
+                        .WithMany("Sections")
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cxserver.Domain.AboutPage.AboutPageSection", b =>
+                {
+                    b.Navigation("RoadmapMilestones");
+
+                    b.Navigation("TeamMembers");
+
+                    b.Navigation("Testimonials");
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.Menu", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("cxserver.Domain.MenuEngine.MenuGroup", b =>
+                {
+                    b.Navigation("Menus");
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.Slide", b =>
+                {
+                    b.Navigation("Highlights");
+
+                    b.Navigation("Layers");
+                });
+
+            modelBuilder.Entity("cxserver.Domain.SliderEngine.SliderConfig", b =>
+                {
+                    b.Navigation("Slides");
+                });
+
+            modelBuilder.Entity("cxserver.Domain.WebEngine.Page", b =>
+                {
+                    b.Navigation("Sections");
                 });
 #pragma warning restore 612, 618
         }

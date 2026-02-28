@@ -50,7 +50,7 @@ export default function NewsletterSection({ data }: NewsletterSectionProps) {
                 <input
                   type="text"
                   placeholder={placeholderName}
-                  className="w-full border-b-2 border-black bg-transparent py-2.5 text-foreground placeholder:text-muted-foreground transition-colors focus:border-black focus:outline-none"
+                  className="w-full border-b-2 border-black/30 bg-transparent py-2.5 text-foreground placeholder:text-muted-foreground transition-colors focus:border-black focus:outline-none"
                 />
               </label>
               <label className="grid gap-2">
@@ -58,7 +58,7 @@ export default function NewsletterSection({ data }: NewsletterSectionProps) {
                 <input
                   type="email"
                   placeholder={placeholderEmail}
-                  className="w-full border-b-2 border-black bg-transparent py-2.5 text-foreground placeholder:text-muted-foreground transition-colors focus:border-black focus:outline-none"
+                  className="w-full border-b-2 border-black/30 bg-transparent py-2.5 text-foreground placeholder:text-muted-foreground transition-colors focus:border-black focus:outline-none"
                 />
               </label>
             </div>
@@ -66,7 +66,7 @@ export default function NewsletterSection({ data }: NewsletterSectionProps) {
             <div className="flex justify-center">
               <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-red-700 sm:px-10"
+                className="inline-flex items-center cursor-pointer justify-center rounded-full bg-red-600 px-8 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-red-700 sm:px-10"
               >
                 {buttonText}
               </button>
