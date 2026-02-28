@@ -9,7 +9,7 @@ function WebLayout() {
       <div className="min-h-screen bg-background text-foreground">
         <WebNavigationHeader />
 
-        <main className="pb-8 md:pb-10">
+        <main>
           <Outlet />
         </main>
 

@@ -20,11 +20,16 @@
   - `catalog` (home catalog section data)
   - `whyChooseUs` (home why-choose-us section data)
   - `brandSlider` (home brand slider section data)
+  - `features` (home features section data)
+  - `callToAction` (home call-to-action section data)
+  - `location` (home location section data)
+  - `newsletter` (home newsletter section data)
   - `slider`
   - `navigation`
   - `footer`
   - `menus`
-- `hero`, `about`, `stats`, `catalog`, `whyChooseUs`, and `brandSlider` are derived from published `home` page sections and include safe fallback objects when missing.
+- `hero`, `about`, `stats`, `catalog`, `whyChooseUs`, `brandSlider`, `features`, `callToAction`, `location`, and `newsletter` are derived from published `home` page sections and include safe fallback objects when missing.
+  - `callToAction` shape supports content-first fields: `title`, `description`, `buttonText`, `buttonHref` (legacy `label`/`href` accepted for backward compatibility).
 
 ## Contract Rules
 - No silent breaking contract changes.

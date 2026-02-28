@@ -49,6 +49,7 @@
   --link-hover: oklch(0.44 0.16 254);
   --cta-bg: oklch(0.6 0.17 252);
   --cta-foreground: oklch(0.985 0 0);
+  --newsletter-bg: #f9d75c;
 }
 
 .dark {
@@ -96,6 +97,7 @@
   --link-hover: oklch(0.9 0.08 252);
   --cta-bg: oklch(0.78 0.13 252);
   --cta-foreground: oklch(0.2 0.02 258);
+  --newsletter-bg: #f9d75c;
 }
 
 @theme {
@@ -146,6 +148,7 @@
   --color-link-hover: var(--link-hover);
   --color-cta-bg: var(--cta-bg);
   --color-cta-foreground: var(--cta-foreground);
+  --color-newsletter-bg: var(--newsletter-bg);
 }
 
 @layer base {
@@ -178,5 +181,33 @@
   }
   to {
     width: 100%;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee var(--duration) linear infinite;
+  }
+
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration) linear infinite;
   }
 }

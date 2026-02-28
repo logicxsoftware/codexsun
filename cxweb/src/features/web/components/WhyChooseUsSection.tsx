@@ -25,7 +25,7 @@ export default function WhyChooseUsSection({ data }: WhyChooseUsSectionProps) {
   }
 
   return (
-    <section className="bg-muted py-20 md:py-24 lg:py-28">
+    <section className="bg-muted/70 py-20 md:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-5">
         <FadeUp>
           <div className="mx-auto mb-12 max-w-3xl text-center">

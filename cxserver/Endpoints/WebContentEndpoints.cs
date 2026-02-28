@@ -42,6 +42,10 @@ public static class WebContentEndpoints
             var catalogSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Catalog);
             var whyChooseUsSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.WhyChooseUs);
             var brandSliderSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.BrandSlider);
+            var featuresSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Features);
+            var callToActionSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.CallToAction);
+            var locationSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Location);
+            var newsletterSection = page.Sections.FirstOrDefault(x => x.SectionType == Domain.WebEngine.SectionType.Newsletter);
 
             var hero = heroSection?.SectionData;
             var about = aboutSection?.SectionData;
@@ -49,6 +53,10 @@ public static class WebContentEndpoints
             var catalog = catalogSection?.SectionData;
             var whyChooseUs = whyChooseUsSection?.SectionData;
             var brandSlider = brandSliderSection?.SectionData;
+            var features = featuresSection?.SectionData;
+            var callToAction = callToActionSection?.SectionData;
+            var location = locationSection?.SectionData;
+            var newsletter = newsletterSection?.SectionData;
 
             return Results.Ok(new HomeDataResponse(
                 hero.HasValue && hero.Value.ValueKind == JsonValueKind.Object ? hero.Value : BuildDefaultHeroData(),
@@ -57,6 +65,10 @@ public static class WebContentEndpoints
                 catalog.HasValue && catalog.Value.ValueKind == JsonValueKind.Object ? catalog.Value : BuildDefaultCatalogData(),
                 whyChooseUs.HasValue && whyChooseUs.Value.ValueKind == JsonValueKind.Object ? whyChooseUs.Value : BuildDefaultWhyChooseUsData(),
                 brandSlider.HasValue && brandSlider.Value.ValueKind == JsonValueKind.Object ? brandSlider.Value : BuildDefaultBrandSliderData(),
+                features.HasValue && features.Value.ValueKind == JsonValueKind.Object ? features.Value : BuildDefaultFeaturesData(),
+                callToAction.HasValue && callToAction.Value.ValueKind == JsonValueKind.Object ? callToAction.Value : BuildDefaultCallToActionData(),
+                location.HasValue && location.Value.ValueKind == JsonValueKind.Object ? location.Value : BuildDefaultLocationData(),
+                newsletter.HasValue && newsletter.Value.ValueKind == JsonValueKind.Object ? newsletter.Value : BuildDefaultNewsletterData(),
                 slider,
                 navigation is null ? null : ToNavigationResponse(navigation),
                 footer is null ? null : ToNavigationResponse(footer),
@@ -127,6 +139,30 @@ public static class WebContentEndpoints
         return document.RootElement.Clone();
     }
 
+    private static JsonElement BuildDefaultFeaturesData()
+    {
+        using var document = JsonDocument.Parse("""{"title":"","description":"","imageSrc":"","imageAlt":"","bullets":[]}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultCallToActionData()
+    {
+        using var document = JsonDocument.Parse("""{"title":"","description":"","buttonText":"","buttonHref":"","label":"","href":""}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultLocationData()
+    {
+        using var document = JsonDocument.Parse("""{"displayName":"","title":"","address":"","buttonText":"","buttonHref":"","imageSrc":"","imageAlt":"","imageClassName":"","mapEmbedUrl":"","mapTitle":"","placeId":"","latitude":0,"longitude":0,"timings":[],"contact":{"phone":"","email":""}}""");
+        return document.RootElement.Clone();
+    }
+
+    private static JsonElement BuildDefaultNewsletterData()
+    {
+        using var document = JsonDocument.Parse("""{"title":"","description":"","placeholderName":"","placeholderEmail":"","buttonText":"","trustNote":"","imageSrc":"","imageAlt":"","image":""}""");
+        return document.RootElement.Clone();
+    }
+
     public sealed record NavigationConfigResponse(
         Guid Id,
         Guid? TenantId,
@@ -146,6 +182,10 @@ public static class WebContentEndpoints
         JsonElement Catalog,
         JsonElement WhyChooseUs,
         JsonElement BrandSlider,
+        JsonElement Features,
+        JsonElement CallToAction,
+        JsonElement Location,
+        JsonElement Newsletter,
         SliderConfigDto Slider,
         NavigationConfigResponse? Navigation,
         NavigationConfigResponse? Footer,

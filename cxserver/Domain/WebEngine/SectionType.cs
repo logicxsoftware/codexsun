@@ -7,6 +7,7 @@ public enum SectionType
     Hero = 3,
     About = 15,
     Catalog = 16,
+    Location = 17,
     Features = 4,
     Gallery = 5,
     ProductRange = 6,

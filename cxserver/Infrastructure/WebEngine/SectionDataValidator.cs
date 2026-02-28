@@ -20,7 +20,8 @@ internal sealed class SectionDataValidator : ISectionDataValidator
             SectionType.Hero => HasAnyRequiredKey(sectionData, "headline", "title"),
             SectionType.About => HasAnyRequiredKey(sectionData, "title", "content"),
             SectionType.Catalog => HasAnyRequiredKey(sectionData, "categories", "heading"),
-            SectionType.Features => HasAnyRequiredKey(sectionData, "items"),
+            SectionType.Location => HasAnyRequiredKey(sectionData, "displayName", "title", "mapEmbedUrl"),
+            SectionType.Features => HasAnyRequiredKey(sectionData, "items", "title", "bullets"),
             SectionType.Gallery => HasAnyRequiredKey(sectionData, "images"),
             SectionType.ProductRange => HasAnyRequiredKey(sectionData, "products"),
             SectionType.WhyChooseUs => HasAnyRequiredKey(sectionData, "items"),
@@ -28,8 +29,8 @@ internal sealed class SectionDataValidator : ISectionDataValidator
             SectionType.BrandSlider => HasAnyRequiredKey(sectionData, "brands", "logos", "heading"),
             SectionType.BlogShow => HasAnyRequiredKey(sectionData, "limit"),
             SectionType.Testimonial => HasAnyRequiredKey(sectionData, "items"),
-            SectionType.CallToAction => HasAnyRequiredKey(sectionData, "label", "title"),
-            SectionType.Newsletter => HasAnyRequiredKey(sectionData, "title"),
+            SectionType.CallToAction => HasAnyRequiredKey(sectionData, "title", "buttonText", "label"),
+            SectionType.Newsletter => HasAnyRequiredKey(sectionData, "title", "description", "buttonText"),
             SectionType.Footer => HasAnyRequiredKey(sectionData, "columns"),
             _ => false
         };

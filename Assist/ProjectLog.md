@@ -438,3 +438,14 @@ Files Changed: cxweb/src/features/web/components/NewsletterSection.tsx, Assist/P
 - Database Impact: No
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 45
+# Date: 2026-02-28
+# Module: Home Page Sections (Web + API)
+# Type: Refactor
+# Summary:
+Consolidated the home page to the approved section lineup and aligned frontend rendering with backend section data for BrandSlider, Features, CallToAction, Location, and Newsletter. Added token-aligned section components, updated home data contracts/fallbacks/validators, and synchronized tenant seeding content/order for dynamic, idempotent section delivery.
+Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/ProjectLog.md, cxserver/Domain/WebEngine/SectionType.cs, cxserver/Endpoints/WebContentEndpoints.cs, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxserver/Infrastructure/WebEngine/SectionDataValidator.cs, cxweb/src/css/app.css, cxweb/src/features/web/components/BrandSliderSection.tsx, cxweb/src/features/web/components/CatalogSection.tsx, cxweb/src/features/web/components/CallToActionSection.tsx, cxweb/src/features/web/components/FeaturesSection.tsx, cxweb/src/features/web/components/LocationSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/components/WhyChooseUsSection.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts, cxweb/src/layouts/WebLayout.tsx
+- Database Impact: No schema change (section JSON payload and seed data alignment only)
+- API Impact: Yes (`GET /api/home-data` section composition and shape alignment)
+- Breaking Change: No

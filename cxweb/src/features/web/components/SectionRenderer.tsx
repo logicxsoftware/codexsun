@@ -4,10 +4,13 @@ import { Link } from "react-router"
 import FadeUp from "@/components/animations/FadeUp"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import AboutSection from "@/features/web/components/AboutSection"
 import BrandSliderSection from "@/features/web/components/BrandSliderSection"
+import CallToActionSection from "@/features/web/components/CallToActionSection"
 import CatalogSection from "@/features/web/components/CatalogSection"
+import FeaturesSection from "@/features/web/components/FeaturesSection"
+import LocationSection from "@/features/web/components/LocationSection"
+import NewsletterSection from "@/features/web/components/NewsletterSection"
 import StatsSection from "@/features/web/components/StatsSection"
 import WhyChooseUsSection from "@/features/web/components/WhyChooseUsSection"
 import { SectionType as SectionTypeValues } from "@/features/web/services/web-page-api"
@@ -21,6 +24,7 @@ import type {
   FooterSectionData,
   GallerySectionData,
   HeroSectionData,
+  LocationSectionData,
   MenuSectionData,
   NewsletterSectionData,
   ProductRangeSectionData,
@@ -85,19 +89,9 @@ const HeroSection = ({ data }: SectionProps<HeroSectionData>) => {
 
 const AboutSectionRenderer = ({ data }: SectionProps<AboutSectionData>) => <AboutSection data={data} />
 const CatalogSectionRenderer = ({ data }: SectionProps<CatalogSectionData>) => <CatalogSection data={data} />
+const LocationSectionRenderer = ({ data }: SectionProps<LocationSectionData>) => <LocationSection data={data} />
 
-const FeaturesSection = ({ data }: SectionProps<FeaturesSectionData>) => (
-  <div className="grid gap-4 md:grid-cols-2">
-    {data.items.map((item) => (
-      <Card key={item.title} className="border-border/80 bg-card/95">
-        <CardHeader>
-          <CardTitle>{item.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="text-muted-foreground">{item.description}</CardContent>
-      </Card>
-    ))}
-  </div>
-)
+const FeaturesSectionRenderer = ({ data }: SectionProps<FeaturesSectionData>) => <FeaturesSection data={data} />
 
 const GallerySection = ({ data }: SectionProps<GallerySectionData>) => (
   <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
@@ -150,42 +144,12 @@ const TestimonialSection = ({ data }: SectionProps<TestimonialSectionData>) => (
   </div>
 )
 
-const CallToActionSection = ({ data }: SectionProps<CallToActionSectionData>) => (
-  <Card className="border-border/80 bg-card/95">
-    <CardHeader>
-      <CardTitle>{data.title}</CardTitle>
-    </CardHeader>
-    {data.label && data.href ? (
-      <CardContent>
-        <Button asChild className="bg-cta-bg text-cta-foreground hover:bg-cta-bg/90">
-          <Link to={data.href}>{data.label}</Link>
-        </Button>
-      </CardContent>
-    ) : null}
-  </Card>
-)
+const CallToActionSectionRenderer = ({ data }: SectionProps<CallToActionSectionData>) => <CallToActionSection data={data} />
 
-const NewsletterSection = ({ data }: SectionProps<NewsletterSectionData>) => (
-  <Card className="border-border/80 bg-card/95">
-    <CardHeader>
-      <CardTitle>{data.title}</CardTitle>
-    </CardHeader>
-    <CardContent className="grid gap-3 text-muted-foreground">
-      {data.subtitle ? <p>{data.subtitle}</p> : null}
-      <div className="flex flex-col gap-2 md:flex-row">
-        <Input
-          className="bg-background/80"
-          placeholder={data.placeholder ?? "Email address"}
-          type="email"
-        />
-        <Button className="bg-cta-bg text-cta-foreground hover:bg-cta-bg/90">{data.buttonLabel ?? "Subscribe"}</Button>
-      </div>
-    </CardContent>
-  </Card>
-)
+const NewsletterSectionRenderer = ({ data }: SectionProps<NewsletterSectionData>) => <NewsletterSection data={data} />
 
 const FooterSection = ({ data }: SectionProps<FooterSectionData>) => (
-  <div className="grid gap-4 border-t border-border/70 pt-6 md:grid-cols-4">
+  <div className="grid gap-4 md:grid-cols-4">
     {data.columns.map((column) => (
       <div key={column.title} className="grid gap-2">
         <h3 className="text-sm font-semibold text-foreground">{column.title}</h3>
@@ -211,7 +175,8 @@ const sectionRenderers: SectionRendererMap = {
   [SectionTypeValues.Hero]: HeroSection,
   [SectionTypeValues.About]: AboutSectionRenderer,
   [SectionTypeValues.Catalog]: CatalogSectionRenderer,
-  [SectionTypeValues.Features]: FeaturesSection,
+  [SectionTypeValues.Location]: LocationSectionRenderer,
+  [SectionTypeValues.Features]: FeaturesSectionRenderer,
   [SectionTypeValues.Gallery]: GallerySection,
   [SectionTypeValues.ProductRange]: ProductRangeSection,
   [SectionTypeValues.WhyChooseUs]: WhyChooseUsSectionRenderer,
@@ -219,8 +184,8 @@ const sectionRenderers: SectionRendererMap = {
   [SectionTypeValues.BrandSlider]: BrandSliderSectionRenderer,
   [SectionTypeValues.BlogShow]: BlogShowSection,
   [SectionTypeValues.Testimonial]: TestimonialSection,
-  [SectionTypeValues.CallToAction]: CallToActionSection,
-  [SectionTypeValues.Newsletter]: NewsletterSection,
+  [SectionTypeValues.CallToAction]: CallToActionSectionRenderer,
+  [SectionTypeValues.Newsletter]: NewsletterSectionRenderer,
   [SectionTypeValues.Footer]: FooterSection,
 }
 

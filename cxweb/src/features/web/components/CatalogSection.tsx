@@ -17,7 +17,7 @@ export default function CatalogSection({ data }: CatalogSectionProps) {
   }
 
   return (
-    <section className="bg-muted py-20 md:py-24">
+    <section className="bg-muted/70 py-20 md:py-24">
       <div className="mx-auto container px-5">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <h2 className="text-3xl font-bold text-foreground md:text-4xl">{heading}</h2>

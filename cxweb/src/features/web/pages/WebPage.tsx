@@ -14,6 +14,18 @@ type WebPageProps = {
 }
 
 const GlobalHomeSlider = lazy(async () => import("@/features/slider/components/GlobalHomeSlider"))
+const homeAllowedSectionTypes = new Set<SectionType>([
+  SectionType.Hero,
+  SectionType.About,
+  SectionType.Stats,
+  SectionType.Catalog,
+  SectionType.WhyChooseUs,
+  SectionType.BrandSlider,
+  SectionType.Features,
+  SectionType.CallToAction,
+  SectionType.Location,
+  SectionType.Newsletter,
+])
 
 export default function WebPage({ defaultSlug }: WebPageProps) {
   const params = useParams()
@@ -23,14 +35,25 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
   const [error, setError] = useState<string | null>(null)
 
   const orderedSections = useMemo(() => (data ? [...data.sections].sort((a, b) => a.displayOrder - b.displayOrder) : []), [data])
-  const visibleSections = useMemo(() => orderedSections.filter((section) => section.sectionType !== SectionType.Menu), [orderedSections])
+  const visibleSections = useMemo(() => {
+    const nonMenuSections = orderedSections.filter((section) => section.sectionType !== SectionType.Menu)
+    if (slug !== "home") {
+      return nonMenuSections
+    }
+
+    return nonMenuSections.filter((section) => homeAllowedSectionTypes.has(section.sectionType))
+  }, [orderedSections, slug])
   const isFullWidthSection = (sectionType: SectionType): boolean =>
     sectionType === SectionType.Hero ||
     sectionType === SectionType.About ||
     sectionType === SectionType.Stats ||
     sectionType === SectionType.Catalog ||
     sectionType === SectionType.WhyChooseUs ||
-    sectionType === SectionType.BrandSlider
+    sectionType === SectionType.BrandSlider ||
+    sectionType === SectionType.Features ||
+    sectionType === SectionType.CallToAction ||
+    sectionType === SectionType.Location ||
+    sectionType === SectionType.Newsletter
 
   useEffect(() => {
     let isMounted = true
@@ -106,7 +129,7 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
           </Suspense>
         </SliderProvider>
       ) : null}
-      <div className="grid gap-0 py-12 md:py-16">
+      <div>
         {visibleSections.map((section) =>
           isFullWidthSection(section.sectionType) ? (
             <SectionRenderer key={section.id} section={section} />

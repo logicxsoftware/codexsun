@@ -6,6 +6,7 @@ export const SectionType = {
   Hero: 3,
   About: 15,
   Catalog: 16,
+  Location: 17,
   Features: 4,
   Gallery: 5,
   ProductRange: 6,
@@ -30,7 +31,14 @@ export type AboutSectionData = {
   content: string[]
   image: { src: string; alt: string }
 }
-export type FeaturesSectionData = { items: Array<{ title: string; description: string }> }
+export type FeaturesSectionData = {
+  title?: string
+  description?: string
+  imageSrc?: string
+  imageAlt?: string
+  bullets?: Array<{ text: string; order?: number }>
+  items?: Array<{ title: string; description: string }>
+}
 export type GallerySectionData = { images: Array<{ url: string; alt?: string }> }
 export type ProductRangeSectionData = { products: Array<{ name: string; description?: string }> }
 export type WhyChooseUsSectionData = {
@@ -71,8 +79,45 @@ export type BrandSliderSectionData = {
 }
 export type BlogShowSectionData = { limit: number; title?: string }
 export type TestimonialSectionData = { items: Array<{ author: string; quote: string }> }
-export type CallToActionSectionData = { title: string; label?: string; href?: string }
-export type NewsletterSectionData = { title: string; subtitle?: string; placeholder?: string; buttonLabel?: string }
+export type CallToActionSectionData = {
+  title?: string
+  description?: string
+  buttonText?: string
+  buttonHref?: string
+  label?: string
+  href?: string
+}
+export type LocationSectionData = {
+  displayName?: string
+  title?: string
+  address?: string
+  buttonText?: string
+  buttonHref?: string
+  imageSrc?: string
+  imageAlt?: string
+  imageClassName?: string
+  mapEmbedUrl?: string
+  mapTitle?: string
+  placeId?: string
+  latitude?: number
+  longitude?: number
+  timings?: Array<{ day: string; hours: string; order?: number }>
+  contact?: { phone?: string; email?: string }
+}
+export type NewsletterSectionData = {
+  title?: string
+  description?: string
+  placeholderName?: string
+  placeholderEmail?: string
+  buttonText?: string
+  trustNote?: string
+  imageSrc?: string
+  imageAlt?: string
+  image?: string
+  subtitle?: string
+  placeholder?: string
+  buttonLabel?: string
+}
 export type FooterSectionData = { columns: Array<{ title: string; links: Array<{ label: string; href: string }> }> }
 
 export type SectionDataMap = {
@@ -81,6 +126,7 @@ export type SectionDataMap = {
   [SectionType.Hero]: HeroSectionData
   [SectionType.About]: AboutSectionData
   [SectionType.Catalog]: CatalogSectionData
+  [SectionType.Location]: LocationSectionData
   [SectionType.Features]: FeaturesSectionData
   [SectionType.Gallery]: GallerySectionData
   [SectionType.ProductRange]: ProductRangeSectionData
