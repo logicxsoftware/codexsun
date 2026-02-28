@@ -8,11 +8,16 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "cxweb", "cxweb\cxweb.esproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assist", "Assist", "{8E9B5D6A-F0E1-4DA7-B325-1F207E0C6155}"
 	ProjectSection(SolutionItems) = preProject
-		Assist\AGENT.md = Assist\AGENT.md
-		Assist\ProjectLog.md = Assist\ProjectLog.md
-		Assist\Planning.md = Assist\Planning.md
-		Assist\Server-installation.md = Assist\Server-installation.md
-		Assist\promt.md = Assist\promt.md
+		Assist\AI.md = Assist\AI.md
+		Assist\API.md = Assist\API.md
+		Assist\DATABASE.md = Assist\DATABASE.md
+		Assist\DECISIONS.md = Assist\DECISIONS.md
+		Assist\PROJECT.md = Assist\PROJECT.md
+		Assist\SECURITY.md = Assist\SECURITY.md
+		Assist\STANDARDS.md = Assist\STANDARDS.md
+		Assist\STRUCTURE.md = Assist\STRUCTURE.md
+		Assist\TENANT.md = Assist\TENANT.md
+		Assist\TESTING.md = Assist\TESTING.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cxtest", "cxtest\cxtest.csproj", "{6A26184B-7A03-4B14-86C9-411414D59392}"
@@ -24,6 +29,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
 		.devcontainer\Dockerfile-prod = .devcontainer\Dockerfile-prod
 		.devcontainer\docker-compose-prod.yml = .devcontainer\docker-compose-prod.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{76B97CA1-1BED-47ED-B95D-75602480C449}"
+	ProjectSection(SolutionItems) = preProject
+		docs\AGENT.md = docs\AGENT.md
+		docs\ProjectLog.md = docs\ProjectLog.md
+		docs\promt.md = docs\promt.md
+		docs\Server-installation.md = docs\Server-installation.md
+		docs\UpdatePromt.md = docs\UpdatePromt.md
 	EndProjectSection
 EndProject
 Global
