@@ -9,10 +9,10 @@ public sealed class MultiTenancyOptions
 
 public sealed class DefaultTenantOptions
 {
-    public string Identifier { get; set; } = "default";
-    public string Domain { get; set; } = "default.localhost";
-    public string Name { get; set; } = "Default";
-    public string DatabaseName { get; set; } = "codexsun_default";
+    public string Identifier { get; set; } = "codexsun";
+    public string Domain { get; set; } = "localhost";
+    public string Name { get; set; } = "Codexsun";
+    public string DatabaseName { get; set; } = "tenant1_db";
     public string FeatureSettingsJson { get; set; } = "{}";
     public string IsolationMetadataJson { get; set; } = "{}";
 }

@@ -130,4 +130,15 @@ Version: #1.0.0
 - Added reusable design-system primitive layer (PageContainer, SectionContainer, ContentWrapper, Title, Subtitle, BodyText, Divider, CardWrapper, ButtonWrapper, FormGroup, SectionHeader, GridLayout) and adopted it across key pages.
 - Added canonical UI baseline reference page at /ui-template demonstrating approved layout patterns, typography scale, component variants, forms, alerts, sidebar/navigation samples, toast/loader triggers, CTA and footer patterns.
 - Completed frontend governance cleanup pass and validated successful frontend build and lint after all changes.
+- http://localhost:7043/theme-preview
+---
+# 19: 2026-02-28T08:16:33.7437952+05:30
+Version: #1.0.0
+- Implemented full tenant-aware menu management foundation with domain models, application abstractions, infrastructure store, API endpoints, and tenant-db schema for menu groups, menus, and hierarchical menu items.
+- Added web navigation and footer configuration resources with tenant/global resolution, admin/public API endpoints, EF persistence mapping, and seeding integration.
+- Implemented cxweb dynamic navigation architecture with provider-based config loading, token-driven header/footer render components, and admin builder route /admin/web-menu-builder.
+- Added Codexsun-specific default seeding for Header, Footer, Mobile, and Sidemenu menu groups with complete SaaS menu trees, mega/dropdown structures, and mobile mirrored hierarchy.
+- Added Codexsun footer ecosystem defaults including about section, legal links, social links, business hours, newsletter enablement, payment providers, and bottom bar developed-by configuration.
+- Updated default tenant settings to codexsun with localhost domain and tenant1_db target database, and ensured onboarding seeding executes website, menu, and navigation seeders idempotently.
+- Verified backend and frontend builds after changes.
 

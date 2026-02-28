@@ -31,6 +31,8 @@ app.UseTenantResolution();
 
 app.MapHomeEndpoints();
 app.MapWebContentEndpoints();
+app.MapMenuManagementEndpoints();
+app.MapWebNavigationEndpoints();
 app.MapConfigurationDocumentsEndpoints();
 app.MapTenantContextEndpoints();
 app.MapTenantsEndpoints();

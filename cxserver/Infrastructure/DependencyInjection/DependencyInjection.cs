@@ -11,6 +11,8 @@ using cxserver.Infrastructure.Tenancy;
 using cxserver.Infrastructure.Time;
 using Microsoft.Extensions.Options;
 using cxserver.Infrastructure.WebEngine;
+using cxserver.Infrastructure.MenuEngine;
+using cxserver.Infrastructure.NavigationEngine;
 
 namespace cxserver.Infrastructure.DependencyInjection;
 
@@ -52,6 +54,8 @@ public static class DependencyInjection
 
         services.AddScoped<IConfigurationDocumentStore, ConfigurationDocumentStore>();
         services.AddScoped<IWebsitePageStore, WebsitePageStore>();
+        services.AddScoped<IMenuStore, MenuStore>();
+        services.AddScoped<IWebsiteNavigationStore, WebsiteNavigationStore>();
         services.AddScoped<ISectionDataValidator, SectionDataValidator>();
         services.AddScoped<IUnitOfWork, TenantUnitOfWork>();
 
@@ -64,6 +68,8 @@ public static class DependencyInjection
         services.AddScoped<MasterDatabaseSeeder>();
         services.AddScoped<TenantDatabaseSeeder>();
         services.AddScoped<TenantWebsitePageSeeder>();
+        services.AddScoped<TenantMenuSeeder>();
+        services.AddScoped<TenantNavigationSeeder>();
 
         services.AddScoped<ITenantDatabaseMigrationService, TenantDatabaseMigrationService>();
 

@@ -34,32 +34,67 @@ type HttpRequestInit = RequestInit & {
   skipGlobalLoading?: boolean
 }
 
-export const httpClient = {
-  async get<TResponse>(path: string, init?: HttpRequestInit): Promise<TResponse> {
-    const shouldTrackLoading = !init?.skipGlobalLoading
+const parseResponse = async <TResponse>(response: Response): Promise<TResponse> => {
+  if (response.status === 204) {
+    return undefined as TResponse
+  }
+
+  const contentType = response.headers.get("content-type")
+  if (contentType && contentType.includes("application/json")) {
+    return (await response.json()) as TResponse
+  }
+
+  return undefined as TResponse
+}
+
+const request = async <TResponse>(method: string, path: string, body?: unknown, init?: HttpRequestInit): Promise<TResponse> => {
+  const shouldTrackLoading = !init?.skipGlobalLoading
+  if (shouldTrackLoading) {
+    startGlobalLoading()
+  }
+
+  try {
+    const response = await fetch(resolveUrl(path), {
+      ...init,
+      method,
+      headers: {
+        Accept: "application/json",
+        ...(body ? { "Content-Type": "application/json" } : {}),
+        ...(init?.headers ?? {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    })
+
+    if (!response.ok) {
+      throw new HttpError(response.status, `Request failed with status ${response.status}`)
+    }
+
+    return await parseResponse<TResponse>(response)
+  } finally {
     if (shouldTrackLoading) {
-      startGlobalLoading()
+      stopGlobalLoading()
     }
+  }
+}
 
-    try {
-      const response = await fetch(resolveUrl(path), {
-        ...init,
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          ...(init?.headers ?? {}),
-        },
-      })
+export const httpClient = {
+  get<TResponse>(path: string, init?: HttpRequestInit): Promise<TResponse> {
+    return request<TResponse>("GET", path, undefined, init)
+  },
 
-      if (!response.ok) {
-        throw new HttpError(response.status, `Request failed with status ${response.status}`)
-      }
+  post<TResponse>(path: string, body: unknown, init?: HttpRequestInit): Promise<TResponse> {
+    return request<TResponse>("POST", path, body, init)
+  },
 
-      return (await response.json()) as TResponse
-    } finally {
-      if (shouldTrackLoading) {
-        stopGlobalLoading()
-      }
-    }
+  patch<TResponse>(path: string, body: unknown, init?: HttpRequestInit): Promise<TResponse> {
+    return request<TResponse>("PATCH", path, body, init)
+  },
+
+  put<TResponse>(path: string, body: unknown, init?: HttpRequestInit): Promise<TResponse> {
+    return request<TResponse>("PUT", path, body, init)
+  },
+
+  delete<TResponse>(path: string, init?: HttpRequestInit): Promise<TResponse> {
+    return request<TResponse>("DELETE", path, undefined, init)
   },
 }
