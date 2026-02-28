@@ -10,6 +10,7 @@ const fallbackNav = [
   { to: "/app", label: "Dashboard" },
   { to: "/admin/menu-groups", label: "Menu Groups" },
   { to: "/admin/web-menu-builder", label: "Web Builder" },
+  { to: "/admin/slider-builder", label: "Slider Builder" },
 ]
 
 function flattenRenderItems(items: MenuRenderNodeDto[]): Array<{ to: string; label: string }> {

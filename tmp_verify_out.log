@@ -1,0 +1,59 @@
+Using launch settings from cxserver\Properties\launchSettings.json...
+Building...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT GET_LOCK('__codexsun_db_EFMigrationsLock', 259200)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE IF NOT EXISTS `__EFMigrationsHistory_Master` (
+          `MigrationId` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
+          `ProductVersion` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+          CONSTRAINT `PK___EFMigrationsHistory_Master` PRIMARY KEY (`MigrationId`)
+      ) CHARACTER SET=utf8mb4;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='codexsun_db' AND TABLE_NAME='__EFMigrationsHistory_Master';
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory_Master`
+      ORDER BY `MigrationId`;
+info: Microsoft.EntityFrameworkCore.Migrations[20405]
+      No migrations were applied. The database is already up to date.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT RELEASE_LOCK('__codexsun_db_EFMigrationsLock')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (21ms) [Parameters=[@__normalized_0='?' (Size = 128)], CommandType='Text', CommandTimeout='30']
+      SELECT `t`.`id`, `t`.`connection_string`, `t`.`created_at_utc`, `t`.`database_name`, `t`.`deleted_at_utc`, `t`.`domain`, `t`.`feature_settings_json`, `t`.`identifier`, `t`.`is_deleted`, `t`.`isolation_metadata_json`, `t`.`name`, `t`.`status`, `t`.`updated_at_utc`
+      FROM `tenants` AS `t`
+      WHERE NOT (`t`.`is_deleted`) AND (`t`.`identifier` = @__normalized_0)
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@p3='?' (DbType = Guid), @p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (DbType = DateTimeOffset)], CommandType='Text', CommandTimeout='30']
+      SET AUTOCOMMIT = 1;
+      UPDATE `tenants` SET `feature_settings_json` = @p0, `isolation_metadata_json` = @p1, `updated_at_utc` = @p2
+      WHERE `id` = @p3;
+      SELECT ROW_COUNT();
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `t`.`id`, `t`.`connection_string`, `t`.`created_at_utc`, `t`.`database_name`, `t`.`deleted_at_utc`, `t`.`domain`, `t`.`feature_settings_json`, `t`.`identifier`, `t`.`is_deleted`, `t`.`isolation_metadata_json`, `t`.`name`, `t`.`status`, `t`.`updated_at_utc`
+      FROM `tenants` AS `t`
+      WHERE NOT (`t`.`is_deleted`) AND (`t`.`status` = 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `t`.`id`, `t`.`connection_string`, `t`.`created_at_utc`, `t`.`database_name`, `t`.`deleted_at_utc`, `t`.`domain`, `t`.`feature_settings_json`, `t`.`identifier`, `t`.`is_deleted`, `t`.`isolation_metadata_json`, `t`.`name`, `t`.`status`, `t`.`updated_at_utc`
+      FROM `tenants` AS `t`
+      WHERE NOT (`t`.`is_deleted`) AND (`t`.`status` = 1)
+warn: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware[16]
+      The WebRootPath was not found: E:\Workspace\windows\codexsun\cxserver\wwwroot. Static files may be unavailable.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:7093
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: E:\Workspace\windows\codexsun\cxserver
+warn: LuckyPennySoftware.MediatR.License[0]
+      You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.

@@ -33,6 +33,7 @@ app.MapHomeEndpoints();
 app.MapWebContentEndpoints();
 app.MapMenuManagementEndpoints();
 app.MapWebNavigationEndpoints();
+app.MapSliderEndpoints();
 app.MapConfigurationDocumentsEndpoints();
 app.MapTenantContextEndpoints();
 app.MapTenantsEndpoints();

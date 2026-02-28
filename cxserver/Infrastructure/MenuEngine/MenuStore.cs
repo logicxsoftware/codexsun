@@ -403,7 +403,12 @@ internal sealed class MenuStore : IMenuStore
             .Select(x => x.OrderByDescending(g => g.TenantId == tenantId).First())
             .ToList();
 
-        var groupIds = chosenGroups.Select(x => x.Id).ToArray();
+        var groupIds = chosenGroups.Select(x => x.Id).ToList();
+
+        if (groupIds.Count == 0)
+        {
+            return [];
+        }
 
         var menus = await dbContext.Menus
             .AsNoTracking()
@@ -420,7 +425,20 @@ internal sealed class MenuStore : IMenuStore
             .Select(x => x.OrderByDescending(m => m.TenantId == tenantId).First())
             .ToList();
 
-        var menuIds = chosenMenus.Select(x => x.Id).ToArray();
+        var menuIds = chosenMenus.Select(x => x.Id).ToList();
+
+        if (menuIds.Count == 0)
+        {
+            return chosenGroups
+                .OrderBy(x => x.Type)
+                .ThenBy(x => x.Name)
+                .Select(group => new MenuRenderGroupItem(
+                    group.Type,
+                    group.Slug,
+                    group.Name,
+                    []))
+                .ToList();
+        }
 
         var items = await dbContext.MenuItems
             .AsNoTracking()
@@ -491,45 +509,112 @@ internal sealed class MenuStore : IMenuStore
 
     private static IReadOnlyList<MenuNodeItem> BuildTree(List<MenuItem> items, Guid? parentId)
     {
-        return items
-            .Where(x => x.ParentId == parentId)
+        var validIds = items.Select(x => x.Id).ToHashSet();
+        var roots = parentId is null
+            ? items.Where(x => x.ParentId is null || !x.ParentId.HasValue || !validIds.Contains(x.ParentId.Value))
+            : items.Where(x => x.ParentId == parentId);
+
+        return roots
             .OrderBy(x => x.Order)
             .ThenBy(x => x.Title)
-            .Select(x => new MenuNodeItem(
-                x.Id,
-                x.TenantId,
-                x.MenuId,
-                x.ParentId,
-                x.Title,
-                x.Slug,
-                x.Url,
-                x.Target,
-                x.Icon,
-                x.Description,
-                x.Order,
-                x.IsActive,
-                x.CreatedAtUtc,
-                x.UpdatedAtUtc,
-                BuildTree(items, x.Id)))
+            .Select(x => BuildNode(items, x, new HashSet<Guid>()))
             .ToList();
     }
 
     private static IReadOnlyList<MenuRenderNodeItem> BuildRenderTree(List<MenuItem> items, Guid? parentId)
     {
-        return items
-            .Where(x => x.ParentId == parentId)
+        var validIds = items.Select(x => x.Id).ToHashSet();
+        var roots = parentId is null
+            ? items.Where(x => x.ParentId is null || !x.ParentId.HasValue || !validIds.Contains(x.ParentId.Value))
+            : items.Where(x => x.ParentId == parentId);
+
+        return roots
             .OrderBy(x => x.Order)
             .ThenBy(x => x.Title)
-            .Select(x => new MenuRenderNodeItem(
-                x.Title,
-                x.Slug,
-                x.Url,
-                x.Target,
-                x.Icon,
-                x.Description,
-                x.Order,
-                BuildRenderTree(items, x.Id)))
+            .Select(x => BuildRenderNode(items, x, new HashSet<Guid>()))
             .ToList();
+    }
+
+    private static MenuNodeItem BuildNode(List<MenuItem> items, MenuItem item, HashSet<Guid> ancestors)
+    {
+        if (!ancestors.Add(item.Id))
+        {
+            return new MenuNodeItem(
+                item.Id,
+                item.TenantId,
+                item.MenuId,
+                item.ParentId,
+                item.Title,
+                item.Slug,
+                item.Url,
+                item.Target,
+                item.Icon,
+                item.Description,
+                item.Order,
+                item.IsActive,
+                item.CreatedAtUtc,
+                item.UpdatedAtUtc,
+                []);
+        }
+
+        var nextAncestors = new HashSet<Guid>(ancestors);
+        var children = items
+            .Where(x => x.ParentId == item.Id)
+            .OrderBy(x => x.Order)
+            .ThenBy(x => x.Title)
+            .Select(x => BuildNode(items, x, nextAncestors))
+            .ToList();
+
+        return new MenuNodeItem(
+            item.Id,
+            item.TenantId,
+            item.MenuId,
+            item.ParentId,
+            item.Title,
+            item.Slug,
+            item.Url,
+            item.Target,
+            item.Icon,
+            item.Description,
+            item.Order,
+            item.IsActive,
+            item.CreatedAtUtc,
+            item.UpdatedAtUtc,
+            children);
+    }
+
+    private static MenuRenderNodeItem BuildRenderNode(List<MenuItem> items, MenuItem item, HashSet<Guid> ancestors)
+    {
+        if (!ancestors.Add(item.Id))
+        {
+            return new MenuRenderNodeItem(
+                item.Title,
+                item.Slug,
+                item.Url,
+                item.Target,
+                item.Icon,
+                item.Description,
+                item.Order,
+                []);
+        }
+
+        var nextAncestors = new HashSet<Guid>(ancestors);
+        var children = items
+            .Where(x => x.ParentId == item.Id)
+            .OrderBy(x => x.Order)
+            .ThenBy(x => x.Title)
+            .Select(x => BuildRenderNode(items, x, nextAncestors))
+            .ToList();
+
+        return new MenuRenderNodeItem(
+            item.Title,
+            item.Slug,
+            item.Url,
+            item.Target,
+            item.Icon,
+            item.Description,
+            item.Order,
+            children);
     }
 
     private static string NormalizeSlug(string value)

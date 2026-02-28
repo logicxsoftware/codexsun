@@ -142,3 +142,12 @@ Version: #1.0.0
 - Updated default tenant settings to codexsun with localhost domain and tenant1_db target database, and ensured onboarding seeding executes website, menu, and navigation seeders idempotently.
 - Verified backend and frontend builds after changes.
 
+---
+# 20: 2026-02-28T11:47:53+05:30
+Version: #1.0.0
+- Completed and stabilized Playwright E2E suite for cxweb with deterministic API mocking, runtime network/console tracking, and cross-browser reliability fixes.
+- Fixed flaky browser-abort request handling in E2E runtime tracker and achieved green test execution (45 passed, 0 failed, 6 skipped).
+- Implemented full live server test track for real backend and frontend processes against existing `cxserver/appsettings.json` database configuration without connection-string overrides.
+- Added dedicated live Playwright configuration, bootstrap/process utilities, live transport/API contract/tenant isolation/database integrity/home render/console-network specs, and database verification helper using MariaDB driver.
+- Added live test npm scripts and validated end-to-end live suite success (`npm run test:live` -> 8 passed, 0 failed).
+

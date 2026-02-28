@@ -1,0 +1,84 @@
+Using launch settings from cxserver\Properties\launchSettings.json...
+Building...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT GET_LOCK('__codexsun_db_EFMigrationsLock', 259200)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE IF NOT EXISTS `__EFMigrationsHistory_Master` (
+          `MigrationId` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
+          `ProductVersion` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
+          CONSTRAINT `PK___EFMigrationsHistory_Master` PRIMARY KEY (`MigrationId`)
+      ) CHARACTER SET=utf8mb4;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='codexsun_db' AND TABLE_NAME='__EFMigrationsHistory_Master';
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `MigrationId`, `ProductVersion`
+      FROM `__EFMigrationsHistory_Master`
+      ORDER BY `MigrationId`;
+info: Microsoft.EntityFrameworkCore.Migrations[20405]
+      No migrations were applied. The database is already up to date.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT RELEASE_LOCK('__codexsun_db_EFMigrationsLock')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (25ms) [Parameters=[@__normalized_0='?' (Size = 128)], CommandType='Text', CommandTimeout='30']
+      SELECT `t`.`id`, `t`.`connection_string`, `t`.`created_at_utc`, `t`.`database_name`, `t`.`deleted_at_utc`, `t`.`domain`, `t`.`feature_settings_json`, `t`.`identifier`, `t`.`is_deleted`, `t`.`isolation_metadata_json`, `t`.`name`, `t`.`status`, `t`.`updated_at_utc`
+      FROM `tenants` AS `t`
+      WHERE NOT (`t`.`is_deleted`) AND (`t`.`identifier` = @__normalized_0)
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@p3='?' (DbType = Guid), @p0='?' (Size = 4000), @p1='?' (Size = 4000), @p2='?' (DbType = DateTimeOffset)], CommandType='Text', CommandTimeout='30']
+      SET AUTOCOMMIT = 1;
+      UPDATE `tenants` SET `feature_settings_json` = @p0, `isolation_metadata_json` = @p1, `updated_at_utc` = @p2
+      WHERE `id` = @p3;
+      SELECT ROW_COUNT();
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `t`.`id`, `t`.`connection_string`, `t`.`created_at_utc`, `t`.`database_name`, `t`.`deleted_at_utc`, `t`.`domain`, `t`.`feature_settings_json`, `t`.`identifier`, `t`.`is_deleted`, `t`.`isolation_metadata_json`, `t`.`name`, `t`.`status`, `t`.`updated_at_utc`
+      FROM `tenants` AS `t`
+      WHERE NOT (`t`.`is_deleted`) AND (`t`.`status` = 1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT `t`.`id`, `t`.`connection_string`, `t`.`created_at_utc`, `t`.`database_name`, `t`.`deleted_at_utc`, `t`.`domain`, `t`.`feature_settings_json`, `t`.`identifier`, `t`.`is_deleted`, `t`.`isolation_metadata_json`, `t`.`name`, `t`.`status`, `t`.`updated_at_utc`
+      FROM `tenants` AS `t`
+      WHERE NOT (`t`.`is_deleted`) AND (`t`.`status` = 1)
+fail: Microsoft.Extensions.Hosting.Internal.Host[11]
+      Hosting failed to start
+      Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+       ---> MySqlConnector.MySqlException (0x80004005): Duplicate entry '0e179f72-2d08-4761-bd4d-946543f6aa69-0-1' for key 'ux_highlights_order_soft_delete'
+         at MySqlConnector.Core.ServerSession.ReceiveReplyAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/ServerSession.cs:line 1081
+         at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in /_/src/MySqlConnector/Core/ResultSet.cs:line 37
+         at MySqlConnector.MySqlDataReader.ActivateResultSet(CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 131
+         at MySqlConnector.MySqlDataReader.InitAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, IDictionary`2 cachedProcedures, IMySqlCommand command, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlDataReader.cs:line 487
+         at MySqlConnector.Core.CommandExecutor.ExecuteReaderAsync(CommandListPosition commandListPosition, ICommandPayloadCreator payloadCreator, CommandBehavior behavior, Activity activity, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/Core/CommandExecutor.cs:line 56
+         at MySqlConnector.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 357
+         at MySqlConnector.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken) in /_/src/MySqlConnector/MySqlCommand.cs:line 350
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+         --- End of inner exception stack trace ---
+         at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+         at cxserver.Infrastructure.Persistence.TenantDbContext.SaveChangesAsync(CancellationToken cancellationToken) in E:\Workspace\windows\codexsun\cxserver\Infrastructure\Persistence\TenantDbContext.cs:line 63
+         at cxserver.Infrastructure.Seeding.TenantSliderSeeder.SeedAsync(TenantDbContext dbContext, CancellationToken cancellationToken) in E:\Workspace\windows\codexsun\cxserver\Infrastructure\Seeding\TenantSliderSeeder.cs:line 121
+         at cxserver.Infrastructure.Seeding.TenantDatabaseSeeder.SeedDefaultConfigurationAsync(String connectionString, CancellationToken cancellationToken) in E:\Workspace\windows\codexsun\cxserver\Infrastructure\Seeding\TenantDatabaseSeeder.cs:line 65
+         at cxserver.Infrastructure.Seeding.TenantDatabaseSeeder.SeedDefaultConfigurationAsync(String connectionString, CancellationToken cancellationToken) in E:\Workspace\windows\codexsun\cxserver\Infrastructure\Seeding\TenantDatabaseSeeder.cs:line 65
+         at cxserver.Infrastructure.Migrations.DatabaseInitializationHostedService.StartAsync(CancellationToken cancellationToken) in E:\Workspace\windows\codexsun\cxserver\Infrastructure\Migrations\DatabaseInitializationHostedService.cs:line 34
+         at cxserver.Infrastructure.Migrations.DatabaseInitializationHostedService.StartAsync(CancellationToken cancellationToken) in E:\Workspace\windows\codexsun\cxserver\Infrastructure\Migrations\DatabaseInitializationHostedService.cs:line 32
+         at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+         at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)

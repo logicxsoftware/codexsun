@@ -4,6 +4,7 @@ using cxserver.Domain.Common;
 using cxserver.Domain.Configuration;
 using cxserver.Domain.MenuEngine;
 using cxserver.Domain.NavigationEngine;
+using cxserver.Domain.SliderEngine;
 using cxserver.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,10 @@ public sealed class TenantDbContext : DbContext
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<WebNavigationConfig> WebNavigationConfigs => Set<WebNavigationConfig>();
     public DbSet<FooterConfig> FooterConfigs => Set<FooterConfig>();
+    public DbSet<SliderConfig> SliderConfigs => Set<SliderConfig>();
+    public DbSet<Slide> Slides => Set<Slide>();
+    public DbSet<SlideLayer> SlideLayers => Set<SlideLayer>();
+    public DbSet<SlideHighlight> SlideHighlights => Set<SlideHighlight>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,6 +42,10 @@ public sealed class TenantDbContext : DbContext
         modelBuilder.ApplyConfiguration(new MenuItemConfiguration());
         modelBuilder.ApplyConfiguration(new WebNavigationConfigConfiguration());
         modelBuilder.ApplyConfiguration(new FooterConfigConfiguration());
+        modelBuilder.ApplyConfiguration(new SliderConfigConfiguration());
+        modelBuilder.ApplyConfiguration(new SlideConfiguration());
+        modelBuilder.ApplyConfiguration(new SlideLayerConfiguration());
+        modelBuilder.ApplyConfiguration(new SlideHighlightConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }

@@ -9,6 +9,7 @@ import ThemePreviewPage from "@/features/theme-preview/pages/ThemePreviewPage"
 import UiTemplatePage from "@/features/ui-template/pages/UiTemplatePage"
 import WebPage from "@/features/web/pages/WebPage"
 import WebMenuBuilderPage from "@/features/web-navigation/pages/WebMenuBuilderPage"
+import SliderBuilderPage from "@/features/slider/pages/SliderBuilderPage"
 import AppLayout from "@/layouts/AppLayout"
 import AuthLayout from "@/layouts/AuthLayout"
 import WebLayout from "@/layouts/WebLayout"
@@ -41,6 +42,7 @@ export const appRouter = createBrowserRouter([
       { path: "menu-groups/:id/menus", element: <MenuGroupMenusPage /> },
       { path: "menus/:id/items", element: <MenuItemsPage /> },
       { path: "web-menu-builder", element: <WebMenuBuilderPage /> },
+      { path: "slider-builder", element: <SliderBuilderPage /> },
     ],
   },
   {

@@ -32,6 +32,13 @@ public static class ConfigurationDocumentsEndpoints
             return Results.NoContent();
         });
 
+        var web = app.MapGroup("/api/web");
+        web.MapGet("/theme", async (ISender sender, CancellationToken cancellationToken) =>
+        {
+            var payload = await sender.Send(new GetConfigurationDocumentQuery("theme", "tenant"), cancellationToken);
+            return payload is null ? Results.Ok(new { }) : Results.Ok(payload.RootElement);
+        });
+
         return group;
     }
 }

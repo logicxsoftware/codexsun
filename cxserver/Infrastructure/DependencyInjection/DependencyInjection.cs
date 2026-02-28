@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using cxserver.Infrastructure.WebEngine;
 using cxserver.Infrastructure.MenuEngine;
 using cxserver.Infrastructure.NavigationEngine;
+using cxserver.Infrastructure.SliderEngine;
 
 namespace cxserver.Infrastructure.DependencyInjection;
 
@@ -56,6 +57,7 @@ public static class DependencyInjection
         services.AddScoped<IWebsitePageStore, WebsitePageStore>();
         services.AddScoped<IMenuStore, MenuStore>();
         services.AddScoped<IWebsiteNavigationStore, WebsiteNavigationStore>();
+        services.AddScoped<ISliderStore, SliderStore>();
         services.AddScoped<ISectionDataValidator, SectionDataValidator>();
         services.AddScoped<IUnitOfWork, TenantUnitOfWork>();
 
@@ -70,6 +72,7 @@ public static class DependencyInjection
         services.AddScoped<TenantWebsitePageSeeder>();
         services.AddScoped<TenantMenuSeeder>();
         services.AddScoped<TenantNavigationSeeder>();
+        services.AddScoped<TenantSliderSeeder>();
 
         services.AddScoped<ITenantDatabaseMigrationService, TenantDatabaseMigrationService>();
 

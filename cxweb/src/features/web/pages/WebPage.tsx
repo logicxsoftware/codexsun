@@ -1,14 +1,18 @@
-import { useEffect, useMemo, useState } from "react"
+import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
 
 import SectionRenderer from "@/features/web/components/SectionRenderer"
 import { webPageApi, type WebPageResponse } from "@/features/web/services/web-page-api"
+import SliderSkeleton from "@/features/slider/components/SliderSkeleton"
+import { SliderProvider } from "@/features/slider/context/SliderProvider"
 import { HttpError } from "@/shared/services/http-client"
 import { CardWrapper, PageContainer, SectionContainer, SectionHeader, Title } from "@/shared/components/design-system"
 
 type WebPageProps = {
   defaultSlug?: string
 }
+
+const GlobalHomeSlider = lazy(async () => import("@/features/slider/components/GlobalHomeSlider"))
 
 export default function WebPage({ defaultSlug }: WebPageProps) {
   const params = useParams()
@@ -85,15 +89,24 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
   }
 
   return (
-    <PageContainer className="py-12 md:py-16">
-      <div className="grid gap-6">
-        <header className="grid gap-2 border-b border-border/50 pb-5">
-          <Title>{data.title}</Title>
-        </header>
-        {orderedSections.map((section) => (
-          <SectionRenderer key={section.id} section={section} />
-        ))}
-      </div>
-    </PageContainer>
+    <>
+      {slug === "home" ? (
+        <SliderProvider>
+          <Suspense fallback={<SliderSkeleton />}>
+            <GlobalHomeSlider />
+          </Suspense>
+        </SliderProvider>
+      ) : null}
+      <PageContainer className="py-12 md:py-16">
+        <div className="grid gap-6">
+          <header className="grid gap-2 border-b border-border/50 pb-5">
+            <Title>{data.title}</Title>
+          </header>
+          {orderedSections.map((section) => (
+            <SectionRenderer key={section.id} section={section} />
+          ))}
+        </div>
+      </PageContainer>
+    </>
   )
 }

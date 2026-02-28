@@ -31,8 +31,8 @@ public sealed class TenancyBehaviorTests
         await using (var cmd = master.CreateCommand())
         {
             cmd.CommandText = "SELECT COUNT(*) FROM tenants WHERE identifier = @identifier AND domain = @domain AND status = 1 AND is_deleted = 0";
-            cmd.Parameters.AddWithValue("@identifier", "default");
-            cmd.Parameters.AddWithValue("@domain", "default.localhost");
+            cmd.Parameters.AddWithValue("@identifier", "codexsun");
+            cmd.Parameters.AddWithValue("@domain", "localhost");
             var count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
             Assert.True(count >= 1);
         }
