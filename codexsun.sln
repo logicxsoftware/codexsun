@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assist", "Assist", "{8E9B5D
 		Assist\STRUCTURE.md = Assist\STRUCTURE.md
 		Assist\TENANT.md = Assist\TENANT.md
 		Assist\TESTING.md = Assist\TESTING.md
+		Assist\ProjectLog.md = Assist\ProjectLog.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cxtest", "cxtest\cxtest.csproj", "{6A26184B-7A03-4B14-86C9-411414D59392}"
@@ -34,7 +35,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{76B97CA1-1BED-47ED-B95D-75602480C449}"
 	ProjectSection(SolutionItems) = preProject
 		docs\AGENT.md = docs\AGENT.md
-		docs\ProjectLog.md = docs\ProjectLog.md
 		docs\promt.md = docs\promt.md
 		docs\Server-installation.md = docs\Server-installation.md
 		docs\UpdatePromt.md = docs\UpdatePromt.md

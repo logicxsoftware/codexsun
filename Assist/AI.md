@@ -67,6 +67,7 @@ When something changes, update:
 - Security behavior -> SECURITY.md
 - Test strategy -> TESTING.md
 - Architecture decision -> DECISIONS.md
+- Session traceability -> ProjectLog.md
 
 Never merge feature without updating related document.
 
@@ -119,5 +120,6 @@ All major features must align with:
 - TESTING.md
 - SECURITY.md
 - DECISIONS.md
+- ProjectLog.md
 
 AI.md is the source of enforcement.

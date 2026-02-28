@@ -69,11 +69,11 @@ Commit message format:
 
 Where:
 
-PL-XXX = ProjectLog number
+#XXX = ProjectLog number
 
 Example:
 
-[PL-042] Add slider tenant isolation validation
+[#042] Add slider tenant isolation validation
 
 Rules:
 
