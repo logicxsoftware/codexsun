@@ -647,3 +647,14 @@ Files Changed: cxweb/src/features/slider/components/FullScreenSlider.tsx, cxweb/
 - Database Impact: No
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 64
+# Date: 2026-03-01
+# Module: Slider Background Parallax
+# Type: Enhancement
+# Summary:
+Added scroll-based parallax effect for slider background media (image/video/youtube) when slider config `parallax` is enabled, with clamped offset and subtle scale to prevent edge gaps while preserving existing content/layer animations.
+Files Changed: cxweb/src/features/slider/components/FullScreenSlider.tsx, Assist/ProjectLog.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No

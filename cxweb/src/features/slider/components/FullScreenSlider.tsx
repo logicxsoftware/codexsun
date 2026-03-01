@@ -106,12 +106,15 @@ type FullScreenSliderProps = {
 }
 
 function FullScreenSlider({ config }: FullScreenSliderProps) {
+  const sliderSectionRef = useRef<HTMLElement | null>(null)
   const slides = useMemo(() => config.slides.filter((slide) => slide.isActive).sort((a, b) => a.order - b.order), [config.slides])
   const [index, setIndex] = useState(0)
   const [previousIndex, setPreviousIndex] = useState<number | null>(null)
   const [isSliding, setIsSliding] = useState(false)
+  const [parallaxOffset, setParallaxOffset] = useState(0)
   const [mediaReady, setMediaReady] = useState<Record<string, boolean>>({})
   const rafRef = useRef<number | null>(null)
+  const parallaxRafRef = useRef<number | null>(null)
   const slideTransitionDurationMs = 800
 
   const activeSlide = slides[index] ?? null
@@ -202,6 +205,45 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
     }
   }, [isSliding, slideTransitionDurationMs])
 
+  useEffect(() => {
+    if (!config.parallax) {
+      setParallaxOffset(0)
+      return
+    }
+
+    const updateParallax = () => {
+      const section = sliderSectionRef.current
+      if (!section) {
+        return
+      }
+
+      const rect = section.getBoundingClientRect()
+      const rawOffset = -rect.top * 0.12
+      const clampedOffset = Math.max(-40, Math.min(40, rawOffset))
+      setParallaxOffset(clampedOffset)
+    }
+
+    const onScrollOrResize = () => {
+      if (parallaxRafRef.current !== null) {
+        window.cancelAnimationFrame(parallaxRafRef.current)
+      }
+
+      parallaxRafRef.current = window.requestAnimationFrame(updateParallax)
+    }
+
+    updateParallax()
+    window.addEventListener("scroll", onScrollOrResize, { passive: true })
+    window.addEventListener("resize", onScrollOrResize)
+
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize)
+      window.removeEventListener("resize", onScrollOrResize)
+      if (parallaxRafRef.current !== null) {
+        window.cancelAnimationFrame(parallaxRafRef.current)
+      }
+    }
+  }, [config.parallax])
+
   if (!config.isActive || slides.length === 0 || !activeSlide) {
     return null
   }
@@ -222,15 +264,26 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
   const renderSlide = (slide: SlideDto, showLoadingOverlay: boolean, animateContent: boolean) => {
     const mediaType = detectMediaType(slide.mediaType)
     const mediaLoaded = mediaReady[slide.id] ?? false
+    const backgroundParallaxStyle: CSSProperties | undefined = config.parallax
+      ? {
+          transform: `translate3d(0, ${parallaxOffset}px, 0) scale(1.08)`,
+          transformOrigin: "center center",
+        }
+      : undefined
 
     return (
       <>
-        <div className="absolute inset-0">
+        <div className={cn("absolute inset-0", config.parallax ? "overflow-hidden" : "")}>
           {mediaType === "image" ? (
             <img
               src={slide.backgroundUrl}
               alt={slide.title}
-              className={cn("h-full w-full object-cover transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
+              className={cn(
+                "h-full w-full object-cover transition-opacity duration-500",
+                config.parallax ? "transition-transform duration-150 ease-linear will-change-transform" : "",
+                mediaLoaded ? "opacity-100" : "opacity-0",
+              )}
+              style={backgroundParallaxStyle}
               loading="eager"
               onLoad={() => setMediaReady((current) => ({ ...current, [slide.id]: true }))}
             />
@@ -238,7 +291,12 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
 
           {mediaType === "video" ? (
             <video
-              className={cn("h-full w-full object-cover transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
+              className={cn(
+                "h-full w-full object-cover transition-opacity duration-500",
+                config.parallax ? "transition-transform duration-150 ease-linear will-change-transform" : "",
+                mediaLoaded ? "opacity-100" : "opacity-0",
+              )}
+              style={backgroundParallaxStyle}
               src={slide.backgroundUrl}
               muted
               autoPlay
@@ -253,7 +311,12 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
             <iframe
               title={slide.title}
               src={getYoutubeEmbedUrl(slide.youtubeVideoId)}
-              className={cn("h-full w-full transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
+              className={cn(
+                "h-full w-full transition-opacity duration-500",
+                config.parallax ? "transition-transform duration-150 ease-linear will-change-transform" : "",
+                mediaLoaded ? "opacity-100" : "opacity-0",
+              )}
+              style={backgroundParallaxStyle}
               allow="autoplay; encrypted-media; picture-in-picture"
               loading="lazy"
               onLoad={() => setMediaReady((current) => ({ ...current, [slide.id]: true }))}
@@ -314,7 +377,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
   }
 
   return (
-    <section className="relative w-full overflow-hidden" style={heightStyle}>
+    <section ref={sliderSectionRef} className="relative w-full overflow-hidden" style={heightStyle}>
       <div className="relative h-full">
         {isSliding && previousSlide ? (
           <div
