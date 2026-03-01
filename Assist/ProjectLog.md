@@ -746,3 +746,14 @@ Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuS
 - Database Impact: No schema change (seed ordering logic only)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 73
+# Date: 2026-03-01
+# Module: Tenant Menu Seeder Hardening
+# Type: Fix
+# Summary:
+Hardened header/mobile menu seeding against legacy-data collisions by normalizing top-level items before writes: remove non-required roots, temporarily reindex required roots to high orders, then apply final required order set. This prevents `Menu item order must be unique per parent` during startup seeding on existing tenant data.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs
+- Database Impact: No schema change (data seeding logic hardening only)
+- API Impact: No
+- Breaking Change: No

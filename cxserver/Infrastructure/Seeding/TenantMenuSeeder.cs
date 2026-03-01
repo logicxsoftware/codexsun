@@ -65,19 +65,10 @@ internal sealed class TenantMenuSeeder
     {
         var menu = EnsureMenu(group, "Primary", "primary", MenuVariant.Custom, true, 0, now);
 
-        RemoveMenuItemBySlug(menu, "solutions", now);
-        RemoveMenuItemBySlug(menu, "resources", now);
-        RemoveMenuItemBySlug(menu, "pricing", now);
-        RemoveMenuItemBySlug(menu, "login", now);
-        RemoveMenuItemBySlug(menu, "company", now);
-        RemoveMenuItemBySlug(menu, "products", now);
-        RemoveMenuItemBySlug(menu, "get-started", now);
-        RemoveMenuItemBySlug(menu, "blog", now);
-        RemoveMenuItemBySlug(menu, "codexsun-crm", now);
-        RemoveMenuItemBySlug(menu, "codexsun-erp", now);
-        RemoveMenuItemBySlug(menu, "codexsun-hrms", now);
-        RemoveMenuItemBySlug(menu, "codexsun-pos", now);
-        RemoveMenuItemBySlug(menu, "custom-saas-development", now);
+        PrepareTopLevelMenu(
+            menu,
+            ["home", "shop", "services-main", "company-main", "blog-main"],
+            now);
 
         var home = EnsureMenuItem(menu, null, "Home", "home", "/", 0, null, now);
         var shop = EnsureMenuItem(menu, null, "Shop", "shop", "/products", 1, null, now);
@@ -95,19 +86,10 @@ internal sealed class TenantMenuSeeder
     {
         var menu = EnsureMenu(group, "Mobile Primary", "mobile-primary", MenuVariant.Custom, false, 0, now);
 
-        RemoveMenuItemBySlug(menu, "solutions-mobile", now);
-        RemoveMenuItemBySlug(menu, "resources-mobile", now);
-        RemoveMenuItemBySlug(menu, "pricing-mobile", now);
-        RemoveMenuItemBySlug(menu, "login-mobile", now);
-        RemoveMenuItemBySlug(menu, "company-mobile", now);
-        RemoveMenuItemBySlug(menu, "products-mobile", now);
-        RemoveMenuItemBySlug(menu, "get-started-mobile", now);
-        RemoveMenuItemBySlug(menu, "blog-mobile", now);
-        RemoveMenuItemBySlug(menu, "codexsun-crm-mobile", now);
-        RemoveMenuItemBySlug(menu, "codexsun-erp-mobile", now);
-        RemoveMenuItemBySlug(menu, "codexsun-hrms-mobile", now);
-        RemoveMenuItemBySlug(menu, "codexsun-pos-mobile", now);
-        RemoveMenuItemBySlug(menu, "custom-saas-development-mobile", now);
+        PrepareTopLevelMenu(
+            menu,
+            ["home-mobile", "shop-mobile", "services-main-mobile", "company-main-mobile", "blog-main-mobile"],
+            now);
 
         var home = EnsureMenuItem(menu, null, "Home", "home-mobile", "/", 0, null, now);
         var shop = EnsureMenuItem(menu, null, "Shop", "shop-mobile", "/products", 1, null, now);
@@ -205,5 +187,38 @@ internal sealed class TenantMenuSeeder
         }
 
         menu.DeleteItem(item.Id, now);
+    }
+
+    private static void PrepareTopLevelMenu(Menu menu, IReadOnlyCollection<string> requiredSlugs, DateTimeOffset now)
+    {
+        var normalizedRequired = requiredSlugs
+            .Select(x => x.Trim().ToLowerInvariant())
+            .ToHashSet(StringComparer.Ordinal);
+
+        var topLevelItems = menu.Items
+            .Where(x => !x.IsDeleted && x.ParentId == null)
+            .OrderBy(x => x.Order)
+            .ThenBy(x => x.CreatedAtUtc)
+            .ToList();
+
+        foreach (var item in topLevelItems)
+        {
+            if (!normalizedRequired.Contains(item.Slug))
+            {
+                menu.DeleteItem(item.Id, now);
+            }
+        }
+
+        var existingRequired = menu.Items
+            .Where(x => !x.IsDeleted && x.ParentId == null && normalizedRequired.Contains(x.Slug))
+            .OrderBy(x => x.Order)
+            .ThenBy(x => x.CreatedAtUtc)
+            .ToList();
+
+        for (var index = 0; index < existingRequired.Count; index++)
+        {
+            var item = existingRequired[index];
+            menu.UpdateItem(item.Id, null, item.Title, item.Slug, item.Url, item.Target, item.Icon, item.Description, 100 + index, item.IsActive, now);
+        }
     }
 }
