@@ -23,6 +23,7 @@ const homeAllowedSectionTypes = new Set<SectionType>([
   SectionType.BrandSlider,
   SectionType.Features,
   SectionType.CallToAction,
+  SectionType.BlogShow,
   SectionType.Location,
   SectionType.Newsletter,
 ])
@@ -52,6 +53,7 @@ export default function WebPage({ defaultSlug }: WebPageProps) {
     sectionType === SectionType.BrandSlider ||
     sectionType === SectionType.Features ||
     sectionType === SectionType.CallToAction ||
+    sectionType === SectionType.BlogShow ||
     sectionType === SectionType.Location ||
     sectionType === SectionType.Newsletter
 

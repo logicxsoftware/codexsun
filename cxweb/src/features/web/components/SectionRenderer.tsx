@@ -4,6 +4,7 @@ import { Link } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import AboutSection from "@/features/web/components/AboutSection"
+import BlogShowcaseSection from "@/features/web/components/BlogShowcaseSection"
 import BrandSliderSection from "@/features/web/components/BrandSliderSection"
 import CallToActionSection from "@/features/web/components/CallToActionSection"
 import CatalogSection from "@/features/web/components/CatalogSection"
@@ -103,14 +104,7 @@ const StatsSectionRenderer = ({ data }: SectionProps<StatsSectionData>) => <Stat
 
 const BrandSliderSectionRenderer = ({ data }: SectionProps<BrandSliderSectionData>) => <BrandSliderSection data={data} />
 
-const BlogShowSection = ({ data }: SectionProps<BlogShowSectionData>) => (
-  <Card className="border-border/80 bg-card/95">
-    <CardHeader>
-      <CardTitle>{data.title ?? "Blog Highlights"}</CardTitle>
-    </CardHeader>
-    <CardContent className="text-muted-foreground">Latest {data.limit} posts available on the blog page.</CardContent>
-  </Card>
-)
+const BlogShowSection = ({ data }: SectionProps<BlogShowSectionData>) => <BlogShowcaseSection data={data} />
 
 const TestimonialSection = ({ data }: SectionProps<TestimonialSectionData>) => (
   <div className="grid gap-4 md:grid-cols-2">

@@ -77,7 +77,13 @@ export type BrandSliderSectionData = {
   logos?: Array<{ name: string; logo: string; order?: number }>
   brands?: Array<{ name: string; logo?: string; logoUrl?: string; order?: number }>
 }
-export type BlogShowSectionData = { limit: number; title?: string }
+export type BlogShowSectionData = {
+  limit: number
+  title?: string
+  subtitle?: string
+  buttonText?: string
+  buttonHref?: string
+}
 export type TestimonialSectionData = { items: Array<{ author: string; quote: string }> }
 export type CallToActionSectionData = {
   title?: string

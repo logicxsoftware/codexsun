@@ -724,3 +724,14 @@ Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuS
 - Database Impact: No schema change (seeded menu data alignment only)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 71
+# Date: 2026-03-01
+# Module: Home Blog Showcase Section
+# Type: Enhancement
+# Summary:
+Implemented live blog showcase support on home page by replacing the BlogShow placeholder with a real blog-feed section component, adding BlogShow to home-rendered section allowlist/full-width behavior, and updating tenant home page seeding to place BlogShow immediately after CallToAction with blog-aligned content configuration.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantWebsitePageSeeder.cs, cxweb/src/features/web/components/BlogShowcaseSection.tsx, cxweb/src/features/web/components/SectionRenderer.tsx, cxweb/src/features/web/pages/WebPage.tsx, cxweb/src/features/web/services/web-page-api.ts
+- Database Impact: No schema change (section seed content/order alignment only)
+- API Impact: No contract change
+- Breaking Change: No
