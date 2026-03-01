@@ -206,7 +206,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
     return null
   }
 
-  const getContentFadeStyle = (delayMs: number, animateContent: boolean): CSSProperties | undefined => {
+  const getContentFadeUpStaggerStyle = (delayMs: number, animateContent: boolean): CSSProperties | undefined => {
     if (!animateContent) {
       return undefined
     }
@@ -271,7 +271,10 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
 
             <div className="relative z-30 max-w-3xl space-y-3">
               {slide.highlights.length > 0 ? (
-                <div className={cn("flex flex-wrap gap-2", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(80, animateContent)}>
+                <div
+                  className={cn("flex flex-wrap gap-2", animateContent ? "slider-content-fade-up-stagger" : "")}
+                  style={getContentFadeUpStaggerStyle(160, animateContent)}
+                >
                   {slide.highlights.map((highlight) => (
                     <span key={highlight.id} className="inline-flex rounded-full border border-border/70 bg-card/70 px-2.5 py-1 text-xs text-card-foreground">
                       {highlight.text}
@@ -279,14 +282,23 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
                   ))}
                 </div>
               ) : null}
-              <h1 className={cn("text-3xl font-bold tracking-tight text-foreground md:text-5xl", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(170, animateContent)}>
+              <h1
+                className={cn("text-3xl font-bold tracking-tight text-foreground md:text-5xl", animateContent ? "slider-content-fade-up-stagger" : "")}
+                style={getContentFadeUpStaggerStyle(300, animateContent)}
+              >
                 {slide.title}
               </h1>
-              <p className={cn("text-base text-foreground/90 md:text-lg", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(260, animateContent)}>
+              <p
+                className={cn("text-base text-foreground/90 md:text-lg", animateContent ? "slider-content-fade-up-stagger" : "")}
+                style={getContentFadeUpStaggerStyle(440, animateContent)}
+              >
                 {slide.tagline}
               </p>
               {slide.actionText && slide.actionHref ? (
-                <div className={cn("pt-1", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(340, animateContent)}>
+                <div
+                  className={cn("pt-1", animateContent ? "slider-content-fade-up-stagger" : "")}
+                  style={getContentFadeUpStaggerStyle(590, animateContent)}
+                >
                   <a href={slide.actionHref}>
                     <Button className={cn("h-10 px-5", ctaClassMap[slide.ctaColor] ?? ctaClassMap[sliderCtaColor.Primary])}>{slide.actionText}</Button>
                   </a>

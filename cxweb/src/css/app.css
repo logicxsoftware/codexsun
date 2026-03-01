@@ -202,7 +202,7 @@
   }
 }
 
-@keyframes slider-content-fade-up {
+@keyframes slider-content-fade-up-stagger {
   from {
     opacity: 0;
     transform: translate3d(0, 18px, 0);
@@ -252,8 +252,8 @@
     will-change: transform;
   }
 
-  .slider-content-fade-up {
-    animation-name: slider-content-fade-up;
+  .slider-content-fade-up-stagger {
+    animation-name: slider-content-fade-up-stagger;
     will-change: opacity, transform;
   }
 }
