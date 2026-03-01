@@ -306,6 +306,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
       <div className="relative h-full">
         {isSliding && previousSlide ? (
           <div
+            key={`prev-${previousSlide.id}`}
             aria-hidden
             className="absolute inset-0 slider-slide-exit-left"
             style={{
@@ -318,6 +319,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
         ) : null}
 
         <div
+          key={`active-${activeSlide.id}`}
           className={cn("absolute inset-0", isSliding ? "slider-slide-enter-right" : "")}
           style={
             isSliding

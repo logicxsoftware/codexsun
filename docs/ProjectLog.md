@@ -228,3 +228,14 @@ Files Changed: cxweb/src/features/slider/components/FullScreenSlider.tsx, cxweb/
 Database Impact: No
 API Impact: No
 Breaking Change: No
+
+---
+ProjectLog #: 62
+Date: 2026-03-01
+Module: Slider FadeUp Retrigger
+Type: Fix
+Summary: Fixed FadeUp animation replay for all slides by keying active/outgoing slide wrappers with slide ids so slide content remounts per transition and replays staggered FadeUp on every slide change.
+Files Changed: cxweb/src/features/slider/components/FullScreenSlider.tsx, Assist/ProjectLog.md, docs/ProjectLog.md
+Database Impact: No
+API Impact: No
+Breaking Change: No
