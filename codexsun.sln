@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{76B97CA1-1
 		docs\Server-installation.md = docs\Server-installation.md
 		docs\UpdatePromt.md = docs\UpdatePromt.md
 		docs\temp.md = docs\temp.md
+		docs\recap.md = docs\recap.md
 	EndProjectSection
 EndProject
 Global
