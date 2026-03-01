@@ -680,3 +680,14 @@ Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuS
 - Database Impact: No schema change (seeded menu data alignment only)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 67
+# Date: 2026-03-01
+# Module: Main Menu Blog Seeding Order Fix
+# Type: Fix
+# Summary:
+Fixed tenant startup crash in menu seeding by avoiding top-level order collisions. Blog main links are now added at unique trailing order in header/mobile primary menus without reindexing existing top-level items.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs
+- Database Impact: No schema change (seeded menu order alignment only)
+- API Impact: No
+- Breaking Change: No
