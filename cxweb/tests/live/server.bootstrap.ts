@@ -1,4 +1,3 @@
-import type { FullConfig } from "@playwright/test"
 import { liveBackendUrl, liveFrontendUrl } from "./live-config"
 import { resolveRepoPaths, startProcess, waitForHttpReady, type ManagedProcess } from "./process-manager"
 
@@ -17,7 +16,7 @@ const formatLogs = (process: ManagedProcess): string => {
   return output.length > 6000 ? output.slice(output.length - 6000) : output
 }
 
-export default async function globalSetup(_config: FullConfig): Promise<() => Promise<void>> {
+export default async function globalSetup(): Promise<() => Promise<void>> {
   const { backendCwd, frontendCwd } = resolveRepoPaths(process.cwd())
 
   const backend = process.platform === "win32"

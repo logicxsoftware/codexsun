@@ -33,6 +33,7 @@ const killTree = async (pid: number): Promise<void> => {
     try {
       process.kill(pid, "SIGKILL")
     } catch {
+      return
     }
   }
 }

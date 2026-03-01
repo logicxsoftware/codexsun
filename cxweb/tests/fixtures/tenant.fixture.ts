@@ -1,4 +1,4 @@
-import { test as base, type APIRequestContext, type BrowserContext, type Page } from "@playwright/test"
+import { test as base, type APIRequestContext, type Page } from "@playwright/test"
 
 type TenantFixture = {
   primaryHost: string
@@ -11,18 +11,18 @@ const primaryHost = process.env.PW_TENANT_PRIMARY_HOST ?? "localhost"
 const secondaryHost = process.env.PW_TENANT_SECONDARY_HOST ?? "tenant2.localhost"
 
 export const test = base.extend<TenantFixture>({
-  primaryHost: async ({}, use) => {
-    await use(primaryHost)
+  primaryHost: async (_args, setFixture) => {
+    await setFixture(primaryHost)
   },
-  secondaryHost: async ({}, use) => {
-    await use(secondaryHost)
+  secondaryHost: async (_args, setFixture) => {
+    await setFixture(secondaryHost)
   },
-  gotoHome: async ({ baseURL }, use) => {
+  gotoHome: async ({ baseURL }, setFixture) => {
     if (!baseURL) {
       throw new Error("baseURL is required")
     }
 
-    await use(async (page: Page, host?: string) => {
+    await setFixture(async (page: Page, host?: string) => {
       const url = new URL(baseURL)
       if (host && host.trim().length > 0) {
         url.hostname = host
@@ -31,13 +31,13 @@ export const test = base.extend<TenantFixture>({
       await page.goto(url.toString(), { waitUntil: "domcontentloaded" })
     })
   },
-  createApiForHost: async ({ playwright, baseURL }, use) => {
+  createApiForHost: async ({ playwright, baseURL }, setFixture) => {
     if (!baseURL) {
       throw new Error("baseURL is required")
     }
 
     const contexts: APIRequestContext[] = []
-    await use(async (host: string) => {
+    await setFixture(async (host: string) => {
       const context = await playwright.request.newContext({
         baseURL,
         extraHTTPHeaders: {

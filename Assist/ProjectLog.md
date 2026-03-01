@@ -691,3 +691,14 @@ Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuS
 - Database Impact: No schema change (seeded menu order alignment only)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 68
+# Date: 2026-03-01
+# Module: Cross-Stack Build/Test Stabilization
+# Type: Fix
+# Summary:
+Resolved backend integration test regression caused by slider global-fallback read path leaking non-tenant slide ids into tenant mutation flow, and fixed frontend lint-blocking issues in navigation/test utilities (unused vars, fixture callback naming, empty catch, setup signature) so build/test pipelines run cleanly.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/SliderEngine/SliderStore.cs, cxweb/src/features/web-navigation/components/FooterContainer.tsx, cxweb/tests/fixtures/tenant.fixture.ts, cxweb/tests/live/process-manager.ts, cxweb/tests/live/server.bootstrap.ts
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No

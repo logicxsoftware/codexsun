@@ -38,23 +38,6 @@ internal sealed class SliderStore : ISliderStore
             .AsTracking()
             .FirstOrDefaultAsync(x => x.TenantId == scope, cancellationToken);
 
-        if (scope.HasValue && (config is null || config.Slides.All(x => x.IsDeleted)))
-        {
-            // Tenant-scoped slider is optional; use the seeded global slider as read fallback.
-            var globalConfig = await dbContext.SliderConfigs
-                .Include(x => x.Slides)
-                    .ThenInclude(x => x.Layers)
-                .Include(x => x.Slides)
-                    .ThenInclude(x => x.Highlights)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.TenantId == null, cancellationToken);
-
-            if (globalConfig is not null)
-            {
-                return MapConfig(globalConfig);
-            }
-        }
-
         if (config is null)
         {
             config = SliderConfig.Create(Guid.NewGuid(), scope, _dateTimeProvider.UtcNow);
