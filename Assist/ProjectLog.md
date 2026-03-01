@@ -713,3 +713,14 @@ Files Changed: Assist/ProjectLog.md, codexsun.sln, tmpbuild/**
 - Database Impact: No
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 70
+# Date: 2026-03-01
+# Module: Header Menu Seeder Simplification
+# Type: Refactor
+# Summary:
+Refactored tenant header/mobile primary menu seeding to the required top-level structure: Home, Shop, Services, Company, Blog; removed legacy top-level entries (Solutions, Resources, Pricing, Login) and cleanup slugs to prevent duplicate/stale menu items.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs
+- Database Impact: No schema change (seeded menu data alignment only)
+- API Impact: No
+- Breaking Change: No

@@ -67,39 +67,28 @@ internal sealed class TenantMenuSeeder
 
         var home = EnsureMenuItem(menu, null, "Home", "home", "/", 0, null, now);
         var shop = EnsureMenuItem(menu, null, "Shop", "shop", "/products", 1, null, now);
-        var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions", "/solutions", 2, "dropdown", now);
-        var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing", "/pricing", 3, null, now);
-        var resources = EnsureMenuItem(menu, null, "Resources", "resources", "/resources", 4, "dropdown", now);
-        var company = EnsureMenuItem(menu, null, "Company", "company", "/company", 5, "dropdown", now);
-        var login = EnsureMenuItem(menu, null, "Login", "login", "/login", 6, "auth", now);
-        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main", "/blog", 7, null, now);
+        var services = EnsureMenuItem(menu, null, "Services", "services-main", "/services", 2, null, now);
+        var company = EnsureMenuItem(menu, null, "Company", "company-main", "/company", 3, null, now);
+        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main", "/blog", 4, null, now);
         _ = home;
         _ = shop;
+        _ = services;
+        _ = company;
         _ = blog;
-        _ = pricing;
+
+        RemoveMenuItemBySlug(menu, "solutions", now);
+        RemoveMenuItemBySlug(menu, "resources", now);
+        RemoveMenuItemBySlug(menu, "pricing", now);
+        RemoveMenuItemBySlug(menu, "login", now);
+        RemoveMenuItemBySlug(menu, "company", now);
         RemoveMenuItemBySlug(menu, "products", now);
         RemoveMenuItemBySlug(menu, "get-started", now);
+        RemoveMenuItemBySlug(menu, "blog", now);
         RemoveMenuItemBySlug(menu, "codexsun-crm", now);
         RemoveMenuItemBySlug(menu, "codexsun-erp", now);
         RemoveMenuItemBySlug(menu, "codexsun-hrms", now);
         RemoveMenuItemBySlug(menu, "codexsun-pos", now);
         RemoveMenuItemBySlug(menu, "custom-saas-development", now);
-
-        EnsureMenuItem(menu, solutions.Id, "Small Business", "small-business", "/solutions/small-business", 0, null, now);
-        EnsureMenuItem(menu, solutions.Id, "Enterprise", "enterprise", "/solutions/enterprise", 1, null, now);
-        EnsureMenuItem(menu, solutions.Id, "Startups", "startups", "/solutions/startups", 2, null, now);
-        EnsureMenuItem(menu, solutions.Id, "Agencies", "agencies", "/solutions/agencies", 3, null, now);
-
-        RemoveMenuItemBySlug(menu, "blog", now);
-        EnsureMenuItem(menu, resources.Id, "Documentation", "documentation", "/docs", 0, null, now);
-        EnsureMenuItem(menu, resources.Id, "Case Studies", "case-studies", "/case-studies", 1, null, now);
-        EnsureMenuItem(menu, resources.Id, "Help Center", "help-center", "/help", 2, null, now);
-
-        EnsureMenuItem(menu, company.Id, "About Us", "about-us", "/about", 0, null, now);
-        EnsureMenuItem(menu, company.Id, "Careers", "careers", "/careers", 1, null, now);
-        EnsureMenuItem(menu, company.Id, "Contact", "contact", "/contact", 2, null, now);
-
-        _ = login;
     }
 
     private static void EnsureMobile(MenuGroup group, DateTimeOffset now)
@@ -108,39 +97,28 @@ internal sealed class TenantMenuSeeder
 
         var home = EnsureMenuItem(menu, null, "Home", "home-mobile", "/", 0, null, now);
         var shop = EnsureMenuItem(menu, null, "Shop", "shop-mobile", "/products", 1, null, now);
-        var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions-mobile", "/solutions", 2, "dropdown", now);
-        var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing-mobile", "/pricing", 3, null, now);
-        var resources = EnsureMenuItem(menu, null, "Resources", "resources-mobile", "/resources", 4, "dropdown", now);
-        var company = EnsureMenuItem(menu, null, "Company", "company-mobile", "/company", 5, "dropdown", now);
-        var login = EnsureMenuItem(menu, null, "Login", "login-mobile", "/login", 6, "auth", now);
-        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main-mobile", "/blog", 7, null, now);
+        var services = EnsureMenuItem(menu, null, "Services", "services-main-mobile", "/services", 2, null, now);
+        var company = EnsureMenuItem(menu, null, "Company", "company-main-mobile", "/company", 3, null, now);
+        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main-mobile", "/blog", 4, null, now);
         _ = home;
         _ = shop;
+        _ = services;
+        _ = company;
         _ = blog;
-        _ = pricing;
+
+        RemoveMenuItemBySlug(menu, "solutions-mobile", now);
+        RemoveMenuItemBySlug(menu, "resources-mobile", now);
+        RemoveMenuItemBySlug(menu, "pricing-mobile", now);
+        RemoveMenuItemBySlug(menu, "login-mobile", now);
+        RemoveMenuItemBySlug(menu, "company-mobile", now);
         RemoveMenuItemBySlug(menu, "products-mobile", now);
         RemoveMenuItemBySlug(menu, "get-started-mobile", now);
+        RemoveMenuItemBySlug(menu, "blog-mobile", now);
         RemoveMenuItemBySlug(menu, "codexsun-crm-mobile", now);
         RemoveMenuItemBySlug(menu, "codexsun-erp-mobile", now);
         RemoveMenuItemBySlug(menu, "codexsun-hrms-mobile", now);
         RemoveMenuItemBySlug(menu, "codexsun-pos-mobile", now);
         RemoveMenuItemBySlug(menu, "custom-saas-development-mobile", now);
-
-        EnsureMenuItem(menu, solutions.Id, "Small Business", "small-business-mobile", "/solutions/small-business", 0, null, now);
-        EnsureMenuItem(menu, solutions.Id, "Enterprise", "enterprise-mobile", "/solutions/enterprise", 1, null, now);
-        EnsureMenuItem(menu, solutions.Id, "Startups", "startups-mobile", "/solutions/startups", 2, null, now);
-        EnsureMenuItem(menu, solutions.Id, "Agencies", "agencies-mobile", "/solutions/agencies", 3, null, now);
-
-        RemoveMenuItemBySlug(menu, "blog-mobile", now);
-        EnsureMenuItem(menu, resources.Id, "Documentation", "documentation-mobile", "/docs", 0, null, now);
-        EnsureMenuItem(menu, resources.Id, "Case Studies", "case-studies-mobile", "/case-studies", 1, null, now);
-        EnsureMenuItem(menu, resources.Id, "Help Center", "help-center-mobile", "/help", 2, null, now);
-
-        EnsureMenuItem(menu, company.Id, "About Us", "about-us-mobile", "/about", 0, null, now);
-        EnsureMenuItem(menu, company.Id, "Careers", "careers-mobile", "/careers", 1, null, now);
-        EnsureMenuItem(menu, company.Id, "Contact", "contact-mobile", "/contact", 2, null, now);
-
-        _ = login;
     }
 
     private static void EnsureFooter(MenuGroup group, DateTimeOffset now)
