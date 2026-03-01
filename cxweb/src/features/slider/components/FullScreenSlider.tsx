@@ -206,7 +206,20 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
     return null
   }
 
-  const renderSlide = (slide: SlideDto, showLoadingOverlay: boolean) => {
+  const getContentFadeStyle = (delayMs: number, animateContent: boolean): CSSProperties | undefined => {
+    if (!animateContent) {
+      return undefined
+    }
+
+    return {
+      animationDelay: `${delayMs}ms`,
+      animationDuration: "720ms",
+      animationTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+      animationFillMode: "both",
+    }
+  }
+
+  const renderSlide = (slide: SlideDto, showLoadingOverlay: boolean, animateContent: boolean) => {
     const mediaType = detectMediaType(slide.mediaType)
     const mediaLoaded = mediaReady[slide.id] ?? false
 
@@ -258,7 +271,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
 
             <div className="relative z-30 max-w-3xl space-y-3">
               {slide.highlights.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
+                <div className={cn("flex flex-wrap gap-2", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(80, animateContent)}>
                   {slide.highlights.map((highlight) => (
                     <span key={highlight.id} className="inline-flex rounded-full border border-border/70 bg-card/70 px-2.5 py-1 text-xs text-card-foreground">
                       {highlight.text}
@@ -266,10 +279,14 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
                   ))}
                 </div>
               ) : null}
-              <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">{slide.title}</h1>
-              <p className="text-base text-foreground/90 md:text-lg">{slide.tagline}</p>
+              <h1 className={cn("text-3xl font-bold tracking-tight text-foreground md:text-5xl", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(170, animateContent)}>
+                {slide.title}
+              </h1>
+              <p className={cn("text-base text-foreground/90 md:text-lg", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(260, animateContent)}>
+                {slide.tagline}
+              </p>
               {slide.actionText && slide.actionHref ? (
-                <div className="pt-1">
+                <div className={cn("pt-1", animateContent ? "slider-content-fade-up" : "")} style={getContentFadeStyle(340, animateContent)}>
                   <a href={slide.actionHref}>
                     <Button className={cn("h-10 px-5", ctaClassMap[slide.ctaColor] ?? ctaClassMap[sliderCtaColor.Primary])}>{slide.actionText}</Button>
                   </a>
@@ -296,7 +313,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
               animationTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)",
             }}
           >
-            {renderSlide(previousSlide, false)}
+            {renderSlide(previousSlide, false, false)}
           </div>
         ) : null}
 
@@ -311,7 +328,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
               : undefined
           }
         >
-          {renderSlide(activeSlide, true)}
+          {renderSlide(activeSlide, true, true)}
         </div>
       </div>
 

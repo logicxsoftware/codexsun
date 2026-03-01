@@ -614,3 +614,14 @@ Files Changed: cxserver/Infrastructure/Seeding/TenantSliderSeeder.cs, cxweb/src/
 - Database Impact: No schema change (seed data content refresh only)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 61
+# Date: 2026-03-01
+# Module: Slider Content FadeUp Motion
+# Type: Enhancement
+# Summary:
+Added smooth staggered FadeUp animation for each in-slide content block (highlights, title, tagline, CTA) during active slide transitions while keeping outgoing slide content non-animated for cleaner motion continuity.
+Files Changed: cxweb/src/features/slider/components/FullScreenSlider.tsx, cxweb/src/css/app.css, Assist/ProjectLog.md
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No

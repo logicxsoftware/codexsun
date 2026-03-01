@@ -202,6 +202,17 @@
   }
 }
 
+@keyframes slider-content-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -239,5 +250,10 @@
     animation-name: slider-exit-to-left;
     animation-fill-mode: both;
     will-change: transform;
+  }
+
+  .slider-content-fade-up {
+    animation-name: slider-content-fade-up;
+    will-change: opacity, transform;
   }
 }
