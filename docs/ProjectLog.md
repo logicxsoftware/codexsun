@@ -173,3 +173,47 @@ Files Changed: docs/ProjectLog.md, Assist/ProjectLog.md, docs/recap.md
 Database Impact: No
 API Impact: No
 Breaking Change: No
+
+---
+ProjectLog #: 57
+Date: 2026-03-01
+Module: Home Slider Transition Motion
+Type: Enhancement
+Summary: Updated frontend home slider transition behavior to a dedicated smooth right-to-left movement for every slide change by adding enter-from-right and exit-to-left animation flow, preserving existing autoplay/manual navigation controls and slider data contracts.
+Files Changed: cxweb/src/features/slider/components/FullScreenSlider.tsx, cxweb/src/css/app.css, Assist/ProjectLog.md, docs/ProjectLog.md
+Database Impact: No
+API Impact: No
+Breaking Change: No
+
+---
+ProjectLog #: 58
+Date: 2026-03-01
+Module: Home Slider Fallback Resolution
+Type: Fix
+Summary: Fixed home slider loading for tenant contexts where a tenant-specific slider config exists but contains no active slides by extending runtime read fallback to use the seeded global slider config when tenant slider data is empty.
+Files Changed: cxserver/Infrastructure/SliderEngine/SliderStore.cs, Assist/ProjectLog.md, docs/ProjectLog.md
+Database Impact: No
+API Impact: No
+Breaking Change: No
+
+---
+ProjectLog #: 59
+Date: 2026-03-01
+Module: Home Slider Frontend Fallback
+Type: Fix
+Summary: Added frontend fallback resolution for home slider loading: when `/api/slider` is empty/inactive/unavailable, SliderProvider now loads slider payload from `/api/home-data` and uses `homeData.slider` to keep home hero slider visible.
+Files Changed: cxweb/src/features/slider/context/SliderProvider.tsx, cxweb/src/features/slider/services/slider-api.ts, Assist/ProjectLog.md, docs/ProjectLog.md
+Database Impact: No
+API Impact: No
+Breaking Change: No
+
+---
+ProjectLog #: 60
+Date: 2026-03-01
+Module: Home Slider Seed + Runtime Fallback
+Type: Fix
+Summary: Updated tenant slider seeding to enforce 5 computer-store focused slides with refreshed highlights/layers and idempotent order cleanup, and added single final frontend slider fallback slide about Codexsun software when /api/slider and /api/home-data both fail to provide active slides.
+Files Changed: cxserver/Infrastructure/Seeding/TenantSliderSeeder.cs, cxweb/src/features/slider/context/SliderProvider.tsx, Assist/ProjectLog.md, docs/ProjectLog.md
+Database Impact: No schema change (seed data content refresh only)
+API Impact: No
+Breaking Change: No

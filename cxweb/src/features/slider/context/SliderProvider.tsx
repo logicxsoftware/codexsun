@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from "react"
 
 import { sliderApi } from "@/features/slider/services/slider-api"
+import { sliderBackgroundMode, sliderContainerMode, sliderContentAlignment, sliderCtaColor, sliderDirection, sliderHeightMode, sliderIntensity, sliderMediaType, sliderVariant } from "@/features/slider/types/slider-types"
 import type { SliderConfigDto } from "@/features/slider/types/slider-types"
 
 type SliderContextValue = {
@@ -21,6 +22,63 @@ type SliderProviderProps = {
   children: ReactNode
 }
 
+const hasActiveSlides = (value: SliderConfigDto | null): value is SliderConfigDto => {
+  if (!value || !value.isActive) {
+    return false
+  }
+
+  return value.slides.some((slide) => slide.isActive)
+}
+
+const createCodexsunFallbackSlider = (): SliderConfigDto => ({
+  id: "fallback-codexsun-slider",
+  tenantId: null,
+  isActive: true,
+  heightMode: sliderHeightMode.Fullscreen,
+  heightValue: 100,
+  containerMode: sliderContainerMode.Containered,
+  contentAlignment: sliderContentAlignment.Left,
+  autoplay: true,
+  loop: true,
+  showProgress: true,
+  showNavArrows: true,
+  showDots: true,
+  parallax: false,
+  particles: false,
+  defaultVariant: sliderVariant.Saas,
+  defaultIntensity: sliderIntensity.Medium,
+  defaultDirection: sliderDirection.Left,
+  defaultBackgroundMode: sliderBackgroundMode.Normal,
+  scrollBehavior: 1,
+  slides: [
+    {
+      id: "fallback-codexsun-slide-1",
+      order: 0,
+      title: "Codexsun Software Platform",
+      tagline: "Reliable multi-tenant software products and implementation services for growing businesses.",
+      actionText: "Explore Platform",
+      actionHref: "/about",
+      ctaColor: sliderCtaColor.Primary,
+      duration: 6500,
+      direction: sliderDirection.Left,
+      variant: sliderVariant.Saas,
+      intensity: sliderIntensity.Medium,
+      backgroundMode: sliderBackgroundMode.Normal,
+      showOverlay: true,
+      overlayToken: "muted/70",
+      backgroundUrl: "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?w=1920",
+      mediaType: sliderMediaType.Image,
+      youtubeVideoId: null,
+      isActive: true,
+      layers: [],
+      highlights: [
+        { id: "fallback-highlight-1", text: "Multi-Tenant Platform", variant: "primary", order: 0 },
+        { id: "fallback-highlight-2", text: "Scalable Architecture", variant: "success", order: 1 },
+      ],
+    },
+  ],
+})
+
 function SliderProvider({ children }: SliderProviderProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [config, setConfig] = useState<SliderConfigDto | null>(null)
@@ -28,7 +86,27 @@ function SliderProvider({ children }: SliderProviderProps) {
   const load = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await sliderApi.getHome()
+      let response: SliderConfigDto | null = null
+
+      try {
+        response = await sliderApi.getHome()
+      } catch {
+        response = null
+      }
+
+      if (!hasActiveSlides(response)) {
+        try {
+          const homeDataSlider = await sliderApi.getHomeDataSlider()
+          response = homeDataSlider
+        } catch {
+          // Keep primary response when fallback endpoint is unavailable.
+        }
+      }
+
+      if (!hasActiveSlides(response)) {
+        response = createCodexsunFallbackSlider()
+      }
+
       setConfig(response)
     } finally {
       setIsLoading(false)

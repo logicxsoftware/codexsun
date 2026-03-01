@@ -3,9 +3,9 @@ import type { CSSProperties } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import type { SliderConfigDto, SliderLayerDto } from "@/features/slider/types/slider-types"
+import type { SlideDto, SliderConfigDto, SliderLayerDto } from "@/features/slider/types/slider-types"
 import { sliderContentAlignment, sliderContainerMode, sliderCtaColor, sliderHeightMode } from "@/features/slider/types/slider-types"
-import { getLayerFromClass, getSlideAnimationClass } from "@/features/slider/utils/slider-animation"
+import { getLayerFromClass } from "@/features/slider/utils/slider-animation"
 import { detectMediaType, getYoutubeEmbedUrl } from "@/features/slider/utils/slider-media"
 import { cn } from "@/lib/utils"
 
@@ -108,19 +108,51 @@ type FullScreenSliderProps = {
 function FullScreenSlider({ config }: FullScreenSliderProps) {
   const slides = useMemo(() => config.slides.filter((slide) => slide.isActive).sort((a, b) => a.order - b.order), [config.slides])
   const [index, setIndex] = useState(0)
+  const [previousIndex, setPreviousIndex] = useState<number | null>(null)
+  const [isSliding, setIsSliding] = useState(false)
   const [mediaReady, setMediaReady] = useState<Record<string, boolean>>({})
   const rafRef = useRef<number | null>(null)
+  const slideTransitionDurationMs = 800
 
   const activeSlide = slides[index] ?? null
+  const previousSlide = previousIndex === null ? null : (slides[previousIndex] ?? null)
   const heightStyle = useMemo(() => resolveHeightStyle(config), [config])
 
+  useEffect(() => {
+    if (slides.length === 0) {
+      return
+    }
+
+    if (index >= slides.length) {
+      setIndex(0)
+    }
+  }, [index, slides.length])
+
+  const goTo = useCallback(
+    (targetIndex: number) => {
+      if (slides.length < 2 || isSliding) {
+        return
+      }
+
+      const normalized = ((targetIndex % slides.length) + slides.length) % slides.length
+      if (normalized === index) {
+        return
+      }
+
+      setPreviousIndex(index)
+      setIndex(normalized)
+      setIsSliding(true)
+    },
+    [index, isSliding, slides.length],
+  )
+
   const next = useCallback(() => {
-    setIndex((current) => (current + 1) % slides.length)
-  }, [slides.length])
+    goTo(index + 1)
+  }, [goTo, index])
 
   const prev = useCallback(() => {
-    setIndex((current) => (current - 1 + slides.length) % slides.length)
-  }, [slides.length])
+    goTo(index - 1)
+  }, [goTo, index])
 
   useEffect(() => {
     if (!config.autoplay || slides.length < 2 || !activeSlide) {
@@ -155,83 +187,133 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
     }
   }, [index, slides])
 
+  useEffect(() => {
+    if (!isSliding) {
+      return
+    }
+
+    const timeout = window.setTimeout(() => {
+      setIsSliding(false)
+      setPreviousIndex(null)
+    }, slideTransitionDurationMs)
+
+    return () => {
+      window.clearTimeout(timeout)
+    }
+  }, [isSliding, slideTransitionDurationMs])
+
   if (!config.isActive || slides.length === 0 || !activeSlide) {
     return null
   }
 
-  const mediaType = detectMediaType(activeSlide.mediaType)
-  const mediaLoaded = mediaReady[activeSlide.id] ?? false
+  const renderSlide = (slide: SlideDto, showLoadingOverlay: boolean) => {
+    const mediaType = detectMediaType(slide.mediaType)
+    const mediaLoaded = mediaReady[slide.id] ?? false
+
+    return (
+      <>
+        <div className="absolute inset-0">
+          {mediaType === "image" ? (
+            <img
+              src={slide.backgroundUrl}
+              alt={slide.title}
+              className={cn("h-full w-full object-cover transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
+              loading="eager"
+              onLoad={() => setMediaReady((current) => ({ ...current, [slide.id]: true }))}
+            />
+          ) : null}
+
+          {mediaType === "video" ? (
+            <video
+              className={cn("h-full w-full object-cover transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
+              src={slide.backgroundUrl}
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="metadata"
+              onLoadedData={() => setMediaReady((current) => ({ ...current, [slide.id]: true }))}
+            />
+          ) : null}
+
+          {mediaType === "youtube" && slide.youtubeVideoId ? (
+            <iframe
+              title={slide.title}
+              src={getYoutubeEmbedUrl(slide.youtubeVideoId)}
+              className={cn("h-full w-full transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              loading="lazy"
+              onLoad={() => setMediaReady((current) => ({ ...current, [slide.id]: true }))}
+            />
+          ) : null}
+
+          {slide.showOverlay ? <div className={cn("absolute inset-0", resolveOverlayClass(slide.overlayToken))} /> : null}
+        </div>
+
+        <div className={cn("relative z-10 h-full", config.containerMode === sliderContainerMode.Containered ? "mx-auto max-w-7xl px-4 sm:px-6" : "w-full px-4 sm:px-6")}>
+          <div className={cn("relative flex h-full flex-col justify-center gap-4", alignmentClassMap[config.contentAlignment])}>
+            {slide.layers.map((layer) => (
+              <SliderLayer key={layer.id} layer={layer} active />
+            ))}
+
+            <div className="relative z-30 max-w-3xl space-y-3">
+              {slide.highlights.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {slide.highlights.map((highlight) => (
+                    <span key={highlight.id} className="inline-flex rounded-full border border-border/70 bg-card/70 px-2.5 py-1 text-xs text-card-foreground">
+                      {highlight.text}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+              <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">{slide.title}</h1>
+              <p className="text-base text-foreground/90 md:text-lg">{slide.tagline}</p>
+              {slide.actionText && slide.actionHref ? (
+                <div className="pt-1">
+                  <a href={slide.actionHref}>
+                    <Button className={cn("h-10 px-5", ctaClassMap[slide.ctaColor] ?? ctaClassMap[sliderCtaColor.Primary])}>{slide.actionText}</Button>
+                  </a>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        {showLoadingOverlay && !mediaLoaded ? <div className="absolute inset-0 z-40 animate-pulse bg-card/60" /> : null}
+      </>
+    )
+  }
 
   return (
     <section className="relative w-full overflow-hidden" style={heightStyle}>
-      <div className={cn("absolute inset-0", getSlideAnimationClass(activeSlide.direction))}>
-        {mediaType === "image" ? (
-          <img
-            src={activeSlide.backgroundUrl}
-            alt={activeSlide.title}
-            className={cn("h-full w-full object-cover transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
-            loading="eager"
-            onLoad={() => setMediaReady((current) => ({ ...current, [activeSlide.id]: true }))}
-          />
-        ) : null}
-
-        {mediaType === "video" ? (
-          <video
-            className={cn("h-full w-full object-cover transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
-            src={activeSlide.backgroundUrl}
-            muted
-            autoPlay
-            loop
-            playsInline
-            preload="metadata"
-            onLoadedData={() => setMediaReady((current) => ({ ...current, [activeSlide.id]: true }))}
-          />
-        ) : null}
-
-        {mediaType === "youtube" && activeSlide.youtubeVideoId ? (
-          <iframe
-            title={activeSlide.title}
-            src={getYoutubeEmbedUrl(activeSlide.youtubeVideoId)}
-            className={cn("h-full w-full transition-opacity duration-500", mediaLoaded ? "opacity-100" : "opacity-0")}
-            allow="autoplay; encrypted-media; picture-in-picture"
-            loading="lazy"
-            onLoad={() => setMediaReady((current) => ({ ...current, [activeSlide.id]: true }))}
-          />
-        ) : null}
-
-        {activeSlide.showOverlay ? <div className={cn("absolute inset-0", resolveOverlayClass(activeSlide.overlayToken))} /> : null}
-      </div>
-
-      <div className={cn("relative z-10 h-full", config.containerMode === sliderContainerMode.Containered ? "mx-auto max-w-7xl px-4 sm:px-6" : "w-full px-4 sm:px-6")}>
-        <div className={cn("relative flex h-full flex-col justify-center gap-4", alignmentClassMap[config.contentAlignment])}>
-          {activeSlide.layers.map((layer) => (
-            <SliderLayer key={layer.id} layer={layer} active />
-          ))}
-
-          <div className="relative z-30 max-w-3xl space-y-3">
-            {activeSlide.highlights.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {activeSlide.highlights.map((highlight) => (
-                  <span key={highlight.id} className="inline-flex rounded-full border border-border/70 bg-card/70 px-2.5 py-1 text-xs text-card-foreground">
-                    {highlight.text}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-            <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">{activeSlide.title}</h1>
-            <p className="text-base text-foreground/90 md:text-lg">{activeSlide.tagline}</p>
-            {activeSlide.actionText && activeSlide.actionHref ? (
-              <div className="pt-1">
-                <a href={activeSlide.actionHref}>
-                  <Button className={cn("h-10 px-5", ctaClassMap[activeSlide.ctaColor] ?? ctaClassMap[sliderCtaColor.Primary])}>{activeSlide.actionText}</Button>
-                </a>
-              </div>
-            ) : null}
+      <div className="relative h-full">
+        {isSliding && previousSlide ? (
+          <div
+            aria-hidden
+            className="absolute inset-0 slider-slide-exit-left"
+            style={{
+              animationDuration: `${slideTransitionDurationMs}ms`,
+              animationTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+            }}
+          >
+            {renderSlide(previousSlide, false)}
           </div>
+        ) : null}
+
+        <div
+          className={cn("absolute inset-0", isSliding ? "slider-slide-enter-right" : "")}
+          style={
+            isSliding
+              ? {
+                  animationDuration: `${slideTransitionDurationMs}ms`,
+                  animationTimingFunction: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+                }
+              : undefined
+          }
+        >
+          {renderSlide(activeSlide, true)}
         </div>
       </div>
-
-      {!mediaLoaded ? <div className="absolute inset-0 z-40 animate-pulse bg-card/60" /> : null}
 
       {config.showNavArrows && slides.length > 1 ? (
         <>
@@ -251,7 +333,7 @@ function FullScreenSlider({ config }: FullScreenSliderProps) {
               key={slide.id}
               type="button"
               aria-label={`Go to slide ${dotIndex + 1}`}
-              onClick={() => setIndex(dotIndex)}
+              onClick={() => goTo(dotIndex)}
               className={cn("h-2.5 w-2.5 rounded-full border border-border transition-all", dotIndex === index ? "w-6 bg-primary" : "bg-card")}
             />
           ))}
