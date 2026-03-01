@@ -7,6 +7,10 @@ import MenuGroupsPage from "@/features/menu-admin/pages/MenuGroupsPage"
 import MenuItemsPage from "@/features/menu-admin/pages/MenuItemsPage"
 import ThemePreviewPage from "@/features/theme-preview/pages/ThemePreviewPage"
 import AboutPage from "@/features/web/pages/about"
+import AdminBlogManagerPage from "@/features/blog/pages/AdminBlogManager"
+import BlogListPage from "@/features/blog/pages/BlogList"
+import BlogPostPage from "@/features/blog/pages/BlogPost"
+import BlogSearchPage from "@/features/blog/pages/BlogSearch"
 import ContactPage from "@/features/web/pages/contact"
 import ProductDetailPage from "@/features/web/pages/products/detail"
 import ProductsPage from "@/features/web/pages/products"
@@ -32,6 +36,9 @@ export const appRouter = createBrowserRouter([
       { path: "web-contacts", element: <ContactPage /> },
       { path: "products", element: <ProductsPage /> },
       { path: "products/:slug", element: <ProductDetailPage /> },
+      { path: "blog", element: <BlogListPage /> },
+      { path: "blog/search", element: <BlogSearchPage /> },
+      { path: "blog/:slug", element: <BlogPostPage /> },
       { path: ":slug", element: <WebPage /> },
     ],
   },
@@ -52,6 +59,7 @@ export const appRouter = createBrowserRouter([
       { path: "menus/:id/items", element: <MenuItemsPage /> },
       { path: "web-menu-builder", element: <WebMenuBuilderPage /> },
       { path: "slider-builder", element: <SliderBuilderPage /> },
+      { path: "blog", element: <AdminBlogManagerPage /> },
     ],
   },
   {

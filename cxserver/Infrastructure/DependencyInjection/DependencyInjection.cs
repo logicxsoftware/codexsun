@@ -15,6 +15,7 @@ using cxserver.Infrastructure.WebEngine;
 using cxserver.Infrastructure.MenuEngine;
 using cxserver.Infrastructure.NavigationEngine;
 using cxserver.Infrastructure.ContactEngine;
+using cxserver.Infrastructure.BlogEngine;
 using cxserver.Infrastructure.SliderEngine;
 
 namespace cxserver.Infrastructure.DependencyInjection;
@@ -62,6 +63,7 @@ public static class DependencyInjection
         services.AddScoped<ISliderStore, SliderStore>();
         services.AddScoped<IContactMessageStore, ContactMessageStore>();
         services.AddScoped<IProductCatalogQueryService, ProductCatalogQueryService>();
+        services.AddScoped<IBlogQueryService, BlogQueryService>();
         services.AddScoped<ISectionDataValidator, SectionDataValidator>();
         services.AddScoped<IUnitOfWork, TenantUnitOfWork>();
 
@@ -79,6 +81,7 @@ public static class DependencyInjection
         services.AddScoped<TenantNavigationSeeder>();
         services.AddScoped<TenantSliderSeeder>();
         services.AddScoped<TenantProductCatalogSeeder>();
+        services.AddScoped<TenantBlogSeeder>();
 
         services.AddScoped<ITenantDatabaseMigrationService, TenantDatabaseMigrationService>();
 

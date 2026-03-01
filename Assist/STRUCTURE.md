@@ -20,6 +20,7 @@ Current-state structure only. No planned modules are listed.
   - `HomeEndpoints.cs`
   - `WebContentEndpoints.cs`
   - `ProductCatalogEndpoints.cs`
+  - `BlogEndpoints.cs`
   - `MenuManagementEndpoints.cs`
   - `WebNavigationEndpoints.cs`
   - `SliderEndpoints.cs`
@@ -38,12 +39,14 @@ Current-state structure only. No planned modules are listed.
   - `MenuEngine/`
   - `Tenants/`
   - `WebEngine/`
+- `Application/Abstractions/IBlogQueryService.cs` : Blog read/write/search contract DTOs.
 
 ### Domain Layer
 - `Domain/Common/`
 - `Domain/AboutPage/`
 - `Domain/ContactEngine/`
 - `Domain/ProductCatalog/`
+- `Domain/BlogEngine/`
 - `Domain/Configuration/`
 - `Domain/MenuEngine/`
 - `Domain/NavigationEngine/`
@@ -62,7 +65,9 @@ Current-state structure only. No planned modules are listed.
 - `Infrastructure/NavigationEngine/` : Navigation/footer persistence services.
 - `Infrastructure/ContactEngine/` : Contact message persistence services.
 - `Infrastructure/ProductCatalog/` : Product listing query services and tenant-scoped catalog access.
+- `Infrastructure/BlogEngine/` : Blog query/search and CRUD orchestration with tenant isolation.
 - `Infrastructure/SliderEngine/` : Slider persistence services.
+- `Infrastructure/Seeding/TenantBlogSeeder.cs` : Idempotent tenant blog seed data bootstrap.
 - `Infrastructure/ConfigurationStorage/` : Configuration document storage/unit of work.
 - `Infrastructure/Onboarding/` : Tenant onboarding flow executors.
 - `Infrastructure/Caching/` : Tenant metadata and feature caches.
@@ -86,6 +91,7 @@ Current-state structure only. No planned modules are listed.
 ### Feature Modules
 - `src/features/app/`
 - `src/features/auth/`
+- `src/features/blog/`
 - `src/features/menu-admin/`
 - `src/features/slider/`
 - `src/features/theme-preview/`
@@ -121,6 +127,28 @@ Current-state structure only. No planned modules are listed.
   - `pages/products/components/RelatedProducts.tsx`
 - API consumer:
   - `src/features/web/services/product-catalog-api.ts`
+
+### Blog Composition (`src/features/blog`)
+- Public routes:
+  - `/blog`
+  - `/blog/search`
+  - `/blog/:slug`
+- Admin route:
+  - `/admin/blog`
+- Pages/components/hooks/services/types:
+  - `pages/BlogList.tsx`
+  - `pages/BlogSearch.tsx`
+  - `pages/BlogPost.tsx`
+  - `pages/AdminBlogManager.tsx`
+  - `components/BlogPostCard.tsx`
+  - `components/CommentForm.tsx`
+  - `components/LikeButton.tsx`
+  - `components/ImageGallery.tsx`
+  - `hooks/useBlogPosts.ts`
+  - `hooks/useBlogPost.ts`
+  - `hooks/useBlogSearch.ts`
+  - `services/blog-api.ts`
+  - `types/blog-types.ts`
 
 ### Home Section Composition (`src/features/web`)
 - Home page section rendering remains driven by backend `web/{slug}` section payload order.

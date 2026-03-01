@@ -17,6 +17,7 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
     private readonly TenantNavigationSeeder _tenantNavigationSeeder;
     private readonly TenantSliderSeeder _tenantSliderSeeder;
     private readonly TenantProductCatalogSeeder _tenantProductCatalogSeeder;
+    private readonly TenantBlogSeeder _tenantBlogSeeder;
 
     public TenantSeederExecutor(
         ITenantDbContextFactory tenantDbContextFactory,
@@ -26,7 +27,8 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
         TenantMenuSeeder tenantMenuSeeder,
         TenantNavigationSeeder tenantNavigationSeeder,
         TenantSliderSeeder tenantSliderSeeder,
-        TenantProductCatalogSeeder tenantProductCatalogSeeder)
+        TenantProductCatalogSeeder tenantProductCatalogSeeder,
+        TenantBlogSeeder tenantBlogSeeder)
     {
         _tenantDbContextFactory = tenantDbContextFactory;
         _dateTimeProvider = dateTimeProvider;
@@ -36,6 +38,7 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
         _tenantNavigationSeeder = tenantNavigationSeeder;
         _tenantSliderSeeder = tenantSliderSeeder;
         _tenantProductCatalogSeeder = tenantProductCatalogSeeder;
+        _tenantBlogSeeder = tenantBlogSeeder;
     }
 
     public async Task ExecuteAsync(TenantRegistryItem tenant, CancellationToken cancellationToken)
@@ -60,5 +63,6 @@ internal sealed class TenantSeederExecutor : ITenantSeederExecutor
         await _tenantNavigationSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantSliderSeeder.SeedAsync(dbContext, cancellationToken);
         await _tenantProductCatalogSeeder.SeedAsync(dbContext, tenant.TenantId, cancellationToken);
+        await _tenantBlogSeeder.SeedAsync(dbContext, tenant.TenantId, cancellationToken);
     }
 }

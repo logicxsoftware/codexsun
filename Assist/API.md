@@ -88,6 +88,43 @@
     - `sku`
   - `relatedProducts` (same-category tenant-scoped subset, excludes current product, newest first, limited)
 
+## Blog Endpoints
+- `GET /api/blog/categories` returns tenant-scoped active blog categories.
+- `GET /api/blog/tags` returns tenant-scoped active blog tags.
+- `GET /api/blog/posts` returns tenant-scoped paginated posts.
+- Query parameters:
+  - `category` (category slug)
+  - `tag` (tag slug)
+  - `sort` (`newest|oldest`)
+  - `page`, `pageSize`
+- Response shape:
+  - `data` (post list items with category, tags, like/comment counts)
+  - `pagination` (`page`, `pageSize`, `totalItems`, `totalPages`, `hasPrevious`, `hasNext`)
+- `GET /api/blog/posts/{slug}` returns tenant-scoped published post detail with:
+  - `tags`
+  - `images`
+  - approved `comments`
+  - `likeCount`
+  - `relatedPosts`
+- `GET /api/blog/search` supports advanced tenant-scoped full-text search.
+- Search query parameters:
+  - `q` (supports phrase `"exact"`, AND `&`, OR `|`, exclude `-term`, wildcard `*`)
+  - `category`, `tag`
+  - `sort` (`relevance|newest|oldest`)
+  - `page`, `pageSize` (`pageSize` capped to `50`)
+- Search response:
+  - `data` (`rank`, optional `headline`, post summary fields)
+  - `pagination`
+- Write endpoints (authentication required):
+  - `POST/PUT/DELETE /api/blog/categories`
+  - `POST/PUT/DELETE /api/blog/tags`
+  - `POST/PUT/DELETE /api/blog/posts`
+  - `POST/PUT/DELETE /api/blog/comments`
+  - `POST/DELETE /api/blog/likes`
+- Tenant enforcement:
+  - All blog reads/writes require resolved tenant context and apply tenant id filters.
+  - Public reads apply published/active/soft-delete visibility rules.
+
 ## Contract Rules
 - No silent breaking contract changes.
 - Status codes and payload structure must remain stable per endpoint.

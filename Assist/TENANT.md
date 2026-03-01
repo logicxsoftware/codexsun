@@ -20,6 +20,7 @@
 - Primary slugs: `home`, `about`. Trailing slugs: `blog`, `contact`.
 - Render path must not duplicate slugs or leak cross-tenant menu data.
 - Navigation config width fallback priority is tenant config -> global config -> `container`.
+- Blog engine enforces tenant-id filtering on categories, tags, posts, post-tag joins, comments, likes, and images for all reads/writes/search operations.
 
 ## Update Discipline
 - Any tenant resolution or isolation behavior change requires updates to:

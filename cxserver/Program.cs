@@ -38,6 +38,7 @@ app.MapConfigurationDocumentsEndpoints();
 app.MapTenantContextEndpoints();
 app.MapTenantsEndpoints();
 app.MapProductCatalogEndpoints();
+app.MapBlogEndpoints();
 app.MapDefaultEndpoints();
 app.UseFileServer();
 

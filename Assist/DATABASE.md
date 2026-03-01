@@ -34,6 +34,26 @@
   - `product_attributes`: `product_id`, (`key`, `value`)
   - `product_images`: `product_id`, unique (`product_id`, `display_order`)
 - Tenant migration `20260228195824_AddProductCatalogSchema` provisions product catalog schema for tenant-isolated PLP filtering and pagination.
+- Blog module tenant tables:
+  - `blog_categories` (`id`, `tenant_id`, `name`, `slug`, `active`, audit, soft-delete)
+  - `blog_tags` (`id`, `tenant_id`, `name`, `slug`, `active`, audit, soft-delete)
+  - `blog_posts` (`id`, `tenant_id`, `title`, `slug`, `excerpt`, `body`, `featured_image`, `category_id`, `user_id`, `meta_keywords`, `published`, `active`, audit, soft-delete)
+  - `blog_post_tags` (`post_id`, `tag_id`, `tenant_id`, audit, soft-delete)
+  - `blog_comments` (`id`, `tenant_id`, `post_id`, `user_id`, `body`, `approved`, audit, soft-delete)
+  - `blog_likes` (`post_id`, `user_id`, `tenant_id`, `liked`, audit, soft-delete)
+  - `blog_post_images` (`id`, `tenant_id`, `post_id`, `image_path`, `alt_text`, `caption`, `sort_order`, audit)
+- Blog indexing:
+  - `blog_categories`: `tenant_id`, unique (`tenant_id`, `name`), unique (`tenant_id`, `slug`)
+  - `blog_tags`: `tenant_id`, unique (`tenant_id`, `name`), unique (`tenant_id`, `slug`)
+  - `blog_posts`: unique (`tenant_id`, `slug`), (`tenant_id`, `published`, `active`, `created_at_utc`), `category_id`
+  - `blog_post_tags`: `tenant_id`, unique composite PK (`post_id`, `tag_id`)
+  - `blog_comments`: `tenant_id`, (`post_id`, `approved`)
+  - `blog_likes`: `tenant_id`, composite PK (`post_id`, `user_id`)
+  - `blog_post_images`: `tenant_id`, (`post_id`, `sort_order`)
+- PostgreSQL full-text support:
+  - Migration `20260301050442_AddBlogModuleSchema` adds `blog_posts.search_vector` (`tsvector`) when provider is Npgsql.
+  - Migration creates trigger function `blog_posts_search_vector_update()` and trigger `trg_blog_posts_search_vector_update` for auto-update on insert/update.
+  - Migration creates GIN index `ix_blog_posts_search_vector` for ranked full-text lookup.
 
 ## Rules
 - Every schema change requires migration.

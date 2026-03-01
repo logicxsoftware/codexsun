@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using cxserver.Domain.AboutPage;
 using cxserver.Application.Abstractions;
+using cxserver.Domain.BlogEngine;
 using cxserver.Domain.ContactEngine;
 using cxserver.Domain.Common;
 using cxserver.Domain.Configuration;
@@ -43,6 +44,13 @@ public sealed class TenantDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<ProductAttribute> ProductAttributes => Set<ProductAttribute>();
     public DbSet<ProductImage> ProductImages => Set<ProductImage>();
+    public DbSet<BlogCategory> BlogCategories => Set<BlogCategory>();
+    public DbSet<BlogTag> BlogTags => Set<BlogTag>();
+    public DbSet<BlogPost> BlogPosts => Set<BlogPost>();
+    public DbSet<BlogPostTag> BlogPostTags => Set<BlogPostTag>();
+    public DbSet<BlogComment> BlogComments => Set<BlogComment>();
+    public DbSet<BlogLike> BlogLikes => Set<BlogLike>();
+    public DbSet<BlogPostImage> BlogPostImages => Set<BlogPostImage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +75,13 @@ public sealed class TenantDbContext : DbContext
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ProductAttributeConfiguration());
         modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogCategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogTagConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogPostConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogPostTagConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogCommentConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogLikeConfiguration());
+        modelBuilder.ApplyConfiguration(new BlogPostImageConfiguration());
         ApplySoftDeleteFilters(modelBuilder);
         base.OnModelCreating(modelBuilder);
     }
