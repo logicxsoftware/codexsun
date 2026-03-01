@@ -65,17 +65,6 @@ internal sealed class TenantMenuSeeder
     {
         var menu = EnsureMenu(group, "Primary", "primary", MenuVariant.Custom, true, 0, now);
 
-        var home = EnsureMenuItem(menu, null, "Home", "home", "/", 0, null, now);
-        var shop = EnsureMenuItem(menu, null, "Shop", "shop", "/products", 1, null, now);
-        var services = EnsureMenuItem(menu, null, "Services", "services-main", "/services", 2, null, now);
-        var company = EnsureMenuItem(menu, null, "Company", "company-main", "/company", 3, null, now);
-        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main", "/blog", 4, null, now);
-        _ = home;
-        _ = shop;
-        _ = services;
-        _ = company;
-        _ = blog;
-
         RemoveMenuItemBySlug(menu, "solutions", now);
         RemoveMenuItemBySlug(menu, "resources", now);
         RemoveMenuItemBySlug(menu, "pricing", now);
@@ -89,22 +78,22 @@ internal sealed class TenantMenuSeeder
         RemoveMenuItemBySlug(menu, "codexsun-hrms", now);
         RemoveMenuItemBySlug(menu, "codexsun-pos", now);
         RemoveMenuItemBySlug(menu, "custom-saas-development", now);
-    }
 
-    private static void EnsureMobile(MenuGroup group, DateTimeOffset now)
-    {
-        var menu = EnsureMenu(group, "Mobile Primary", "mobile-primary", MenuVariant.Custom, false, 0, now);
-
-        var home = EnsureMenuItem(menu, null, "Home", "home-mobile", "/", 0, null, now);
-        var shop = EnsureMenuItem(menu, null, "Shop", "shop-mobile", "/products", 1, null, now);
-        var services = EnsureMenuItem(menu, null, "Services", "services-main-mobile", "/services", 2, null, now);
-        var company = EnsureMenuItem(menu, null, "Company", "company-main-mobile", "/company", 3, null, now);
-        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main-mobile", "/blog", 4, null, now);
+        var home = EnsureMenuItem(menu, null, "Home", "home", "/", 0, null, now);
+        var shop = EnsureMenuItem(menu, null, "Shop", "shop", "/products", 1, null, now);
+        var services = EnsureMenuItem(menu, null, "Services", "services-main", "/services", 2, null, now);
+        var company = EnsureMenuItem(menu, null, "Company", "company-main", "/company", 3, null, now);
+        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main", "/blog", 4, null, now);
         _ = home;
         _ = shop;
         _ = services;
         _ = company;
         _ = blog;
+    }
+
+    private static void EnsureMobile(MenuGroup group, DateTimeOffset now)
+    {
+        var menu = EnsureMenu(group, "Mobile Primary", "mobile-primary", MenuVariant.Custom, false, 0, now);
 
         RemoveMenuItemBySlug(menu, "solutions-mobile", now);
         RemoveMenuItemBySlug(menu, "resources-mobile", now);
@@ -119,6 +108,17 @@ internal sealed class TenantMenuSeeder
         RemoveMenuItemBySlug(menu, "codexsun-hrms-mobile", now);
         RemoveMenuItemBySlug(menu, "codexsun-pos-mobile", now);
         RemoveMenuItemBySlug(menu, "custom-saas-development-mobile", now);
+
+        var home = EnsureMenuItem(menu, null, "Home", "home-mobile", "/", 0, null, now);
+        var shop = EnsureMenuItem(menu, null, "Shop", "shop-mobile", "/products", 1, null, now);
+        var services = EnsureMenuItem(menu, null, "Services", "services-main-mobile", "/services", 2, null, now);
+        var company = EnsureMenuItem(menu, null, "Company", "company-main-mobile", "/company", 3, null, now);
+        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main-mobile", "/blog", 4, null, now);
+        _ = home;
+        _ = shop;
+        _ = services;
+        _ = company;
+        _ = blog;
     }
 
     private static void EnsureFooter(MenuGroup group, DateTimeOffset now)

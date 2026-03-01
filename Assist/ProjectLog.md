@@ -735,3 +735,14 @@ Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantWebsi
 - Database Impact: No schema change (section seed content/order alignment only)
 - API Impact: No contract change
 - Breaking Change: No
+
+# ProjectLog #: 72
+# Date: 2026-03-01
+# Module: Menu Seeder Startup Collision Fix
+# Type: Fix
+# Summary:
+Fixed tenant startup failure `Menu item order must be unique per parent` by reordering menu seeding operations to remove legacy top-level header/mobile items before inserting the new ordered set (Home, Shop, Services, Company, Blog).
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs
+- Database Impact: No schema change (seed ordering logic only)
+- API Impact: No
+- Breaking Change: No
