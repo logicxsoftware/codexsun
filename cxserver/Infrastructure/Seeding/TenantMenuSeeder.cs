@@ -67,13 +67,15 @@ internal sealed class TenantMenuSeeder
 
         var home = EnsureMenuItem(menu, null, "Home", "home", "/", 0, null, now);
         var shop = EnsureMenuItem(menu, null, "Shop", "shop", "/products", 1, null, now);
-        var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions", "/solutions", 2, "dropdown", now);
-        var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing", "/pricing", 3, null, now);
-        var resources = EnsureMenuItem(menu, null, "Resources", "resources", "/resources", 4, "dropdown", now);
-        var company = EnsureMenuItem(menu, null, "Company", "company", "/company", 5, "dropdown", now);
-        var login = EnsureMenuItem(menu, null, "Login", "login", "/login", 6, "auth", now);
+        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main", "/blog", 2, null, now);
+        var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions", "/solutions", 3, "dropdown", now);
+        var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing", "/pricing", 4, null, now);
+        var resources = EnsureMenuItem(menu, null, "Resources", "resources", "/resources", 5, "dropdown", now);
+        var company = EnsureMenuItem(menu, null, "Company", "company", "/company", 6, "dropdown", now);
+        var login = EnsureMenuItem(menu, null, "Login", "login", "/login", 7, "auth", now);
         _ = home;
         _ = shop;
+        _ = blog;
         _ = pricing;
         RemoveMenuItemBySlug(menu, "products", now);
         RemoveMenuItemBySlug(menu, "get-started", now);
@@ -88,10 +90,10 @@ internal sealed class TenantMenuSeeder
         EnsureMenuItem(menu, solutions.Id, "Startups", "startups", "/solutions/startups", 2, null, now);
         EnsureMenuItem(menu, solutions.Id, "Agencies", "agencies", "/solutions/agencies", 3, null, now);
 
-        EnsureMenuItem(menu, resources.Id, "Blog", "blog", "/blog", 0, null, now);
-        EnsureMenuItem(menu, resources.Id, "Documentation", "documentation", "/docs", 1, null, now);
-        EnsureMenuItem(menu, resources.Id, "Case Studies", "case-studies", "/case-studies", 2, null, now);
-        EnsureMenuItem(menu, resources.Id, "Help Center", "help-center", "/help", 3, null, now);
+        RemoveMenuItemBySlug(menu, "blog", now);
+        EnsureMenuItem(menu, resources.Id, "Documentation", "documentation", "/docs", 0, null, now);
+        EnsureMenuItem(menu, resources.Id, "Case Studies", "case-studies", "/case-studies", 1, null, now);
+        EnsureMenuItem(menu, resources.Id, "Help Center", "help-center", "/help", 2, null, now);
 
         EnsureMenuItem(menu, company.Id, "About Us", "about-us", "/about", 0, null, now);
         EnsureMenuItem(menu, company.Id, "Careers", "careers", "/careers", 1, null, now);
@@ -106,13 +108,15 @@ internal sealed class TenantMenuSeeder
 
         var home = EnsureMenuItem(menu, null, "Home", "home-mobile", "/", 0, null, now);
         var shop = EnsureMenuItem(menu, null, "Shop", "shop-mobile", "/products", 1, null, now);
-        var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions-mobile", "/solutions", 2, "dropdown", now);
-        var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing-mobile", "/pricing", 3, null, now);
-        var resources = EnsureMenuItem(menu, null, "Resources", "resources-mobile", "/resources", 4, "dropdown", now);
-        var company = EnsureMenuItem(menu, null, "Company", "company-mobile", "/company", 5, "dropdown", now);
-        var login = EnsureMenuItem(menu, null, "Login", "login-mobile", "/login", 6, "auth", now);
+        var blog = EnsureMenuItem(menu, null, "Blog", "blog-main-mobile", "/blog", 2, null, now);
+        var solutions = EnsureMenuItem(menu, null, "Solutions", "solutions-mobile", "/solutions", 3, "dropdown", now);
+        var pricing = EnsureMenuItem(menu, null, "Pricing", "pricing-mobile", "/pricing", 4, null, now);
+        var resources = EnsureMenuItem(menu, null, "Resources", "resources-mobile", "/resources", 5, "dropdown", now);
+        var company = EnsureMenuItem(menu, null, "Company", "company-mobile", "/company", 6, "dropdown", now);
+        var login = EnsureMenuItem(menu, null, "Login", "login-mobile", "/login", 7, "auth", now);
         _ = home;
         _ = shop;
+        _ = blog;
         _ = pricing;
         RemoveMenuItemBySlug(menu, "products-mobile", now);
         RemoveMenuItemBySlug(menu, "get-started-mobile", now);
@@ -127,10 +131,10 @@ internal sealed class TenantMenuSeeder
         EnsureMenuItem(menu, solutions.Id, "Startups", "startups-mobile", "/solutions/startups", 2, null, now);
         EnsureMenuItem(menu, solutions.Id, "Agencies", "agencies-mobile", "/solutions/agencies", 3, null, now);
 
-        EnsureMenuItem(menu, resources.Id, "Blog", "blog-mobile", "/blog", 0, null, now);
-        EnsureMenuItem(menu, resources.Id, "Documentation", "documentation-mobile", "/docs", 1, null, now);
-        EnsureMenuItem(menu, resources.Id, "Case Studies", "case-studies-mobile", "/case-studies", 2, null, now);
-        EnsureMenuItem(menu, resources.Id, "Help Center", "help-center-mobile", "/help", 3, null, now);
+        RemoveMenuItemBySlug(menu, "blog-mobile", now);
+        EnsureMenuItem(menu, resources.Id, "Documentation", "documentation-mobile", "/docs", 0, null, now);
+        EnsureMenuItem(menu, resources.Id, "Case Studies", "case-studies-mobile", "/case-studies", 1, null, now);
+        EnsureMenuItem(menu, resources.Id, "Help Center", "help-center-mobile", "/help", 2, null, now);
 
         EnsureMenuItem(menu, company.Id, "About Us", "about-us-mobile", "/about", 0, null, now);
         EnsureMenuItem(menu, company.Id, "Careers", "careers-mobile", "/careers", 1, null, now);

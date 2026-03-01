@@ -669,3 +669,14 @@ Files Changed: Assist/API.md, Assist/DATABASE.md, Assist/STRUCTURE.md, Assist/Pr
 - Database Impact: Yes (new tenant blog tables + blog migration + PostgreSQL search vector trigger/index path)
 - API Impact: Yes (new `/api/blog/*` read/write/search endpoints)
 - Breaking Change: No
+
+# ProjectLog #: 66
+# Date: 2026-03-01
+# Module: Main Menu Blog Availability
+# Type: Enhancement
+# Summary:
+Promoted Blog navigation into top-level main header and mobile primary menus via tenant menu seeder so blog is directly visible/accessible without opening Resources dropdown; removed duplicate Blog child under Resources for both header/mobile trees.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuSeeder.cs
+- Database Impact: No schema change (seeded menu data alignment only)
+- API Impact: No
+- Breaking Change: No
