@@ -768,3 +768,14 @@ Files Changed: Assist/ProjectLog.md, cxtest/integration/SeederTests.cs
 - Database Impact: No
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 75
+# Date: 2026-03-01
+# Module: Seeder Runtime Resilience + Full Test Validation
+# Type: Fix
+# Summary:
+Added runtime schema-availability guard in tenant blog seeder to prevent startup crashes on legacy tenant databases missing blog tables, then re-ran full backend integration tests and frontend live Playwright tests successfully.
+Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantBlogSeeder.cs
+- Database Impact: No schema change
+- API Impact: No
+- Breaking Change: No

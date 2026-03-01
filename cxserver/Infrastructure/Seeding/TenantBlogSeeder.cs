@@ -2,6 +2,7 @@ using System.Text.Json;
 using cxserver.Domain.BlogEngine;
 using cxserver.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace cxserver.Infrastructure.Seeding;
 
@@ -16,6 +17,11 @@ internal sealed class TenantBlogSeeder
 
     public async Task SeedAsync(TenantDbContext dbContext, Guid tenantId, CancellationToken cancellationToken)
     {
+        if (!await IsBlogSchemaAvailableAsync(dbContext, cancellationToken))
+        {
+            return;
+        }
+
         var now = _dateTimeProvider.UtcNow;
 
         var categories = new (string Name, string Slug)[]
@@ -178,6 +184,64 @@ internal sealed class TenantBlogSeeder
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    private static async Task<bool> IsBlogSchemaAvailableAsync(TenantDbContext dbContext, CancellationToken cancellationToken)
+    {
+        if (dbContext.Database.IsMySql())
+        {
+            return await TableExistsMySqlAsync(dbContext, "blog_categories", cancellationToken)
+                   && await TableExistsMySqlAsync(dbContext, "blog_posts", cancellationToken);
+        }
+
+        if (dbContext.Database.IsNpgsql())
+        {
+            return await TableExistsPostgresAsync(dbContext, "blog_categories", cancellationToken)
+                   && await TableExistsPostgresAsync(dbContext, "blog_posts", cancellationToken);
+        }
+
+        return true;
+    }
+
+    private static async Task<bool> TableExistsMySqlAsync(TenantDbContext dbContext, string tableName, CancellationToken cancellationToken)
+    {
+        const string sql = """
+                           SELECT COUNT(*)
+                           FROM INFORMATION_SCHEMA.TABLES
+                           WHERE TABLE_SCHEMA = DATABASE()
+                             AND TABLE_NAME = @tableName
+                           """;
+        return await ExecuteTableExistsAsync(dbContext, sql, tableName, cancellationToken);
+    }
+
+    private static async Task<bool> TableExistsPostgresAsync(TenantDbContext dbContext, string tableName, CancellationToken cancellationToken)
+    {
+        const string sql = """
+                           SELECT COUNT(*)
+                           FROM information_schema.tables
+                           WHERE table_schema = 'public'
+                             AND table_name = @tableName
+                           """;
+        return await ExecuteTableExistsAsync(dbContext, sql, tableName, cancellationToken);
+    }
+
+    private static async Task<bool> ExecuteTableExistsAsync(TenantDbContext dbContext, string sql, string tableName, CancellationToken cancellationToken)
+    {
+        var connection = dbContext.Database.GetDbConnection();
+        if (connection.State != System.Data.ConnectionState.Open)
+        {
+            await connection.OpenAsync(cancellationToken);
+        }
+
+        await using var command = connection.CreateCommand();
+        command.CommandText = sql;
+        var parameter = command.CreateParameter();
+        parameter.ParameterName = "@tableName";
+        parameter.Value = tableName;
+        command.Parameters.Add(parameter);
+
+        var result = await command.ExecuteScalarAsync(cancellationToken);
+        return result is not null && Convert.ToInt32(result) > 0;
     }
 
     private static string ToTitle(string value)
