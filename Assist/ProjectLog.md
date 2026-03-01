@@ -757,3 +757,14 @@ Files Changed: Assist/ProjectLog.md, cxserver/Infrastructure/Seeding/TenantMenuS
 - Database Impact: No schema change (data seeding logic hardening only)
 - API Impact: No
 - Breaking Change: No
+
+# ProjectLog #: 74
+# Date: 2026-03-01
+# Module: Seeder Reliability Test Coverage
+# Type: Test
+# Summary:
+Expanded integration seeder coverage to validate idempotency and relational integrity across menu/navigation/slider/blog seed outputs, added menu top-level contract assertions for header/mobile required slugs and deterministic order, and added uniqueness check for menu sibling display-order collisions.
+Files Changed: Assist/ProjectLog.md, cxtest/integration/SeederTests.cs
+- Database Impact: No
+- API Impact: No
+- Breaking Change: No
